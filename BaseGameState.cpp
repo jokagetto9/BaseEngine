@@ -68,12 +68,12 @@ void BaseGameState::	trackFPS(){
 
 //********************************* MEMBER FUNCTIONS *********************************
 
-/*/
-void BaseGameState::enterMenu(MenuCommand mt){
-	menuCommand = mt; 
+//
+void BaseGameState::enterMenu(RootMenuType root){
+	screen = root; 
 	initMenu = true;
 	updateMenu = true;
-	if (mt == PLAY) {
+	if (root == PLAY) {
 		paused = false; 
 	} else	
 		paused = true;	

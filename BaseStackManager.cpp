@@ -12,6 +12,7 @@ void BaseStackManager::	initMenus(){
 	loadingScreen.setTimeOut(10);
 	titleScreen.setBackground(TITLE);
 	titleScreen.setTimeOut(240);
+	titleScreen.setFlow(888);
 
 }
 
@@ -21,22 +22,20 @@ void BaseStackManager::	initMenus(){
 void BaseStackManager::	loadDefaults(){	
 	stack.push_back(&titleScreen);
 	stack.push_back(&loadingScreen);
-	//G->enterMenu(PLAY); //jump start
-	//setRootMenu();
 }
 
 
 void BaseStackManager::setRootMenu(){
-	/*if (G->menuCommand == PLAY)
+	if (G0->screen == PLAY)
 		stack.clear();		
-	else if (G->menuCommand == MAIN)	
-		stack.push_back(&mainMenu);	
-	else if (G->menuCommand == DLG)	
-		stack.push_back(&dialogMenu);	
-	else if (G->menuCommand == STORE)	
-		stack.push_back(&shopMenu);	
-	else if (G->menuCommand == DBG)	
-		stack.push_back(&debugMenu );	
+	else if (G0->screen == MAIN)	
+	{}//stack.push_back(&mainMenu);	
+	else if (G0->screen == DLG)	
+	{}//	stack.push_back(&dialogMenu);	
+	else if (G0->screen == STORE)	
+	{}//	stack.push_back(&shopMenu);	
+	else if (G0->screen == DBG)	
+	{}//	stack.push_back(&debugMenu );	
 	//*/
 }
 
@@ -57,32 +56,32 @@ void BaseStackManager::update(BaseInputManager &input){
 }
 
 
-/*/
+//
 
-void StackManager::setMenu(MenuType mt){
+void BaseStackManager::setMenu(int menuID){
+	SubMenuType mt = (SubMenuType)menuID;
 	if (mt == QUIT)	{
 		int i = stack.back()->index; //save for later?
 		stack.back()->quit();
 	}else if (mt == USE){
-		usageMenu.init(stack.back());
-		stack.push_back(menuList[mt]);
+		//usageMenu.init(stack.back());
+		//stack.push_back(menuList[mt]);
 	}else if (mt == PASS){
 	} else{
 		if (previewMenu == NULL){
-			if (stack.back() != NULL) menuList[mt]->init(stack.back());
-			stack.push_back(menuList[mt]);
+			//if (stack.back() != NULL) menuList[mt]->init(stack.back());
+			//stack.push_back(menuList[mt]);
 		}else{
 			if (previewMenu->maxIndex >= 0){
-				stack.push_back(previewMenu);
-				previewMenu = NULL;
+				//stack.push_back(previewMenu);
+				//previewMenu = NULL;
 			}
 		}
 	} 		
 }
 //*/
 void BaseStackManager:: updateMenu(){
-	/*/
-	if (G->menuCommand != PLAY){
+	if (G0->screen != PLAY){
 		Menu *s = stack.back();
 		if (s->affirm){
 			s->reset();
@@ -92,10 +91,10 @@ void BaseStackManager:: updateMenu(){
 		if (s->update){
 			s->refresh();
 			if(s->preview){
-				MenuType mt = s->getFlow();
+				SubMenuType mt = (SubMenuType)s->getFlow();
 				if (mt != QUIT){
-					previewMenu = menuList[mt];
-					previewMenu->refresh(s->index);
+					//previewMenu = menuList[mt];
+					//previewMenu->refresh(s->index);
 				}else 
 					previewMenu = NULL;
 			}

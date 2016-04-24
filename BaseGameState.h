@@ -52,7 +52,7 @@ Side Effects: avgFrameDelta = (avgFrameDelta + prevFrameDelta + curFrameDelta)/3
 Precondition(s): game has been running a few seconds
 Side Effects: frameCount++
 /*/
-	
+	void BaseGameState::enterMenu(RootMenuType root);
 
 //************************************************** MEMBERS ***************************************************
 
@@ -68,7 +68,7 @@ Side Effects: frameCount++
 		long physLag, aiLag;		//remaining ms for physics updates
 		float physDelta, aiDelta;	// CONST ms per update	
 		
-		
+		RootMenuType screen;
 		bool save,  load; 
 		bool gameActive;//
 		bool paused, initMenu, updateMenu; 

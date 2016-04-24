@@ -19,6 +19,7 @@ public:
 	// screen setup
 	
 	void BaseStackManager::setRootMenu();
+	void BaseStackManager::setMenu(int menuID);
 	void BaseStackManager::	updateMenu();
 	void BaseStackManager::	update(BaseInputManager &input);
 
@@ -44,10 +45,8 @@ public:
 
 	void BaseStackManager::	setUp2DView(int width, int height);
 	void BaseStackManager::	disable2DView();
-	/*/ Purpose: 
-Side Effects:  
-Triggers: 
-	/*/
+
+
 //************************************************** MEMBERS ***************************************************
 		bool menuView;
 		vector <Menu *> stack;
