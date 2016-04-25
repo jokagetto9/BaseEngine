@@ -59,25 +59,29 @@ void BaseStackManager::update(BaseInputManager &input){
 //
 
 void BaseStackManager::setMenu(int menuID){
-	SubMenuType mt = (SubMenuType)menuID;
-	if (mt == QUIT)	{
-		int i = stack.back()->index; //save for later?
-		stack.back()->quit();
-	}else if (mt == USE){
-		//usageMenu.init(stack.back());
-		//stack.push_back(menuList[mt]);
-	}else if (mt == PASS){
-	} else{
-		if (previewMenu == NULL){
-			//if (stack.back() != NULL) menuList[mt]->init(stack.back());
+	if (menuID == 888)
+		G0->enterMenu(PLAY);
+	else {
+		SubMenuType mt = (SubMenuType)menuID;
+		if (mt == QUIT)	{
+			int i = stack.back()->index; //save for later?
+			stack.back()->quit();
+		}else if (mt == USE){
+			//usageMenu.init(stack.back());
 			//stack.push_back(menuList[mt]);
-		}else{
-			if (previewMenu->maxIndex >= 0){
-				//stack.push_back(previewMenu);
-				//previewMenu = NULL;
+		}else if (mt == PASS){
+		} else{
+			if (previewMenu == NULL){
+				//if (stack.back() != NULL) menuList[mt]->init(stack.back());
+				//stack.push_back(menuList[mt]);
+			}else{
+				if (previewMenu->maxIndex >= 0){
+					//stack.push_back(previewMenu);
+					//previewMenu = NULL;
+				}
 			}
-		}
-	} 		
+		} 		
+	}
 }
 //*/
 void BaseStackManager:: updateMenu(){
