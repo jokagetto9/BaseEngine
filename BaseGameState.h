@@ -4,7 +4,7 @@
 #include "../../lib.h"
 //********************************* CONSTANTS *********************************
 
-const float PHYSICS_PERSEC = 30.0f;		// per second
+const float PHYSICS_PERSEC = 20.0f;		// per second
 const float AI_PERSEC =  4.0f;			// per second
 const float MAXFPS = 60.0f;				// phys + ai are limited to 60 fps
 
