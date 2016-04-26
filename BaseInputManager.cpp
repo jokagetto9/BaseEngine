@@ -18,6 +18,16 @@ void BaseInputManager::pollKeyEvents(){
 			case SDL_QUIT: G0->gameActive = false; break;
 			case SDL_KEYDOWN: keyDown(key); break; // Handle key presses     
 			case SDL_KEYUP: keyUp(key); break;
+			case SDL_MOUSEMOTION : 				
+				//G->mX = ev.motion.x/PIXELSCALE;
+				//G->mY = ev.motion.y/PIXELSCALE;
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				//H->laserOn();
+				break;
+			case SDL_MOUSEBUTTONUP:				
+				//H->laserOff();
+				break;
 }	}	}
 
 
