@@ -13,7 +13,6 @@ public:
 
 	BaseEngine::	BaseEngine();
 /*/ Purpose: default constructor /*/
-	void BaseEngine::init(BaseInputManager * bInput, BaseStackManager * bStack);
 
 	bool initGLAttrib(); /*/
 	Purpose: Load SDL_GL attributes 

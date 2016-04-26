@@ -6,14 +6,9 @@ BaseEngine::	BaseEngine(){
 	sdlWindow = NULL;			//The window we'll be rendering to
 	sdlRenderer = NULL;			//The window renderer
 	sdlContext = NULL;			//OpenGL context
-	input = NULL;
-	stack = NULL;
+
 }
 
-void BaseEngine::init(BaseInputManager * bInput, BaseStackManager * bStack){
-	input = bInput;
-	stack = bStack;
-}
 //********************************* INIT *********************************
 bool BaseEngine::initGLAttrib(){
 	//framebuffer
@@ -101,19 +96,11 @@ void BaseEngine::clockCycle(){
 }
 
 void BaseEngine::		physicsUpdate(){
-	//if (input != NULL) 
-		//input->cameraInput();
-	//world.physUpdate();
-	//world.interactions();
-	//DBT->physUpdate(); //?
+
 }
 
 void BaseEngine::		rapidUpdate(){
-	if (!G0->paused){	
 
-	}
-	if (stack != NULL)
-		stack->rapidUpdate();
 }
 //********************************* DRAW *********************************
 
