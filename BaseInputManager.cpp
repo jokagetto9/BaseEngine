@@ -2,8 +2,19 @@
 #include "BaseInputManager.h"
 
 void BaseInputManager::init(){
-	for (int i = 0; i < 256; i++) keyPressed[i] = false;		
-	for (int i = 0; i < 20; i++) specialKeyPressed[i] = false;
+	for (int i = 0; i < KEYS; i++) keyPressed[i] = false;		
+	for (int i = 0; i < SKEYS; i++) specialKeyPressed[i] = false;
+	mouseR = false; mouseL = false;
+	movecmd.o = STOP;
+	dKey[0] = SDLK_a;
+	dKey[1] = SDLK_d;
+	dKey[2] = SDLK_w;
+	dKey[3] = SDLK_s;
+	dArrow[0] = SDLK_LEFT;
+	dArrow[1] = SDLK_RIGHT;
+	dArrow[2] = SDLK_UP;
+	dArrow[3] = SDLK_DOWN;
+
 }
 
 
@@ -19,30 +30,28 @@ void BaseInputManager::pollKeyEvents(){
 			case SDL_KEYDOWN: keyDown(key); break; // Handle key presses     
 			case SDL_KEYUP: keyUp(key); break;
 			case SDL_MOUSEMOTION : 				
-				//G->mX = ev.motion.x/PIXELSCALE;
-				//G->mY = ev.motion.y/PIXELSCALE;
+				mX = ev.motion.x/PIXELSCALE;
+				mY = ev.motion.y/PIXELSCALE;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				//H->laserOn();
-				break;
-			case SDL_MOUSEBUTTONUP:				
-				//H->laserOff();
-				break;
+				mouseL = true;				break;
+			case SDL_MOUSEBUTTONUP:	
+				mouseL = false;				break;
 }	}	}
 
 
 // Cycle through key presses and set the key event to true
 void BaseInputManager::keyDown(SDL_Keycode key){
 	//quick actions 
-	if (key == SDLK_w || key == SDLK_s || key == SDLK_a || key == SDLK_d) on(key);
-	else switch (key){		
-		case SDLK_UP: specialKeyPressed[UP] = true; break;
-		case SDLK_DOWN: specialKeyPressed[DOWN] = true; break;
-		case SDLK_LEFT: specialKeyPressed[LEFT] = true; break;
-		case SDLK_RIGHT: specialKeyPressed[RIGHT] = true; break;	
-		case SDLK_LSHIFT: specialKeyPressed[5] = true; break;	
-		default: break;
-    }
+	for (int i = 0; i < D; i++){
+		if (key == dKey[i]){
+			on(key);
+			i = D;
+		}else if (key == dArrow[i]){
+			specialKeyPressed[i] = true;
+			i = D;
+		}
+	}
 	if (key == SDLK_e)	{
 		G0->action = true;
 	}	
@@ -50,26 +59,28 @@ void BaseInputManager::keyDown(SDL_Keycode key){
 
 // Cycle through key releases and set the key event to false
 void BaseInputManager::keyUp(SDL_Keycode key){
-	// disable directions on lift
-	if (key == SDLK_w || key == SDLK_s || key == SDLK_a || key == SDLK_d) {
-		off(key); //halt = false; //spinning camera
-	}else if (key < 256 && key >= 0) on(key);		//activate regular keys
-	else switch (key){		
-		case SDLK_UP: specialKeyPressed[UP] = false; break;
-		case SDLK_DOWN: specialKeyPressed[DOWN] = false; break;
-		case SDLK_LEFT: specialKeyPressed[LEFT] = false; break;
-		case SDLK_RIGHT: specialKeyPressed[RIGHT] = false; break;	
-		case SDLK_LSHIFT: specialKeyPressed[5] = false; 		
-			break;	
-		default: break;
-    }
+	bool move = false;
+	for (int i = 0; i < D && !move; i++){
+		if (key == dKey[i]){
+			off(key); //halt = false; //spinning camera
+			move = true;
+		}else if (key == dArrow[i]){
+			specialKeyPressed[i] = false;
+			move = true;
+		}
+	}
+	if (!move && key < KEYS && key >= 0) 
+		on(key);
 }
 
 void BaseInputManager::		clearKeys(){
 	for (int key = 0; key < 256; key++){
-		if (key == SDLK_w || key == SDLK_s || key == SDLK_a || key == SDLK_d || key == SDLK_e) {
-			//off(key); //stop = false;
-		}else if (key < 256 && key >= 0) off(key);
+		for (int i = 0; i < D; i++){
+			if (key == dKey[i]){
+
+			}else  
+				off(key);
+		}
 	}
 }
 
@@ -78,7 +89,6 @@ void BaseInputManager::		clearKeys(){
 //********************************* INPUT RESPONSES *********************************
 
 void BaseInputManager::		checkToggles(){
-	//toggles
 	if (keyPressed[SDLK_ESCAPE])			G0->gameActive = false; 
 }
 
@@ -87,6 +97,24 @@ void BaseInputManager::		checkToggles(){
 //********************************* MENU *********************************
 
 
+MoveCommand & BaseInputManager::		directionInput(){
+	bool u, d , l, r;
+	u = keyPressed[dKey[UP]];
+	d = keyPressed[dKey[DOWN]];
+	l = keyPressed[dKey[LEFT]];
+	r = keyPressed[dKey[RIGHT]];
+	if (u && l)			movecmd.o = UL;		
+	else if (u && r)	movecmd.o = UR;
+	else if (u)			movecmd.o = UP;
+	else if (d && l)	movecmd.o = DL;
+	else if (d && r)	movecmd.o = DR;
+	else if (d)			movecmd.o = DOWN;
+	else if (l)			movecmd.o = LEFT;
+	else if (r)			movecmd.o = RIGHT;
+	else				
+		movecmd.o = STOP;
+	return movecmd;
+}
 void BaseInputManager::		menuInput(Menu *screen){
 	if (G0->paused) {
 		// add 1-5, R, T, F, C, V, ESC
@@ -118,3 +146,8 @@ void BaseInputManager::		menuInput(Menu *screen){
 
 void BaseInputManager::		on(SDL_Keycode key){ keyPressed[key] = true ; }
 void BaseInputManager::		off(SDL_Keycode key){ keyPressed[key] = false; }
+
+XZI BaseInputManager::		mousePos(){
+	XZI xz = {mX, mY};
+	return xz;
+}
