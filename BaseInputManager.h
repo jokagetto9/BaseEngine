@@ -31,7 +31,8 @@ Triggers: spriteInit, loadHero
 //********************************* INPUT RESPONSES *********************************
 	
 	virtual void BaseInputManager::		checkToggles();
-	MoveCommand & BaseInputManager::	directionInput();
+	virtual MoveCommand * BaseInputManager::	directionInput();
+	virtual Command * BaseInputManager::		mouseInput();
 	Command * BaseInputManager::		actionInput();
 	void BaseInputManager::		menuInput(Menu *screen);
 

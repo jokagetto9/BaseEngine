@@ -97,7 +97,7 @@ void BaseInputManager::		checkToggles(){
 //********************************* MENU *********************************
 
 
-MoveCommand & BaseInputManager::		directionInput(){
+MoveCommand * BaseInputManager::		directionInput(){
 	bool u, d , l, r;
 	u = keyPressed[dKey[UP]];
 	d = keyPressed[dKey[DOWN]];
@@ -113,8 +113,13 @@ MoveCommand & BaseInputManager::		directionInput(){
 	else if (r)			movecmd.o = RIGHT;
 	else				
 		movecmd.o = STOP;
-	return movecmd;
+	return &movecmd;
 }
+
+Command * BaseInputManager::		mouseInput(){
+	return NULL;
+}
+
 void BaseInputManager::		menuInput(Menu *screen){
 	if (G0->paused) {
 		// add 1-5, R, T, F, C, V, ESC
