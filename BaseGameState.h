@@ -122,10 +122,7 @@ Returns: true if physLag > aiLag
 /*/ Purpose: toggle debug text
 Side Effects:  cons -> false, !cons -> true
 /*/
-	//void BaseGameState::		enterMenu(MenuCommand mt);	
-/*/ Purpose: toggle debug text
-Side Effects:  cons -> false, !cons -> true
-/*/
+
 
 
 };

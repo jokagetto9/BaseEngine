@@ -2,7 +2,7 @@
 #define BASEINPUTMANAGER_H
 
 #include "BaseGameState.h"
-#include "../../Utlity/HeroCommand.h"
+#include "../../Utility/HeroCommand.h"
 #include "../../Display/Menus/Menu.h"
 
 //********************************* CONSTANTS *********************************
