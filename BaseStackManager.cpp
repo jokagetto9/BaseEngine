@@ -6,6 +6,10 @@ BaseStackManager::BaseStackManager(){
 	previewMenu = NULL;
 	initMenus();
 }
+void BaseStackManager::	init(MenuLoader& loader){
+	loader.registerRoot(&loading);
+	loader.registerRoot(&title);
+}
 
 void BaseStackManager::	initMenus(){
 	loadingScreen.setBackground(LOAD);

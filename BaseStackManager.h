@@ -2,6 +2,8 @@
 #define BASESTACKMANAGER_H
 
 #include "BaseInputManager.h"
+#include "../../Display/MenuLoader.h"
+#include "../../Utility/MCommand.h"
 
 
 //********************************* CONSTANTS *********************************
@@ -12,6 +14,7 @@ class BaseStackManager {
 public:
 	BaseStackManager::BaseStackManager();
 	// Constructor
+	void BaseStackManager::	init(MenuLoader& loader);	
 	void BaseStackManager::	initMenus();	
 	void BaseStackManager::	loadDefaults();
 
@@ -53,6 +56,8 @@ public:
 		Menu * previewMenu; 
 		Menu loadingScreen;
 		Menu titleScreen;
+		MenuCommand loading;
+		MenuCommand title;
 		
 //********************************* MEMBER FUNCTIONS *********************************
 	
