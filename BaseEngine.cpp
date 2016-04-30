@@ -93,14 +93,14 @@ void BaseEngine::quit(){
 void BaseEngine::	trackAVG(){
 	float a = frameDelta;
 	
-		getCurrentTime();
+	getCurrentTime();
+	getFrameDelta(); 	
+	if (frameDelta < 16){
+		SDL_Delay(16-frameDelta);	
+		getCurrentTime();	
 		getFrameDelta(); 
-		/*/
-		if (frameDelta < 16){
-			SDL_Delay(16-frameDelta);	
-			getCurrentTime();	
-			getFrameDelta(); 
-		}//*/
+	}
+	//} while (frameDelta < 16);
 
 	if (avgFrameDelta != 0){
 		avgFrameDelta = (avgFrameDelta + a )/2;  
