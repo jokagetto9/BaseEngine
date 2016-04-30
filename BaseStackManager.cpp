@@ -33,14 +33,14 @@ void BaseStackManager::setMenu(int menuID){
 	if (menuID == 888)
 		G0->enterMenu(PLAY);
 	else {
-		SubMenuType mt = (SubMenuType)menuID;
-		if (mt == QUIT)	{
+		GameFunctionCode code = (GameFunctionCode)menuID;
+		if (code == QUIT)	{
 			int i = stack.back()->index; //save for later?
 			stack.back()->quit();
-		}else if (mt == USE){
+		}else if (code == USE){
 			//usageMenu.init(stack.back());
 			//stack.push_back(menuList[mt]);
-		} else if (mt == PASS){
+		} else if (code == PASS){
 		} else{
 			if (previewMenu == NULL){
 				//if (stack.back() != NULL) menuList[mt]->init(stack.back());
@@ -56,7 +56,7 @@ void BaseStackManager::setMenu(int menuID){
 }
 //*/
 void BaseStackManager:: updateMenu(){
-	if (G0->screen != PLAY){
+	if (G0->state != PLAY){
 		Menu *s = stack.back();
 		if (s->affirm){
 			s->reset();
@@ -66,7 +66,7 @@ void BaseStackManager:: updateMenu(){
 		if (s->update){
 			s->refresh();
 			if(s->preview){
-				SubMenuType mt = (SubMenuType)s->getFlow();
+				GameFunctionCode mt = (GameFunctionCode)s->getFlow();
 				if (mt != QUIT){
 					//previewMenu = menuList[mt];
 					//previewMenu->refresh(s->index);
@@ -208,4 +208,11 @@ bool BaseStackManager:: empty(){
 
 bool BaseStackManager:: aborting(){
 	return stack.back()->abort;
+}
+
+bool BaseStackManager:: backdrop(){
+	if ( !stack.empty())
+		return stack.back()->backdrop;
+	else
+		return true;
 }

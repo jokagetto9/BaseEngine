@@ -3,8 +3,7 @@
 
 #include "BaseGameState.h"
 #include "../../Utility/HeroCommand.h"
-#include "../../Utility/MCommand.h"
-#include "../../Display/Menus/Menu.h"
+#include "../../Display/MenuLoader.h"
 
 //********************************* CONSTANTS *********************************
 
@@ -16,11 +15,8 @@ public:
 	
 	BaseInputManager::BaseInputManager(){} 
 
-	void BaseInputManager ::	init();	
-/*/ Purpose: init members 
-Side Effects:  init status, speedMode
-Triggers: spriteInit, loadHero
-/*/
+	void BaseInputManager ::	init(MenuLoader& loader);	
+
 	
 //********************************* KEY CYCLE *********************************
 
@@ -31,7 +27,7 @@ Triggers: spriteInit, loadHero
 
 //********************************* INPUT RESPONSES *********************************
 	
-	virtual void BaseInputManager::		checkToggles();
+	StackCommand * BaseInputManager::		checkPause();
 	virtual MoveCommand * BaseInputManager::	directionInput();
 	virtual Command * BaseInputManager::		mouseInput();
 	Command * BaseInputManager::		actionInput();
@@ -53,6 +49,7 @@ protected:
 
 		SDL_Keycode dKey[D];
 		SDL_Keycode dArrow[D];
+		SDL_Keycode pauseKey, actionKey, cancelKey;
 
 		bool keyPressed[KEYS];		//keyboard state array
 		bool specialKeyPressed[SKEYS];	//special key state array
@@ -65,6 +62,10 @@ protected:
 		MenuAccept menucnfm;
 		MenuQuit menuquit;
 		MenuCommand null;
+		
+		StackCommand pause;
+		StackQuit	stackQuit;
+
 };
 
 #endif

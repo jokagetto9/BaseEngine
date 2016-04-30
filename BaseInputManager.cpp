@@ -1,7 +1,8 @@
 //********************************* INITIALIZATION *********************************
 #include "BaseInputManager.h"
 
-void BaseInputManager::init(){
+void BaseInputManager::init(MenuLoader& loader){	
+	loader.registerRoot(&pause);
 	for (int i = 0; i < KEYS; i++) keyPressed[i] = false;		
 	for (int i = 0; i < SKEYS; i++) specialKeyPressed[i] = false;
 	mouseR = false; mouseL = false;
@@ -14,6 +15,9 @@ void BaseInputManager::init(){
 	dArrow[1] = SDLK_RIGHT;
 	dArrow[2] = SDLK_UP;
 	dArrow[3] = SDLK_DOWN;
+	pauseKey = SDLK_ESCAPE;
+	actionKey = SDLK_e;
+	cancelKey = SDLK_q;
 	//backKey
 }
 
@@ -52,7 +56,7 @@ void BaseInputManager::keyDown(SDL_Keycode key){
 			i = D;
 		}
 	}
-	if (key == SDLK_e)	{
+	if (key == actionKey)	{
 		G0->action = true;
 	}	
 }
@@ -88,8 +92,22 @@ void BaseInputManager::		clearKeys(){
 
 //********************************* INPUT RESPONSES *********************************
 
-void BaseInputManager::		checkToggles(){
-	if (keyPressed[SDLK_ESCAPE])			G0->gameActive = false; 
+StackCommand * BaseInputManager::		checkPause(){
+	if (keyPressed[pauseKey]) {
+		off(pauseKey);
+		if(G0->paused){
+			if ( G0->state == TITLE)
+				return &stackQuit;	
+			else if ( G0->state == PAUSE)				
+				G0->enterMenu(PLAY);
+		}else {			
+			if(G0->state == PLAY){
+				G0->enterMenu(PAUSE);
+				return &pause;
+			}
+		}
+	}
+	return NULL;
 }
 
 
@@ -151,8 +169,8 @@ MenuCommand *  BaseInputManager::	menuInput(){
 		if (G0->action){	
 			G0->action = false;
 			return &menucnfm;
-		} else if (keyPressed[SDLK_q]) {
-			off(SDLK_q);
+		} else if (keyPressed[cancelKey]) {
+			off(cancelKey);
 			return &menuquit;
 		}
 	}

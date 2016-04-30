@@ -61,6 +61,7 @@ public:
 	bool BaseStackManager::hasPreview();	
 	bool BaseStackManager:: empty();
 	bool BaseStackManager:: aborting();
+	bool BaseStackManager:: backdrop();
 
 };
 #endif

@@ -20,14 +20,10 @@ void BaseGameState::init(){
 
 	
 	gameActive = true; 
-	
+	state = TITLE;
 	
 	save = false;	load = false; //gload
 	action = false;	paused = true;	
-	initMenu = false; updateMenu = false;
-	blackDrop = true;
-
-	fog = true; 
 
 	actionString = "";
 }
@@ -69,19 +65,10 @@ void BaseGameState::	trackFPS(){
 //********************************* MEMBER FUNCTIONS *********************************
 
 //
-void BaseGameState::enterMenu(RootMenuType root){
-	screen = root; 
-	initMenu = true;
-	updateMenu = true;
-	if (root == PLAY) {
+void BaseGameState::enterMenu(GameStateCode code){
+	state = code; 
+	if (code == PLAY) {
 		paused = false; 
 	} else	
 		paused = true;	
 }//*/
-
-void BaseGameState::togglePause(){
-	if (paused) {
-		paused = false; initMenu = false;
-	} else
-		paused = true;	
-}
