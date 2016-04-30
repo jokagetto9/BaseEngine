@@ -14,7 +14,7 @@ void BaseInputManager::init(){
 	dArrow[1] = SDLK_RIGHT;
 	dArrow[2] = SDLK_UP;
 	dArrow[3] = SDLK_DOWN;
-
+	//backKey
 }
 
 
@@ -120,31 +120,43 @@ Command * BaseInputManager::		mouseInput(){
 	return NULL;
 }
 
-void BaseInputManager::		menuInput(Menu *screen){
+MenuCommand *  BaseInputManager::	menuInput(){
 	if (G0->paused) {
+		bool u, d , l, r;
+		u = keyPressed[dKey[UP]] || specialKeyPressed[UP];
+		d = keyPressed[dKey[DOWN]] || specialKeyPressed[DOWN];
+		l = keyPressed[dKey[LEFT]] || specialKeyPressed[LEFT];
+		r = keyPressed[dKey[RIGHT]] || specialKeyPressed[RIGHT];
+
 		// add 1-5, R, T, F, C, V, ESC
-		if (keyPressed[SDLK_w] || specialKeyPressed[UP]){ 
-			keyPressed[SDLK_w] = false; specialKeyPressed[UP] = false;
-			screen->cursorUD(-1);
-		}else if (keyPressed[SDLK_s] || specialKeyPressed[DOWN]){ 
-			keyPressed[SDLK_s] = false; specialKeyPressed[DOWN] = false;
-			screen->cursorUD(1);
-		}else if (keyPressed[SDLK_a] || specialKeyPressed[LEFT]){ 
-			keyPressed[SDLK_a] = false; specialKeyPressed[LEFT] = false;
-			screen->cursorLR(-1);
-		}else if (keyPressed[SDLK_d] || specialKeyPressed[RIGHT]){ 
-			keyPressed[SDLK_d] = false; specialKeyPressed[RIGHT] = false;
-			screen->cursorLR(1);
+		if (u){
+			cursor.set(0, -1);
+			off(dKey[UP]);
+			return &cursor;
+		}else if (d) {		
+			cursor.set(0, 1);
+			off(dKey[DOWN]);
+			return &cursor;
+		}if (l){
+			cursor.set(-1, 0);
+			off(dKey[LEFT]);
+			return &cursor;
+		}else if (r){			
+			cursor.set(1, 0);
+			off(dKey[RIGHT]);
+			return &cursor;
 		}
-		if (G0->action){//(keyPressed[SDLK_e]) {
-			screen->enter();	
+
+
+		if (G0->action){	
 			G0->action = false;
-			//off(SDLK_e);
+			return &menucnfm;
 		} else if (keyPressed[SDLK_q]) {
-			screen->quit();	
 			off(SDLK_q);
+			return &menuquit;
 		}
 	}
+	return &null;
 } //*/
 //********************************* MEMBER FUNCTIONS *********************************
 

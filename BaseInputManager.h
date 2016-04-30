@@ -3,6 +3,7 @@
 
 #include "BaseGameState.h"
 #include "../../Utility/HeroCommand.h"
+#include "../../Utility/MCommand.h"
 #include "../../Display/Menus/Menu.h"
 
 //********************************* CONSTANTS *********************************
@@ -34,7 +35,7 @@ Triggers: spriteInit, loadHero
 	virtual MoveCommand * BaseInputManager::	directionInput();
 	virtual Command * BaseInputManager::		mouseInput();
 	Command * BaseInputManager::		actionInput();
-	void BaseInputManager::		menuInput(Menu *screen);
+	MenuCommand * BaseInputManager::		menuInput();
 
 //********************************* MEMBER FUNCTIONS *********************************
 
@@ -60,6 +61,10 @@ protected:
 
 		SDL_Event ev;
 		MoveCommand movecmd;
+		MenuDrctn cursor;
+		MenuAccept menucnfm;
+		MenuQuit menuquit;
+		MenuCommand null;
 };
 
 #endif

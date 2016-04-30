@@ -28,39 +28,20 @@ void BaseStackManager::	loadDefaults(){
 	stack.push_back(&loadingScreen);
 }
 
-
-void BaseStackManager::setRootMenu(){
-	if (G0->screen == PLAY)
-		stack.clear();		
-	else if (G0->screen == MAIN)	
-	{}//stack.push_back(&mainMenu);	
-	else if (G0->screen == DLG)	
-	{}//	stack.push_back(&dialogMenu);	
-	else if (G0->screen == STORE)	
-	{}//	stack.push_back(&shopMenu);	
-	else if (G0->screen == DBG)	
-	{}//	stack.push_back(&debugMenu );	
-	//*/
-}
-
-void BaseStackManager::update(BaseInputManager &input){
-	if (G0->initMenu){
-		setRootMenu();		
-		G0->initMenu = false;
-	}
-	if (G0->paused){
-		if (empty())	
-			loadDefaults();			//pop production bumpers!
-		else {
-			input.menuInput(stack.back());
-			if (aborting()) popMenu();
-			else updateMenu();
-		}
+void BaseStackManager::	update(){
+	if (empty())	
+		loadDefaults();			//pop production bumpers!
+	else {
+		if (aborting()) popMenu();
+		else updateMenu();
 	}
 }
 
 
-//
+void BaseStackManager:: menuInput(MenuCommand * cmd){
+	if (!empty())
+		cmd->exec(stack.back());
+}
 
 void BaseStackManager::setMenu(int menuID){
 	if (menuID == 888)
@@ -73,7 +54,7 @@ void BaseStackManager::setMenu(int menuID){
 		}else if (mt == USE){
 			//usageMenu.init(stack.back());
 			//stack.push_back(menuList[mt]);
-		}else if (mt == PASS){
+		} else if (mt == PASS){
 		} else{
 			if (previewMenu == NULL){
 				//if (stack.back() != NULL) menuList[mt]->init(stack.back());

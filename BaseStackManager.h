@@ -21,17 +21,14 @@ public:
 
 	// screen setup
 	
-	void BaseStackManager::setRootMenu();
 	void BaseStackManager::setMenu(int menuID);
 	void BaseStackManager::	updateMenu();
-	void BaseStackManager::	update(BaseInputManager &input);
-
+	void BaseStackManager::	update();
+	void BaseStackManager:: menuInput(MenuCommand * cmd);
 
 	void BaseStackManager::	pushMenu(Menu * s);
 	void BaseStackManager::	popMenu();
-
-
-	
+		
 	void BaseStackManager::	rapidUpdate();
 	
 //********************************* DRAW *********************************
@@ -44,7 +41,7 @@ public:
 	void BaseStackManager::	drawIcons();
 	void BaseStackManager::	drawBackground();
 
-
+	 
 
 	void BaseStackManager::	setUp2DView(int width, int height);
 	void BaseStackManager::	disable2DView();
@@ -56,8 +53,8 @@ public:
 		Menu * previewMenu; 
 		Menu loadingScreen;
 		Menu titleScreen;
-		MenuCommand loading;
-		MenuCommand title;
+		StackCommand loading;
+		StackCommand title;
 		
 //********************************* MEMBER FUNCTIONS *********************************
 	
