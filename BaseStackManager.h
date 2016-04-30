@@ -51,10 +51,8 @@ public:
 		bool menuView;
 		vector <Menu *> stack;
 		Menu * previewMenu; 
-		Menu loadingScreen;
-		Menu titleScreen;
-		StackCommand loading;
-		StackCommand title;
+		StackCommand * currRoot; 
+		TrickStack title;
 		
 //********************************* MEMBER FUNCTIONS *********************************
 	

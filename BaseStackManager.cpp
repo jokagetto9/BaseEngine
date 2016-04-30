@@ -4,34 +4,20 @@
 BaseStackManager::BaseStackManager(){
 	menuView = false;
 	previewMenu = NULL;
-	initMenus();
 }
 void BaseStackManager::	init(MenuLoader& loader){
-	loader.registerRoot(&loading);
 	loader.registerRoot(&title);
-}
-
-void BaseStackManager::	initMenus(){
-	loadingScreen.setBackground(LOAD);
-	loadingScreen.setTimeOut(10);
-	titleScreen.setBackground(TITLE);
-	titleScreen.setTimeOut(240);
-	titleScreen.setFlow(888);
-
 }
 
 
 //********************************* LOADING *********************************
 
-void BaseStackManager::	loadDefaults(){	
-	stack.push_back(&titleScreen);
-	stack.push_back(&loadingScreen);
-}
 
 void BaseStackManager::	update(){
-	if (empty())	
-		loadDefaults();			//pop production bumpers!
-	else {
+	if (empty()){	
+		title.enter(stack);			//pop production bumpers!
+		currRoot = &title;
+	}else {
 		if (aborting()) popMenu();
 		else updateMenu();
 	}
