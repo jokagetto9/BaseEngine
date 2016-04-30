@@ -7,6 +7,18 @@ BaseEngine::	BaseEngine(){
 	sdlRenderer = NULL;			//The window renderer
 	sdlContext = NULL;			//OpenGL context
 
+	prevTime = glutGet(GLUT_ELAPSED_TIME);	// init start time
+	startTime = prevTime;
+
+	frameDelta = 0;	 avgFrameDelta = 0;
+
+	avgFPS = 0;	frameCount = -1;
+		
+	physLag = 0;		physDelta = 1000/PHYSICS_PERSEC;	// ms per update
+	aiLag = 0;			aiDelta = 1000/AI_PERSEC;			// ms per update
+
+
+
 }
 
 //********************************* INIT *********************************
@@ -74,34 +86,40 @@ void BaseEngine::quit(){
 }
 //********************************* PRIMARY CYCLES *********************************
 
-void BaseEngine::clockCycle(){
-	G0->trackAVG(); G0->trackFPS();	
-	if (!G0->paused){
-		//G0->trackTime();
-		//world.hourlyUpdate();
+
+
+//********************************* UPDATES *********************************
+
+void BaseEngine::	trackAVG(){
+	float a = frameDelta;
+	
+		getCurrentTime();
+		getFrameDelta(); 
+		/*/
+		if (frameDelta < 16){
+			SDL_Delay(16-frameDelta);	
+			getCurrentTime();	
+			getFrameDelta(); 
+		}//*/
+
+	if (avgFrameDelta != 0){
+		avgFrameDelta = (avgFrameDelta + a )/2;  
+		//avgFrameDelta = (avgFrameDelta + a + frameDelta)/3;  
+		avgFrameDelta += frameDelta/2;
 	}
-	G0->incLag();
-	while (G0->testLag()){	// while phys delta has time lag
-		if(G0->lagVSlag())	{		// phys has more lag	
-			if (!G0->paused) physicsUpdate();
-			G0->action = false;
-			G0->decPhysLag();	
-		} else {			// if ai has equal or more lag	
-			rapidUpdate();	
-			G0->decAILag();
-		}
-	}		
-	G0->prevTime = G0->curTime;	// reset cycle
-	 //else G->action = false;
+	else avgFrameDelta = frameDelta; 
 }
 
-void BaseEngine::		physicsUpdate(){
-
+void BaseEngine::	trackFPS(){
+	if (frameCount >= 1000){
+		frameCount = 0;
+		startTime = curTime;
+	}else {
+		frameCount++;
+		avgFPS = frameCount / ( (curTime-startTime)  / 1000.f );
+	}
 }
 
-void BaseEngine::		rapidUpdate(){
-
-}
 //********************************* DRAW *********************************
 
 

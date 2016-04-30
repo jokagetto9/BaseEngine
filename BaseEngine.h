@@ -41,61 +41,69 @@ public:
 /*/ Purpose: close engine 
 Triggers: spawner.quit()
 /*/
-
-
-//********************************* LOADING *********************************
-
-//********************************* SAVING *********************************
-
-void BaseEngine::		save();	
-/*/ Purpose: save game data
-Precondition(s): save files exist
-Side Effects:  G->save = false
-Triggers: H->saveHero(), G->saveState(), spawner.save();
-/*/
-
-//********************************* UPDATES *********************************
-
 	
-	void BaseEngine::		clockCycle();
-/*/ Purpose: ensure phys and ai cycle run at expected cps
-Side Effects: G->incLag(), G->prevTime = G->curTime;
-Triggers: G->trackTime(), spawner.hourlyUpdate(),
-	physicsUpdate(), rapidUpdate()
+//********************************* UPDATES *********************************
+	
+	void BaseEngine::		trackAVG();
+/*/ Purpose: track avgFrameDelta from animations
+Precondition(s): avgFrameDelta must be initialized
+Side Effects: avgFrameDelta = (avgFrameDelta + prevFrameDelta + curFrameDelta)/3
 /*/
 
-	void BaseEngine::		physicsUpdate();
-/*/ Purpose: update highp game data at 30 times per second
-Side Effects: G->action = false, G->decPhysLag()
-Triggers: H->physUpdate(), spawner.collisionDetection()
+	void BaseEngine::		trackFPS();
+/*/ Purpose: track avgFPS for display
+Precondition(s): game has been running a few seconds
+Side Effects: frameCount++
 /*/
-
-	void BaseEngine::		rapidUpdate();
-/*/ Purpose: update data at 4 times per second
-Side Effects: 	G->decAILag(), freqUpdate()
-Triggers: env.aiUpdate()
-/*/
-	void BaseEngine::	skipTime();
-
-//********************************* DRAW *********************************
-
-	void BaseEngine::display();
-/*/ Purpose: display all game elements -> altered by menus 
-Precondition(s): once per frame
-Side Effects: clear frame buffer bits
-Triggers: env.update, env.refreshView(b), C->update(H->pos),
-		spawner.drawZones(), H->drawHero(avgfr), menu.draw(),
-/*/
-
-	//void BaseEngine::reshape(int w, int h);
+//********************************* MEMBER FUNCTIONS *********************************
 	
 	void BaseEngine::displayVersion(); /*/
 	Side Effects: display opengl and graphics card versions  
 	/*/
-	
 
-	void BaseEngine::	clearDisplay();
+	void BaseEngine::		getCurrentTime(){curTime = glutGet(GLUT_ELAPSED_TIME);}
+/*/ Purpose: update current time
+Side Effects: curTime = system time
+/*/
+
+	void BaseEngine::		getFrameDelta(){frameDelta = curTime - prevTime;}
+/*/ Purpose: get new frame delta
+Precondition(s): curTime and prevTime are initialized
+Side Effects: frameDelta = ms from prev to cur frame
+/*/
+
+	void BaseEngine::		incLag(){ physLag += frameDelta; aiLag += frameDelta; }
+/*/ Purpose: increase phys and ai lag
+Side Effects: physLag and aiLag increase by frameDelta
+/*/
+
+	void BaseEngine::		decPhysLag(){ physLag -= physDelta;	}
+/*/ Purpose: decrease physlag by phys cycle time
+Precondition(s): phys cycle has just completed
+Side Effects: physLag is decreased by (30/1000)ms
+/*/
+
+	void BaseEngine::		decAILag(){	aiLag -= aiDelta; }
+/*/ Purpose: decrease ailag by ai cycle time
+Precondition(s): ai cycle has just completed
+Side Effects: aiLag is decreased by 250ms
+/*/
+
+	bool BaseEngine::		testLag(){ return physLag > physDelta || aiLag > aiDelta; }
+/*/ Purpose: determine if phys or ai lag is large enough to run cycle
+Returns: true is flag is > then cycle delta
+/*/
+
+	bool BaseEngine::		lagVSlag(){	return physLag - physDelta > aiLag - aiDelta; }
+/*/ Purpose: determine which lag is larger
+Returns: true if physLag > aiLag
+/*/
+
+
 	void BaseEngine ::flush(){ glFlush(); SDL_GL_SwapWindow(sdlWindow); }
+	
+	void BaseEngine::	clearDisplay();
+
 
 //************************************************** MEMBERS ***************************************************
 
@@ -109,7 +117,18 @@ Triggers: env.update, env.refreshView(b), C->update(H->pos),
 	BaseStackManager * stack;
 
 	bool initW, initC;
+	
+		long prevTime;			//cpu time at the start of the prev frame
+		long curTime;			//cpu time at the start of the current frame
+		GLuint startTime;		//arbitrary start time for measuring fps
 
+		float frameDelta;			//ms per frame
+		float avgFrameDelta;		//avg ms per frame !!!number is halved!!!
+	
+		float avgFPS;				//approximate fps for display
+		int frameCount;				//frame count for fps calc
+		long physLag, aiLag;		//remaining ms for physics updates
+		float physDelta, aiDelta;	// CONST ms per update	
 
 };
 #endif
