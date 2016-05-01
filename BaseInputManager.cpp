@@ -73,18 +73,6 @@ void BaseInputManager::keyUp(SDL_Keycode key){
 		G0->action = false;
 }
 
-void BaseInputManager::		clearKeys(){
-	for (int key = 0; key < 256; key++){
-		for (int i = 0; i < D; i++){
-			if (key == dKey[i]){
-
-			}else  
-				off(key);
-		}
-	}
-}
-
-
 
 //********************************* INPUT RESPONSES *********************************
 
@@ -93,7 +81,7 @@ PlayCommand * BaseInputManager::		checkPause(){
 		off(pauseKey);
 		if(G0->paused){
 			if ( G0->state == TITLE)
-				return &stackQuit;	
+				G0->gameActive = false;
 			else if ( G0->state == PAUSE)				
 				return &play;
 		}else if(G0->state == PLAY)

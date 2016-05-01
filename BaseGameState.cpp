@@ -15,7 +15,7 @@ void BaseGameState::init(){
 	
 	save = false;	load = false; //gload
 	action = false;	paused = true;	
-
+	loaded = false;
 	actionString = "";
 }
 

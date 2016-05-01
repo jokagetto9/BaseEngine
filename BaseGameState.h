@@ -46,8 +46,9 @@ Side Effects:  Saves days, minutes
 		bool save,  load; 
 		bool gameActive;//
 		bool paused;
-		bool action;
-		
+		bool action;		
+		bool loaded;
+
 		string actionString;
 
 
