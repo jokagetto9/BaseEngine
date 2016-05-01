@@ -9,14 +9,20 @@ void BaseStackManager::	init(MenuLoader& loader){
 	loader.registerRoot(&title);
 }
 
-
 //********************************* LOADING *********************************
 
+void BaseStackManager::	loadCommand(PlayCommand * cmd){
+	if (cmd) {
+		currRoot = cmd;
+		cmd->enter(stack, 0);
+	}
+}
 
 void BaseStackManager::	update(){
 	if (empty()){	
 		if (G0->state == TITLE){
-			title.enter(stack);			//pop production bumpers!
+			title.enter(stack, 1);
+			title.enter(stack, 0);			//pop production bumpers!
 			currRoot = &title;
 		}
 	}else {
@@ -31,20 +37,36 @@ void BaseStackManager:: menuInput(MenuCommand * cmd){
 		cmd->exec(stack.back());
 }
 
-void BaseStackManager::setMenu(int menuID){
+//enum GameFunctionCode {BACK, QUIT, SAVE, LOAD, START, OPTN, USE, CNFM, PASS};
+void BaseStackManager::setMenu(int flow){
 	if (stack.back()->func){
-		GameFunctionCode code = (GameFunctionCode)menuID;
-		if (code == QUIT)	{
+		GameFunctionCode func = (GameFunctionCode)flow;
+		if (func == BACK)	{
 			int i = stack.back()->index; //save for later?
 			stack.back()->quit();
-		}else if (code == START){			
+		}else if (func == START){			
 			PlayCommand play;
-			play.enter(stack);		
-		}else if (code == USE){
+			play.enter(stack, 0);
+			currRoot = NULL;
+		}else if (func == RESTART){	
+			G0->loaded = false;
+		}else if (func == QUIT){
+			stack.clear();
+			G0->loaded = false;
+			G0->state = TITLE;
+		}else if (func == USE){
 			//usageMenu.init(stack.back());
 			//stack.push_back(menuList[mt]);
 		}
 	} else {
+		if (currRoot){
+			if (currRoot->size() > flow){
+				currRoot->enter(stack, flow);
+			}
+		}
+	} 	
+}
+/*
 		if (previewMenu == NULL){
 			//if (stack.back() != NULL) menuList[mt]->init(stack.back());
 			//stack.push_back(menuList[mt]);
@@ -54,9 +76,8 @@ void BaseStackManager::setMenu(int menuID){
 				//previewMenu = NULL;
 			}
 		}
-	} 	
-}
 //*/
+
 void BaseStackManager:: updateMenu(){
 	if (G0->state != PLAY){
 		Menu *s = stack.back();

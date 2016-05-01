@@ -15,15 +15,13 @@ public:
 	BaseStackManager::BaseStackManager();
 	// Constructor
 	void BaseStackManager::	init(MenuLoader& loader);	
-	void BaseStackManager::	initMenus();	
-	void BaseStackManager::	loadDefaults();
-
-
-	// screen setup
 	
-	void BaseStackManager::setMenu(int menuID);
+	void BaseStackManager::	loadCommand(PlayCommand * cmd);
+	
 	void BaseStackManager::	updateMenu();
 	void BaseStackManager::	update();
+	
+	void BaseStackManager::setMenu(int flow);
 	void BaseStackManager:: menuInput(MenuCommand * cmd);
 
 	void BaseStackManager::	pushMenu(Menu * s);
@@ -51,8 +49,8 @@ public:
 		bool menuView;
 		vector <Menu *> stack;
 		Menu * previewMenu; 
-		StackCommand * currRoot; 
-		TrickStack title;
+		PlayCommand * currRoot; 
+		StackCommand title;
 		
 //********************************* MEMBER FUNCTIONS *********************************
 	

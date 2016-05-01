@@ -64,7 +64,6 @@ protected:
 		MenuCommand null;
 		
 		StackCommand pause;
-		QuitCommand	stackQuit;
 		PlayCommand	play;
 
 };
