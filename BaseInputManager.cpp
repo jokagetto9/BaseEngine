@@ -47,34 +47,35 @@ void BaseInputManager::pollKeyEvents(){
 // Cycle through key presses and set the key event to true
 void BaseInputManager::keyDown(SDL_Keycode key){
 	//quick actions 
-	for (int i = 0; i < D; i++){
+	bool move = false;
+	for (int i = 0; i < D && !move; i++){
 		if (key == dKey[i]){
 			on(key);
-			i = D;
+			move = true;
 		}else if (key == dArrow[i]){
 			specialKeyPressed[i] = true;
-			i = D;
+			move = true;
 		}
 	}
-	if (key == actionKey)	{
-		G0->action = true;
-	}	
+	if (!move){
+		if (key == actionKey)	{
+			G0->action = true;
+		}else if(key < KEYS && key >= 0){
+			on(key);
+		}
+	}
 }
 
 // Cycle through key releases and set the key event to false
 void BaseInputManager::keyUp(SDL_Keycode key){
-	bool move = false;
-	for (int i = 0; i < D && !move; i++){
-		if (key == dKey[i]){
-			off(key); //halt = false; //spinning camera
-			move = true;
-		}else if (key == dArrow[i]){
-			specialKeyPressed[i] = false;
-			move = true;
-		}
+	if (key < KEYS && key >= 0) 
+		off(key);
+	else{
+		for (int i = 0; i < D; i++)
+			if (key == dArrow[i]){
+				specialKeyPressed[i] = false;
+			}
 	}
-	if (!move && key < KEYS && key >= 0) 
-		on(key);
 }
 
 void BaseInputManager::		clearKeys(){
@@ -92,20 +93,17 @@ void BaseInputManager::		clearKeys(){
 
 //********************************* INPUT RESPONSES *********************************
 
-StackCommand * BaseInputManager::		checkPause(){
+PlayCommand * BaseInputManager::		checkPause(){
 	if (keyPressed[pauseKey]) {
 		off(pauseKey);
 		if(G0->paused){
 			if ( G0->state == TITLE)
 				return &stackQuit;	
 			else if ( G0->state == PAUSE)				
-				G0->enterMenu(PLAY);
-		}else {			
-			if(G0->state == PLAY){
-				G0->enterMenu(PAUSE);
-				return &pause;
-			}
-		}
+				return &play;
+		}else if(G0->state == PLAY)
+			return &pause;
+		return NULL;
 	}
 	return NULL;
 }

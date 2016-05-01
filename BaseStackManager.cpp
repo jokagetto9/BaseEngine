@@ -15,8 +15,10 @@ void BaseStackManager::	init(MenuLoader& loader){
 
 void BaseStackManager::	update(){
 	if (empty()){	
-		title.enter(stack);			//pop production bumpers!
-		currRoot = &title;
+		if (G0->state == TITLE){
+			title.enter(stack);			//pop production bumpers!
+			currRoot = &title;
+		}
 	}else {
 		if (aborting()) popMenu();
 		else updateMenu();
@@ -85,8 +87,12 @@ void BaseStackManager::	pushMenu(Menu * s){
 void BaseStackManager::	popMenu(){
 	if (!stack.empty()){
 		if (stack.back()->abort){
-			stack.back()->reset();
-			stack.pop_back();
+			if (stack.size() == 1 && G0->state != TITLE)							
+				stack.back()->abort = false;
+			else{
+				stack.back()->reset();
+				stack.pop_back();
+			}
 		}
 	}
 }
@@ -110,9 +116,9 @@ void BaseStackManager::	draw(){
 }
 
 void BaseStackManager::	drawHUD(){		
-	//M->fontBO.use();	//hudMenu.drawText();
+	//M->fontBO.use();		//hudMenu.drawText();
 	//M->cursorBO.use();	//hudMenu.drawCursor();
-	//M->menuBO.use();	 //hudMenu.drawIcons();
+	//M->menuBO.use();		//hudMenu.drawIcons();
 	//hudMenu.drawBackground();
 }
 

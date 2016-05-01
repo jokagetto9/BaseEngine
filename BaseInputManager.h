@@ -27,7 +27,7 @@ public:
 
 //********************************* INPUT RESPONSES *********************************
 	
-	StackCommand * BaseInputManager::		checkPause();
+	PlayCommand * BaseInputManager::		checkPause();
 	virtual MoveCommand * BaseInputManager::	directionInput();
 	virtual Command * BaseInputManager::		mouseInput();
 	Command * BaseInputManager::		actionInput();
@@ -64,7 +64,8 @@ protected:
 		MenuCommand null;
 		
 		StackCommand pause;
-		StackQuit	stackQuit;
+		QuitCommand	stackQuit;
+		PlayCommand	play;
 
 };
 
