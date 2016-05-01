@@ -32,31 +32,29 @@ void BaseStackManager:: menuInput(MenuCommand * cmd){
 }
 
 void BaseStackManager::setMenu(int menuID){
-	if (menuID == 888){
-		PlayCommand play;
-		play.enter(stack);
-
-	} else {
+	if (stack.back()->func){
 		GameFunctionCode code = (GameFunctionCode)menuID;
 		if (code == QUIT)	{
 			int i = stack.back()->index; //save for later?
 			stack.back()->quit();
+		}else if (code == START){			
+			PlayCommand play;
+			play.enter(stack);		
 		}else if (code == USE){
 			//usageMenu.init(stack.back());
 			//stack.push_back(menuList[mt]);
-		} else if (code == PASS){
-		} else{
-			if (previewMenu == NULL){
-				//if (stack.back() != NULL) menuList[mt]->init(stack.back());
-				//stack.push_back(menuList[mt]);
-			}else{
-				if (previewMenu->maxIndex >= 0){
-					//stack.push_back(previewMenu);
-					//previewMenu = NULL;
-				}
+		}
+	} else {
+		if (previewMenu == NULL){
+			//if (stack.back() != NULL) menuList[mt]->init(stack.back());
+			//stack.push_back(menuList[mt]);
+		}else{
+			if (previewMenu->maxIndex >= 0){
+				//stack.push_back(previewMenu);
+				//previewMenu = NULL;
 			}
-		} 		
-	}
+		}
+	} 	
 }
 //*/
 void BaseStackManager:: updateMenu(){

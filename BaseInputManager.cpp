@@ -69,6 +69,8 @@ void BaseInputManager::keyDown(SDL_Keycode key){
 // Cycle through key releases and set the key event to false
 void BaseInputManager::keyUp(SDL_Keycode key){
 	off(key);
+	if (key == actionKey)		
+		G0->action = false;
 }
 
 void BaseInputManager::		clearKeys(){
