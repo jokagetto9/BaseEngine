@@ -109,7 +109,7 @@ void BaseStackManager::	rapidUpdate(){
 void BaseStackManager::	draw(){	
 	if (!empty()){
 		//drawText();
-		//drawCursor();
+		drawCursor();
 		//drawIcons();
 		drawBackground();
 	}
@@ -133,7 +133,7 @@ void BaseStackManager::	drawText(){
 		previewMenu->drawText();
 }
 void BaseStackManager::	drawCursor(){
-	//M->cursorBO.use();
+	M->cursorBO.use();
 	stack.back()->drawCursor();
 }
 void BaseStackManager::	drawIcons(){
