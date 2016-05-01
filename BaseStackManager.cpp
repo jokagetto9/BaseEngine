@@ -32,9 +32,11 @@ void BaseStackManager:: menuInput(MenuCommand * cmd){
 }
 
 void BaseStackManager::setMenu(int menuID){
-	if (menuID == 888)
-		G0->enterMenu(PLAY);
-	else {
+	if (menuID == 888){
+		PlayCommand play;
+		play.enter(stack);
+
+	} else {
 		GameFunctionCode code = (GameFunctionCode)menuID;
 		if (code == QUIT)	{
 			int i = stack.back()->index; //save for later?
@@ -63,20 +65,22 @@ void BaseStackManager:: updateMenu(){
 		if (s->affirm){
 			s->reset();
 			setMenu(s->getFlow());
-			s = stack.back();
 		}
-		if (s->update){
-			s->refresh();
-			if(s->preview){
-				GameFunctionCode mt = (GameFunctionCode)s->getFlow();
-				if (mt != QUIT){
-					//previewMenu = menuList[mt];
-					//previewMenu->refresh(s->index);
-				}else 
-					previewMenu = NULL;
-			}
-			s->update = false;
-		} 
+		if (!empty()){			
+			s = stack.back();
+			if (s->update){
+				s->refresh();
+				if(s->preview){
+					GameFunctionCode mt = (GameFunctionCode)s->getFlow();
+					if (mt != QUIT){
+						//previewMenu = menuList[mt];
+						//previewMenu->refresh(s->index);
+					}else 
+						previewMenu = NULL;
+				}
+				s->update = false;
+			} 
+		}
 	}//*/
 }
 

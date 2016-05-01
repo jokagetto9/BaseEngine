@@ -68,14 +68,7 @@ void BaseInputManager::keyDown(SDL_Keycode key){
 
 // Cycle through key releases and set the key event to false
 void BaseInputManager::keyUp(SDL_Keycode key){
-	if (key < KEYS && key >= 0) 
-		off(key);
-	else{
-		for (int i = 0; i < D; i++)
-			if (key == dArrow[i]){
-				specialKeyPressed[i] = false;
-			}
-	}
+	off(key);
 }
 
 void BaseInputManager::		clearKeys(){
@@ -138,28 +131,36 @@ Command * BaseInputManager::		mouseInput(){
 
 MenuCommand *  BaseInputManager::	menuInput(){
 	if (G0->paused) {
-		bool u, d , l, r;
-		u = keyPressed[dKey[UP]] || specialKeyPressed[UP];
-		d = keyPressed[dKey[DOWN]] || specialKeyPressed[DOWN];
-		l = keyPressed[dKey[LEFT]] || specialKeyPressed[LEFT];
-		r = keyPressed[dKey[RIGHT]] || specialKeyPressed[RIGHT];
-
-		// add 1-5, R, T, F, C, V, ESC
+		bool u = false; bool d = false; 
+		bool l = false; bool r = false;
+		if (keyPressed[dKey[UP]]){
+			off(dKey[UP]); u = true;
+		} else if ( specialKeyPressed[UP]){
+			off(dArrow[UP]); u = true;
+		} else if (keyPressed[dKey[DOWN]]){
+			off(dKey[DOWN]); d = true;
+		} else if ( specialKeyPressed[DOWN]){
+			off(dArrow[DOWN]); d = true;
+		} else if (keyPressed[dKey[LEFT]]){
+			off(dKey[LEFT]); l = true;
+		} else if ( specialKeyPressed[LEFT]){
+			off(dArrow[LEFT]); l = true;
+		} else if (keyPressed[dKey[RIGHT]]){
+			off(dKey[RIGHT]); r = true;
+		} else if ( specialKeyPressed[RIGHT]){
+			off(dArrow[RIGHT]); r = true;
+		}
 		if (u){
 			cursor.set(0, -1);
-			off(dKey[UP]);
 			return &cursor;
 		}else if (d) {		
 			cursor.set(0, 1);
-			off(dKey[DOWN]);
 			return &cursor;
 		}if (l){
 			cursor.set(-1, 0);
-			off(dKey[LEFT]);
 			return &cursor;
 		}else if (r){			
 			cursor.set(1, 0);
-			off(dKey[RIGHT]);
 			return &cursor;
 		}
 
@@ -178,7 +179,17 @@ MenuCommand *  BaseInputManager::	menuInput(){
 
 
 void BaseInputManager::		on(SDL_Keycode key){ keyPressed[key] = true ; }
-void BaseInputManager::		off(SDL_Keycode key){ keyPressed[key] = false; }
+void BaseInputManager::		off(SDL_Keycode key){ 
+	if (key < KEYS && key >= 0) 
+		keyPressed[key] = false; 
+	else 
+		for (int i = 0; i < D; i++)
+			if (key == dArrow[i]){
+				specialKeyPressed[i] = false;
+				i = D;
+			}	
+
+}
 
 XZI BaseInputManager::		mousePos(){
 	XZI xz = {mX, mY};

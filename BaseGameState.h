@@ -39,8 +39,6 @@ Precondition(s): file exists
 Side Effects:  Saves days, minutes
 /*/
 
-	void BaseGameState::enterMenu(GameStateCode code);
-
 //************************************************** MEMBERS ***************************************************
 
 		

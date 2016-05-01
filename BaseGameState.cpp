@@ -22,12 +22,3 @@ void BaseGameState::init(){
 
 
 //********************************* MEMBER FUNCTIONS *********************************
-
-//
-void BaseGameState::enterMenu(GameStateCode code){
-	state = code; 
-	if (code == PLAY) {
-		paused = false; 
-	} else	
-		paused = true;	
-}//*/
