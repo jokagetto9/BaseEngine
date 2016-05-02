@@ -1,6 +1,6 @@
 #ifndef MCOMMAND_H
 #define MCOMMAND_H
-#include "../../../Display/Menus/Menu.h"
+#include "../Stack/Menus/Menu.h"
 #include "../BaseGameState.h"
 
 //********************************* CONSTANTS *********************************
@@ -12,8 +12,8 @@ class PlayCommand  {
 public:
   virtual void enter(vector <Menu *>& stack, int i){
 	stack.clear();
-	G0->paused = false;
-	G0->state = PLAY;
+	G->paused = false;
+	G->state = PLAY;
   }
   virtual int size(){return 0;}
 };
@@ -24,9 +24,9 @@ public:
   virtual void enter(vector <Menu *>& stack, int i){
 	  if (size() > i){
 		stack.push_back(&menus[i]);		
-		G0->paused = true;
-		if (G0->state == PLAY)
-			G0->state = PAUSE;
+		G->paused = true;
+		if (G->state == PLAY)
+			G->state = PAUSE;
 	  }
   }
 

@@ -1,7 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include "../../../Nodes/Hero.h"
+#include "../../Nodes/Hero.h"
 
 class Command {
 public:

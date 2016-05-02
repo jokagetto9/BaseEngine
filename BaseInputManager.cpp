@@ -30,7 +30,7 @@ void BaseInputManager::pollKeyEvents(){
 	while(SDL_PollEvent(&ev)){
 		key = ev.key.keysym.sym;
 		switch (ev.type){
-			case SDL_QUIT: G0->gameActive = false; break;
+			case SDL_QUIT: G->gameActive = false; break;
 			case SDL_KEYDOWN: keyDown(key); break; // Handle key presses     
 			case SDL_KEYUP: keyUp(key); break;
 			case SDL_MOUSEMOTION : 				
@@ -59,7 +59,7 @@ void BaseInputManager::keyDown(SDL_Keycode key){
 	}
 	if (!move){
 		if (key == actionKey)	{
-			G0->action = true;
+			G->action = true;
 		}else if(key < KEYS && key >= 0){
 			on(key);
 		}
@@ -70,7 +70,7 @@ void BaseInputManager::keyDown(SDL_Keycode key){
 void BaseInputManager::keyUp(SDL_Keycode key){
 	off(key);
 	if (key == actionKey)		
-		G0->action = false;
+		G->action = false;
 }
 
 
@@ -79,12 +79,12 @@ void BaseInputManager::keyUp(SDL_Keycode key){
 PlayCommand * BaseInputManager::		checkPause(){
 	if (keyPressed[pauseKey]) {
 		off(pauseKey);
-		if(G0->paused){
-			if ( G0->state == TITLE)
-				G0->gameActive = false;
-			else if ( G0->state == PAUSE)				
+		if(G->paused){
+			if ( G->state == TITLE)
+				G->gameActive = false;
+			else if ( G->state == PAUSE)				
 				return &play;
-		}else if(G0->state == PLAY)
+		}else if(G->state == PLAY)
 			return &pause;
 		return NULL;
 	}
@@ -120,7 +120,7 @@ Command * BaseInputManager::		mouseInput(){
 }
 
 MenuCommand *  BaseInputManager::	menuInput(){
-	if (G0->paused) {
+	if (G->paused) {
 		bool u = false; bool d = false; 
 		bool l = false; bool r = false;
 		if (keyPressed[dKey[UP]]){
@@ -155,8 +155,8 @@ MenuCommand *  BaseInputManager::	menuInput(){
 		}
 
 
-		if (G0->action){	
-			G0->action = false;
+		if (G->action){	
+			G->action = false;
 			return &menucnfm;
 		} else if (keyPressed[cancelKey]) {
 			off(cancelKey);

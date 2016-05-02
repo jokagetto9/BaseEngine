@@ -1,7 +1,7 @@
 #ifndef BASEGAMESTATE_H
 #define BASEGAMESTATE_H
 
-#include "../../lib.h"
+#include "lib.h"
 //********************************* CONSTANTS *********************************
 
 const float PHYSICS_PERSEC = 20.0f;		// per second
@@ -12,7 +12,6 @@ const float MAXFPS = 60.0f;				// phys + ai are limited to 60 fps
 class BaseGameState {
 public:
 	
-	BaseGameState::BaseGameState(){}
 	void BaseGameState::		init();	
 /*/ Purpose: init members
 Side Effects:  set prevTime, startTime
@@ -52,8 +51,19 @@ Side Effects:  Saves days, minutes
 		string actionString;
 
 
+//********************************* SINGLETON *********************************
 
+	static BaseGameState* BaseGameState::I(){
+		if(instance == 0){
+			instance = new BaseGameState();
+			return instance;
+		}return instance;	
+	}
+
+private:
+	BaseGameState::BaseGameState(){}
+	static BaseGameState* instance ;
 };
 
-extern BaseGameState* G0;
+extern BaseGameState* G;
 #endif
