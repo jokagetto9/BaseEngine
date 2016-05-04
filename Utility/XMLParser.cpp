@@ -2,7 +2,7 @@
 #include "XMLParser.h"
 
 
-string XMLParser::loadList(char* listFile, string listTag, string fileTag, vector <string>& files){
+void XMLParser::loadList(char* listFile, string listTag, string fileTag, vector <string>& files){
     rapidxml::file<> xmlFile(listFile); // Default template is char
     rapidxml::xml_document<> doc;
 	try {
@@ -19,13 +19,12 @@ string XMLParser::loadList(char* listFile, string listTag, string fileTag, vecto
 					s = getText(a->value());
 					files.push_back(s);
 				}else 
-					loadAuxillary();
+					loadAuxillary(n);
 			}
 		}
 	}catch(...){
 		cout << listTag << " did not load properly." << endl;
 	}
-	return "fail";
 }
 
 
