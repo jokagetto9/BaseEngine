@@ -56,7 +56,7 @@ const int PLOT = 50;
 
 //menu indices
 enum GameStateCode {PAUSE, TITLE, PLAY, DBG };
-enum GameFunctionCode {BACK, QUIT, SAVE, LOAD, START, RESTART, OPTN, USE, CNFM, PASS};
+enum GameFunctionCode {BACK, SAVE, LOAD, START, RESTART, OPTN, USE, CNFM, PASS, MAINMENU, QUIT};
 //from other games
 //enum LaserMenuCommand {EXIT, TITLE, OPTN, STGSLCT, STGINFO, STGCOMP, UPGRADE, PLAY};
 //enum PrimeMenuCommand {PLAY, EXIT, TITLE, MAIN, SYS, STORE, DLG, DBG }; //when not exit
