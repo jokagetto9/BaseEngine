@@ -16,7 +16,8 @@ void BaseInputManager::init(MenuLoader& loader){
 	dArrow[2] = SDLK_UP;
 	dArrow[3] = SDLK_DOWN;
 	pauseKey = SDLK_ESCAPE;
-	actionKey = SDLK_e;
+	actionKey = SDLK_RETURN;
+	actionKey2 = SDLK_e;
 	cancelKey = SDLK_q;
 	//backKey
 }
@@ -58,7 +59,7 @@ void BaseInputManager::keyDown(SDL_Keycode key){
 		}
 	}
 	if (!move){
-		if (key == actionKey)	{
+		if (key == actionKey || key == actionKey2)	{
 			G->action = true;
 		}else if(key < KEYS && key >= 0){
 			on(key);

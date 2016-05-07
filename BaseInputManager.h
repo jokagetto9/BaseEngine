@@ -49,7 +49,7 @@ protected:
 
 		SDL_Keycode dKey[D];
 		SDL_Keycode dArrow[D];
-		SDL_Keycode pauseKey, actionKey, cancelKey;
+		SDL_Keycode pauseKey, actionKey, actionKey2, cancelKey;
 
 		bool keyPressed[KEYS];		//keyboard state array
 		bool specialKeyPressed[SKEYS];	//special key state array
