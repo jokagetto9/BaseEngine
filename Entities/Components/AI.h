@@ -1,16 +1,24 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef AI_H
+#define AI_H
 
-#include "../lib.h"
+#include "Component.h"
+
 
 //********************************* CONSTANTS *********************************
 
 //********************************* INITIALIZATION *********************************
 
 
-class Compoment  {
-	public:
-			
+class AI: public Compoment  {
+public:
+	
+	AI::AI();
+
+	glm::vec3 targetV;
+
+	//state
+
 };
+
 
 #endif
