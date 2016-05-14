@@ -9,7 +9,7 @@
 //********************************* INITIALIZATION *********************************
 
 
-class AI: public Compoment  {
+class AI: public Component  {
 public:
 	
 	AI::AI();

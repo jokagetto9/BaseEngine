@@ -1,5 +1,5 @@
-#ifndef PHYSICS_H
-#define PHYSICS_H
+#ifndef MOTION_H
+#define MOTION_H
 
 #include "Component.h"
 
@@ -14,10 +14,10 @@ const float RUN_MAX_ACCEL = RUN_MAX_SPEED;//0.00625f;  // m/ms^2
 //********************************* INITIALIZATION *********************************
 
 
-class Physics: public Compoment  {
+class Motion: public Component  {
 public:
 	
-	Physics::Physics();
+	Motion::Motion();
 
 
 		glm::vec3 speed, prevPos;	

@@ -10,11 +10,11 @@
 //********************************* INITIALIZATION *********************************
 
 
-class Rendering: public Compoment  {
+class Rendering: public Component  {
 public:
 	
 	Rendering::Rendering();
-		Animation walkAnim;
+	Animation walkAnim;
 };
 
 

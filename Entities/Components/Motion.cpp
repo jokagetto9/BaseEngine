@@ -1,7 +1,7 @@
 //********************************* INITIALIZATION *********************************
-#include "Physics.h"
+#include "Motion.h"
 
-Physics::Physics(){		
+Motion::Motion(){		
 	speed = glm::vec3(0.0); 
 	prevPos = glm::vec3(0.0);	
 

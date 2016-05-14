@@ -9,18 +9,19 @@
 //********************************* INITIALIZATION *********************************
 
 
-class Translation: public Compoment  {
+class Translation: public Component  {
 public:
 	
 	Translation::Translation();
 
-	glm::vec3 Translation::pos(){	return glm::vec3(x, y, z);}
+	glm::vec3 Translation::pos(){	return glm::vec3(x_, y_, z_);}
 		
-	void Translation::	push(int x, int z){	x += x; 	z += z; y += 0; }
-	void Translation::	translate(){ glPushMatrix(); glTranslatef(x, 0, z);}
-	void Translation::adjustPos(Drctn d, int dist);
+	void Translation::	place(int x, int z){x_ = x; z_ = z; }
+	void Translation::	push(int x, int z){	x_ += x; 	z_ += z; }
+	void Translation::	translate(){ glPushMatrix(); glTranslatef(x_, y_, z_);}
+	void Translation::	adjustPos(Drctn d, int dist);
 
-	float x, y, z;
+	float x_, y_, z_;
 	//float scale?
 	union {
 		float theta;
