@@ -1,7 +1,7 @@
 #ifndef AI_H
 #define AI_H
 
-#include "Component.h"
+#include "Translation.h"
 
 
 //********************************* CONSTANTS *********************************
@@ -14,7 +14,7 @@ public:
 	
 	AI::AI();
 
-	glm::vec3 targetV;
+	glm::vec3 targetP;
 
 	//state
 

@@ -1,7 +1,7 @@
 #ifndef MOTION_H
 #define MOTION_H
 
-#include "Component.h"
+#include "Translation.h"
 
 
 //********************************* CONSTANTS *********************************
@@ -18,10 +18,23 @@ class Motion: public Component  {
 public:
 	
 	Motion::Motion();
+	
+	void Motion::backTrack(Translation& t);
+	void Motion::move(Translation& t);
+	
+	void Motion::stop(){speed = glm::vec3(0.0);}
+	
+	void Motion::setSpeed(glm::vec3 pos){speed = pos;}
+	void Motion::setPrev(glm::vec3 pos){prevPos = pos;}
+	
+	void Motion::move(Oriet o);	
+	void Motion::halt(){targetV = glm::vec3(0.0);}
+	
+	void Motion::updateSpeed(float physDelta);
 
+		glm::vec3 speed, targetV, prevPos;	
+		float prevTheta, maxS;
 
-		glm::vec3 speed, prevPos;	
-		float prevTheta;
 		//float targetSpeed;
 };
 

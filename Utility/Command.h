@@ -1,12 +1,13 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include "../../Nodes/Hero.h"
+#include "../Entities/Players.h"
+#include "../Utility/Command.h"
 
 class Command {
 public:
   virtual ~Command() {}
-  virtual void exec(Hero& h) = 0;
+  virtual void exec(Players& P) = 0;
 
 };
 
@@ -14,11 +15,11 @@ public:
 
 class MoveCommand : public Command {
 public:
-  void exec(Hero& h){
+  void exec(Players& P){
 	if (o != STOP)
-		h.move(o); 
+		P.motion[0].move(o); 
 	else
-		h.stop();
+		P.motion[0].halt();
   }
 	Oriet o;
 };

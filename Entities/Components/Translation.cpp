@@ -26,3 +26,4 @@ Oriet Translation::	facing(){
 
 	return o;
 }
+

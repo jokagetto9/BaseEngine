@@ -23,6 +23,7 @@ public:
 	void Translation::	adjustPos(Drctn d, float dist);
 
 
+//********************************* MEMBER FUNCTIONS *********************************
 	Oriet Translation::	facing();
 
 

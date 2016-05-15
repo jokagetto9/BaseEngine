@@ -3,7 +3,7 @@
 
 AI::AI(){	
 	
-	targetV = glm::vec3(0.0); 
+	targetP = glm::vec3(0.0); 
 
 }
 

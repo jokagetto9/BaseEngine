@@ -16,13 +16,26 @@ class Actors : public Props{
 	void Actors::reserve(ID max);
 	void Actors::reset();
 	void Actors::reset(ID id);
+	
 
+//************************************************** UPDATE ***************************************************
+	void Actors ::	update (float physDelta);
+	
 
-	void Actors ::	draw (float delta);
+//************************************************** DRAW *************************************************** 
+	void Actors ::	refresh (float delta);
+	void Actors ::	refresh (ID id, float delta);
+	virtual void Actors ::	draw ();
+	virtual void Actors ::	draw (ID id);
+
+	
+//************************************************** MEMBERS ***************************************************
 
 	vector<AI> ai;
 	vector<Motion> motion;
 
+	vector<vector <ID>> batchDraw;
+	vector<ID> shaderprofile;
 
 	static MotionState walking;
 
