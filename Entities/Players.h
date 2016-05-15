@@ -12,7 +12,13 @@ class Players : public Actors{
 	public: 
 	Players::	Players(){reserve(1);}
 	
+	
+	void Players:: P1Update(float physDelta);
+	
 	void Players:: drawP1(float delta);
+
+
+
 	glm::vec3 Players::pos(){ return translation[P1].pos();}
 	void Players::place(float x, float z){ translation[P1].place(x, z);}
 

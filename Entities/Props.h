@@ -21,14 +21,16 @@ class Props {
 	virtual void Props::reset();
 	virtual void Props::reset(ID id);
 
+	void Props::changeState(ID id, State * S){state[id] = S;}
+
 	//animation, texture
 	vector<Rendering> rendering;
 	vector<Animation> animation;
 	vector<Translation> translation;
-
-protected:
+	
 	static State off;
 	static StillState still;
+protected:
 
 	vector<State*> state;
 };

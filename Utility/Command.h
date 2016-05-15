@@ -6,9 +6,10 @@
 
 class Command {
 public:
-  virtual ~Command() {}
+	//Command::Command(){PID = P1};
+	virtual ~Command() {} 
   virtual void exec(Players& P) = 0;
-
+  //ID PID;  
 };
 
 
@@ -16,10 +17,13 @@ public:
 class MoveCommand : public Command {
 public:
   void exec(Players& P){
-	if (o != STOP)
-		P.motion[0].move(o); 
-	else
-		P.motion[0].halt();
+	if (o != STOP){
+		P.motion[P1].move(o); 
+		P.changeState(P1, &Actors::walking);
+	}else {
+		P.motion[P1].halt();
+		P.changeState(P1, &Props::still);
+	}
   }
 	Oriet o;
 };

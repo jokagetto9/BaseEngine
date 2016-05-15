@@ -20,7 +20,10 @@ class Actors : public Props{
 
 //************************************************** UPDATE ***************************************************
 	void Actors ::	update (float physDelta);
-	
+	void Actors ::	update (ID id, float physDelta);
+
+	void Actors ::	aiUpdate (float aiDelta);
+	void Actors ::	aiUpdate (ID id, float aiDelta);
 
 //************************************************** DRAW *************************************************** 
 	void Actors ::	refresh (float delta);

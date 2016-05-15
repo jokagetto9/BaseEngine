@@ -35,17 +35,34 @@ void Actors::reset(ID id){
 
 //************************************************** UPDATE ***************************************************
 
-void Actors ::	update (float physDelta){
-	
+void Actors ::	update (float physDelta){	
 	ID s = state.size();
 	for (ID i = 0; i < s; i++){
-		if (!state[i]->still()){
-			motion[i].updateSpeed(physDelta);
-			motion[i].move(translation[i]);
-			//TODO world wrap
-			//TODO update quadtree
-		}
+		update(i, physDelta);
 	}
+}
+
+void Actors ::	update (ID id, float physDelta){
+	if (!state[id]->still()){
+		motion[id].updateSpeed(physDelta);
+		//TODO if stopped change to still
+		motion[id].move(translation[id]);
+
+
+
+		
+	}//TODO world wrap	//TODO update quadtree
+}
+
+void Actors ::	aiUpdate (float aiDelta){
+	ID s = state.size();
+	for (ID i = 0; i < s; i++){
+		aiUpdate(i, aiDelta);
+	}
+}
+void Actors ::	aiUpdate (ID id, float aiDelta){
+
+
 }
 
 //************************************************** DRAW *************************************************** 
