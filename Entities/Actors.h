@@ -2,8 +2,9 @@
 #define ACTORS_H
 
 #include "Props.h"
-#include "Components\AI.h"
-#include "Components\Motion.h"
+#include "Components/AI.h"
+#include "Components/Motion.h"
+#include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
 

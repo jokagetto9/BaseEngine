@@ -2,8 +2,8 @@
 #include "Rendering.h"
 
 Rendering::Rendering(){	
-	
-	walkAnim.init(WALK8);
-
+	tex = 0;
+	texIndex = 0;
+	animIndex = -1;
 }
 

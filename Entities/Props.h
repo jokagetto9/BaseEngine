@@ -3,9 +3,10 @@
 
 #include "Components\State.h"
 #include "Components\Rendering.h"
+#include "Components\Animation.h"
 #include "Components\Translation.h"
 //********************************* CONSTANTS *********************************
-const ID MAX_COMPONENTS = 10000;
+
 
 //********************************* INITIALIZATION *********************************
 
@@ -22,6 +23,7 @@ class Props {
 
 	//animation, texture
 	vector<Rendering> rendering;
+	vector<Animation> animation;
 	vector<Translation> translation;
 
 protected:

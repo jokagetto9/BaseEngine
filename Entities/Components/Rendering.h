@@ -2,7 +2,6 @@
 #define RENDERING_H
 
 #include "Component.h"
-#include "../../../Display/Animation.h"
 
 
 //********************************* CONSTANTS *********************************
@@ -14,7 +13,14 @@ class Rendering: public Component  {
 public:
 	
 	Rendering::Rendering();
-	Animation walkAnim;
+
+	ID tex;
+	ID texIndex;
+	union {
+		int animIndex;
+	};
+
+
 };
 
 
