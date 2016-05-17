@@ -1,6 +1,7 @@
 #include "Actors.h"
 
 MotionState  Actors::walking;
+AttackState  Actors::charge;
 
 void Actors::reserve(ID max){
 	if (max < MAX_COMPONENTS){
@@ -32,6 +33,12 @@ void Actors::reset(ID id){
 	animation[id] = Animation();
 }
 
+void Actors::activate(ID id, glm::vec3 pos){
+	ID s = state.size();
+	for (ID i = 0; i < s && i < id; i++){
+		ai[i].setTarget(pos);
+	}
+}
 
 //************************************************** UPDATE ***************************************************
 
@@ -43,26 +50,37 @@ void Actors ::	update (float physDelta){
 }
 
 void Actors ::	update (ID id, float physDelta){
+	motion[id].updateSpeed(physDelta);
 	if (!state[id]->still()){
-		motion[id].updateSpeed(physDelta);
 		//TODO if stopped change to still
 		motion[id].move(translation[id]);
 
 
 
 		
-	}//TODO world wrap	//TODO update quadtree
+	}//TODO world wrap	
+	//NEWBRANCH quadtree
 }
 
 void Actors ::	aiUpdate (float aiDelta){
 	ID s = state.size();
 	for (ID i = 0; i < s; i++){
-		aiUpdate(i, aiDelta);
+		if (state[i]->on()){
+			aiUpdate(i, aiDelta);
+		}
 	}
 }
+
 void Actors ::	aiUpdate (ID id, float aiDelta){
-
-
+	//TODO if has target
+	if (notZero(ai[id].targetP)){
+		glm::vec3 tempV = translation[id].pos();
+		tempV = ai[id].getTarget(tempV, aiDelta);
+		motion[id].setTarget(tempV);
+		state[id] = &charge;
+	}else{
+		state[id] = &still;
+	}
 }
 
 //************************************************** DRAW *************************************************** 
@@ -85,9 +103,10 @@ void Actors ::	refresh (ID id, float delta){
 
 	float camTheta = C->getCameraTheta(t.pos(), false);	
 	camTheta -= t.theta;
-	r.texIndex = a.getThetaIndex(t.facing());
+	r.texIndex = a.getThetaIndex(facing(camTheta));
 	if (!state[id]->still()) 
 		r.texIndex += a.frameTick(delta);
+	//TODO add shader profile
 	batchDraw[0].push_back(id);
 
 
@@ -114,3 +133,8 @@ void Actors ::	draw (ID id){
 
 
 //********************************* MEMBER FUNCTIONS *********************************
+
+Actor Actors::getActor(ID id){
+	Actor a = {state[id], translation[id], motion[id], ai[id]};
+	return a;
+}

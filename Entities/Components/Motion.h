@@ -11,6 +11,10 @@ const float TURBO_ACCEL = 0.0005f;  // m/ms^2
 const float WALK_MAX_SPEED = 0.01f;  // m/ms
 const float RUN_MAX_SPEED = 0.0125f;//0.00625f;  // m/ms
 const float RUN_MAX_ACCEL = RUN_MAX_SPEED;//0.00625f;  // m/ms^2
+
+
+Oriet facing(float theta);
+
 //********************************* INITIALIZATION *********************************
 
 
@@ -25,6 +29,7 @@ public:
 	void Motion::stop(){speed = glm::vec3(0.0);}
 	
 	void Motion::setSpeed(glm::vec3 pos){speed = pos;}
+	void Motion::setTarget(glm::vec3 v){targetV = v;}
 	void Motion::setPrev(glm::vec3 pos){prevPos = pos;}
 	
 	void Motion::move(Oriet o);	

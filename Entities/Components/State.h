@@ -30,7 +30,7 @@ public:
 	bool charge(){return false;}
 };
 
-class ChargeState: public State  {
+class AttackState: public State  {
 public:
 	bool on(){return true;}
 	bool still(){return false;}

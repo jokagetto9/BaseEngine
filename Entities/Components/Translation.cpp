@@ -15,15 +15,3 @@ void Translation::adjustPos(Drctn d, float dist){
 }
 
 
-
-Oriet Translation::	facing(){
-	loop360(theta);
-	Oriet o = DOWN;
-	if (theta <= 135 && theta > 45)			o = LEFT;	//left
-	else if (theta <= 225 && theta > 135)	o = UP;	//forward 
-	else if (theta <= 315 && theta > 225)	o = RIGHT;	//right
-	else if (theta <= 45 && theta >= 0 || theta < 360 && theta > 315) o = DOWN;//backward
-
-	return o;
-}
-

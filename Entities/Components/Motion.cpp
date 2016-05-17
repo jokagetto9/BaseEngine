@@ -53,7 +53,7 @@ void Motion::updateSpeed(float physDelta){
 }
 
 /*/
-void Motion::forceDiagonal(float physDelta){
+void Motion::fastDiagonal(float physDelta){
 		if (false){//targetV.x != 0 && targetV.z != 0){	
 			if (targetV.x > 0)	targetV.x = 1;
 			else				targetV.x = -1;
@@ -64,3 +64,17 @@ void Motion::forceDiagonal(float physDelta){
 			truncate (targetV, maxChange);
 }
 //*/
+
+
+
+Oriet facing(float theta){
+	loop360(theta);
+	Oriet o = DOWN;
+	if (theta <= 135 && theta > 45)			o = LEFT;	//left
+	else if (theta <= 225 && theta > 135)	o = UP;	//forward 
+	else if (theta <= 315 && theta > 225)	o = RIGHT;	//right
+	else if (theta <= 45 && theta >= 0 || theta < 360 && theta > 315) o = DOWN;//backward
+
+	return o;
+}
+

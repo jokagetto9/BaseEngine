@@ -6,7 +6,13 @@
 #include "Components/Motion.h"
 #include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
-
+struct Actor {
+	State * st;
+	Translation &pos_;
+	Motion &mot_;
+	AI &ai_;
+	//Rendering &ren_;
+};
 
 //********************************* INITIALIZATION *********************************
 
@@ -17,7 +23,7 @@ class Actors : public Props{
 	void Actors::reset();
 	void Actors::reset(ID id);
 	
-
+	void Actors::activate(ID id, glm::vec3 pos);
 //************************************************** UPDATE ***************************************************
 	void Actors ::	update (float physDelta);
 	void Actors ::	update (ID id, float physDelta);
@@ -32,6 +38,8 @@ class Actors : public Props{
 	virtual void Actors ::	draw (ID id);
 
 	
+
+	Actor Actors::getActor(ID id);
 //************************************************** MEMBERS ***************************************************
 
 	vector<AI> ai;
@@ -41,6 +49,7 @@ class Actors : public Props{
 	vector<ID> shaderprofile;
 
 	static MotionState walking;
+	static AttackState charge;
 
 };
 #endif

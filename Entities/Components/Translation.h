@@ -24,7 +24,6 @@ public:
 
 
 //********************************* MEMBER FUNCTIONS *********************************
-	Oriet Translation::	facing();
 
 
 	float x_, y_, z_;

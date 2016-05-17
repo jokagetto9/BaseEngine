@@ -14,6 +14,7 @@ class Players : public Actors{
 	
 	
 	void Players:: P1Update(float physDelta);
+	void Players:: P1aiUpdate(float aiDelta);
 	
 	void Players:: drawP1(float delta);
 
