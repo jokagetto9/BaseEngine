@@ -53,6 +53,6 @@ void Props::reset(){
 }
 
 void Props::reset(ID id){	
-	rendering[id] = Rendering();
+	//rendering[id] = Rendering(PROP, 0, 0);
 	translation[id] = Translation();
 }

@@ -1,10 +1,10 @@
 #ifndef PROPS_H
 #define PROPS_H
 
-#include "Components\State.h"
-#include "Components\Rendering.h"
-#include "Components\Animation.h"
-#include "Components\Translation.h"
+#include "../Components/State.h"
+#include "../Components/Rendering.h"
+#include "../Components/Animation.h"
+#include "../Components/Translation.h"
 //********************************* CONSTANTS *********************************
 
 

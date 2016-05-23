@@ -3,7 +3,7 @@
 
 #include "Component.h"
 
-#include "../../Stack/Camera.h"
+#include "../Stack/Camera.h"
 
 //********************************* CONSTANTS *********************************
 

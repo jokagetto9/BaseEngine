@@ -3,6 +3,9 @@
 MotionState  Actors::walking;
 AttackState  Actors::charge;
 
+vector<ID> Actors::aTextures;
+
+
 void Actors::reserve(ID max){
 	if (max < MAX_COMPONENTS){
 		animation.resize(max);
@@ -10,9 +13,9 @@ void Actors::reserve(ID max){
 		motion.resize(max);
 		Props::reserve(max);
 	}
-	int shaderProfiles = 10;
-	batchDraw.resize(shaderProfiles);
-	for (ID i = 0; i < shaderProfiles; i++){
+	ID profiles = aTextures.size();
+	batchDraw.resize(profiles);
+	for (ID i = 0; i < profiles; i++){
 		batchDraw[i].reserve(20);
 	}
 }
@@ -91,6 +94,7 @@ void Actors ::	refresh(float delta){
 	for (ID i = 0; i < s; i++){
 		if (state[i]->on()){
 			refresh(i, delta);
+
 		}
 	}
 
@@ -107,8 +111,10 @@ void Actors ::	refresh (ID id, float delta){
 	if (!state[id]->still()) 
 		r.texIndex += a.frameTick(delta);
 	//TODO add shader profile
-	batchDraw[0].push_back(id);
-
+	for (ID i = 0; i < batchDraw.size(); i++){ 
+		//if ()
+		batchDraw[0].push_back(id);
+	}
 
 }
 

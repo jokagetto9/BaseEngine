@@ -10,7 +10,7 @@ Animation::Animation(){
 
 void Animation::init(AnimType t){
 	type = t;
-	if (tpf > 0) tick = rand() % tpf;
+	//if (tpf > 0) tick = rand() % tpf;
 
 	if (type == CYCLIC){
 		
@@ -21,19 +21,6 @@ void Animation::init(AnimType t){
 }
 
 //********************************* DRAW *********************************
-
-void Animation::draw(float frameDelta){
-	//DISABLED
-	//int it = frameTick(frameDelta) + 4;
-	//glBindTexture(GL_TEXTURE_2D, M->gridBO.laserPalmT);
-	//if (it >= 0 && it < 16) M->gridBO.drawx16(it);
-}
-
-
-void Animation::draw(float camTheta, float frameDelta){
-
-}
-
 
 
 // cycle looping animations

@@ -5,7 +5,7 @@
 
 
 //********************************* CONSTANTS *********************************
-
+enum EntityType {PROP, PARTICLE, ACTOR};   
 //********************************* INITIALIZATION *********************************
 
 
@@ -13,12 +13,13 @@ class Rendering: public Component  {
 public:
 	
 	Rendering::Rendering();
-
-	ID tex;
+	Rendering::Rendering(EntityType e, ID id);
+	Rendering::Rendering(EntityType e, ID id, ID tex);
+	
+	EntityType type;
+	ID profileIndex; 
 	ID texIndex;
-	union {
-		int animIndex;
-	};
+	int animIndex;
 
 
 };

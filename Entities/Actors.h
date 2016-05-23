@@ -2,10 +2,13 @@
 #define ACTORS_H
 
 #include "Props.h"
-#include "Components/AI.h"
-#include "Components/Motion.h"
+#include "../Components/AI.h"
+#include "../Components/Motion.h"
 #include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
+
+const ID P1 = 0;
+
 struct Actor {
 	State * st;
 	Translation &pos_;
@@ -41,12 +44,14 @@ class Actors : public Props{
 
 	Actor Actors::getActor(ID id);
 //************************************************** MEMBERS ***************************************************
+	
+
 
 	vector<AI> ai;
 	vector<Motion> motion;
 
+	static vector<ID> aTextures;
 	vector<vector <ID>> batchDraw;
-	vector<ID> shaderprofile;
 
 	static MotionState walking;
 	static AttackState charge;
