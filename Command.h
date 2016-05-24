@@ -1,8 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include "../Entities/Actors.h"
-#include "../Utility/Command.h"
+#include "Entities/Actors.h"
 
 class Command {
 public:

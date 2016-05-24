@@ -30,8 +30,7 @@ class Props {
 	
 	static State off;
 	static StillState still;
-protected:
-
 	vector<State*> state;
+
 };
 #endif

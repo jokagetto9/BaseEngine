@@ -3,7 +3,6 @@
 MotionState  Actors::walking;
 AttackState  Actors::charge;
 
-vector<ID> Actors::aTextures;
 
 
 void Actors::reserve(ID max){
@@ -12,11 +11,6 @@ void Actors::reserve(ID max){
 		ai.resize(max);
 		motion.resize(max);
 		Props::reserve(max);
-	}
-	ID profiles = aTextures.size();
-	batchDraw.resize(profiles);
-	for (ID i = 0; i < profiles; i++){
-		batchDraw[i].reserve(20);
 	}
 }
 
@@ -46,14 +40,15 @@ void Actors::activate(ID id, glm::vec3 pos){
 //************************************************** UPDATE ***************************************************
 
 void Actors ::	update (float physDelta){	
+	delta = physDelta;
 	ID s = state.size();
 	for (ID i = 0; i < s; i++){
-		update(i, physDelta);
+		update(i);
 	}
 }
 
-void Actors ::	update (ID id, float physDelta){
-	motion[id].updateSpeed(physDelta);
+void Actors ::	update (ID id){
+	motion[id].updateSpeed(delta);
 	if (!state[id]->still()){
 		//TODO if stopped change to still
 		motion[id].move(translation[id]);
@@ -66,19 +61,20 @@ void Actors ::	update (ID id, float physDelta){
 }
 
 void Actors ::	aiUpdate (float aiDelta){
+	delta = aiDelta;
 	ID s = state.size();
 	for (ID i = 0; i < s; i++){
 		if (state[i]->on()){
-			aiUpdate(i, aiDelta);
+			aiUpdate(i);
 		}
 	}
 }
-
-void Actors ::	aiUpdate (ID id, float aiDelta){
+	
+void Actors ::	aiUpdate (ID id){
 	//TODO if has target
 	if (notZero(ai[id].targetP)){
 		glm::vec3 tempV = translation[id].pos();
-		tempV = ai[id].getTarget(tempV, aiDelta);
+		tempV = ai[id].getTarget(tempV, delta);
 		motion[id].setTarget(tempV);
 		state[id] = &charge;
 	}else{
@@ -88,19 +84,8 @@ void Actors ::	aiUpdate (ID id, float aiDelta){
 
 //************************************************** DRAW *************************************************** 
 
-void Actors ::	refresh(float delta){
-	batchDraw[0].clear();
-	ID s = state.size();
-	for (ID i = 0; i < s; i++){
-		if (state[i]->on()){
-			refresh(i, delta);
 
-		}
-	}
-
-}
-
-void Actors ::	refresh (ID id, float delta){
+void Actors ::	refresh (ID id){
 	Rendering &r = rendering[id]; 
 	Animation &a = animation[id]; 
 	Translation &t = translation[id]; 
@@ -110,26 +95,8 @@ void Actors ::	refresh (ID id, float delta){
 	r.texIndex = a.getThetaIndex(facing(camTheta));
 	if (!state[id]->still()) 
 		r.texIndex += a.frameTick(delta);
-	//TODO add shader profile
-	for (ID i = 0; i < batchDraw.size(); i++){ 
-		//if ()
-		batchDraw[0].push_back(id);
-	}
-
 }
 
-
-void Actors ::	draw (){
-	int shaderProfiles = batchDraw.size();	
-	for (ID profile = 0; profile < shaderProfiles; profile++){
-		if (profile == 0)
-			M->gridBO.prepNPC(); //prep
-		int s = batchDraw[profile].size();	
-		for (ID i = 0; i < s; i++){
-			draw(batchDraw[profile][i]);
-		}
-	}
-}
 
 void Actors ::	draw (ID id){
 	translation[id].translate();	

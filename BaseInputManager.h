@@ -2,7 +2,7 @@
 #define BASEINPUTMANAGER_H
 
 #include "BaseGameState.h"
-#include "Utility/Command.h"
+#include "Command.h"
 #include "Stack/MenuLoader.h"
 
 //********************************* CONSTANTS *********************************

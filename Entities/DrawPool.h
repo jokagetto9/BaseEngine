@@ -1,26 +1,25 @@
 #ifndef DRAWPOOL_H
 #define DRAWPOOL_H
 
-#include "ActorProfile.h"
+#include "EntityDictionary.h"
 //********************************* CONSTANTS *********************************
 
 
 //********************************* INITIALIZATION *********************************
 
 class DrawPool {
-	public: 
-		
+	public: 	
 
-	void DrawPool ::	batch ();
+	void DrawPool :: activateTextures();
 
-	void DrawPool ::	draw ();
-	void DrawPool ::	draw (ID id);
+	void DrawPool ::clear();
 
+	void DrawPool ::	batch (Actors& actors, float frameDelta);
+	void DrawPool ::	batch (ID index, ID tex);
 
+	void DrawPool ::	draw (Actors& actors);
 
-
-
-	static vector<ID> aTextures;
+	vector<ID> activeTex;
 	vector<vector <ID>> batchDraw;
 		 
 

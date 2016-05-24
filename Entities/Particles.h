@@ -1,38 +1,18 @@
-#ifndef PHYSICSSYSTEM_H
-#define PHYSICSSYSTEM_H
+#ifndef PARTICLES_H
+#define PARTICLES_H
 
-#include "Components\Physics.h"
+#include "Props.h"
+#include "../Components/Motion.h"
 //********************************* CONSTANTS *********************************
 
 
 //********************************* INITIALIZATION *********************************
 
-class Actors {
+class Particles : public Props {
 	public: 
-	Actors::		Actors();
-	Actors ::		Actors (ID reserve);
-	void Actors ::		genInteractions();	
-	void Actors ::		trackInteractions();
-		
-
-	
-	void Actors::		physUpdate(float delta);
-	void Actors::		aiUpdate(float delta, glm::vec3 target);
-	void Actors::		slowaiUpdate();
-	void Actors ::		interact (int pid);
-
-
-	void Actors ::		draw (float delta);
-/*/ Purpose: 
-Side Effects:  
-Triggers: 
-/*/
-	
-	void Actors::		purge();
+	Particles::		Particles();
 //************************************************** MEMBERS ***************************************************
 	
-	//vector<NPC> npc;
-	vector<Physics> components;
 
 };
 #endif

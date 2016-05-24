@@ -1,9 +1,8 @@
 #ifndef ACTORS_H
 #define ACTORS_H
 
-#include "Props.h"
+#include "Particles.h"
 #include "../Components/AI.h"
-#include "../Components/Motion.h"
 #include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
@@ -29,29 +28,24 @@ class Actors : public Props{
 	void Actors::activate(ID id, glm::vec3 pos);
 //************************************************** UPDATE ***************************************************
 	void Actors ::	update (float physDelta);
-	void Actors ::	update (ID id, float physDelta);
+	void Actors ::	update (ID id);
 
 	void Actors ::	aiUpdate (float aiDelta);
-	void Actors ::	aiUpdate (ID id, float aiDelta);
+	void Actors ::	aiUpdate (ID id);
 
 //************************************************** DRAW *************************************************** 
-	void Actors ::	refresh (float delta);
-	void Actors ::	refresh (ID id, float delta);
-	virtual void Actors ::	draw ();
-	virtual void Actors ::	draw (ID id);
 
-	
+	void Actors ::	refresh (ID id);
+	virtual void Actors ::	draw (ID id);	
 
 	Actor Actors::getActor(ID id);
 //************************************************** MEMBERS ***************************************************
 	
-
-
 	vector<AI> ai;
 	vector<Motion> motion;
 
-	static vector<ID> aTextures;
-	vector<vector <ID>> batchDraw;
+	float delta;
+
 
 	static MotionState walking;
 	static AttackState charge;

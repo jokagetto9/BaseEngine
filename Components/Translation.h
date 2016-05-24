@@ -1,9 +1,8 @@
 #ifndef TRANSLATION_H
 #define TRANSLATION_H
 
-#include "Component.h"
-
-#include "../Stack/Camera.h"
+#include "Component.h"  
+#include "../Display/Camera.h"
 
 //********************************* CONSTANTS *********************************
 
