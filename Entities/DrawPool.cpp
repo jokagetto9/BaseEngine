@@ -1,9 +1,9 @@
 #include "DrawPool.h"
 
 void DrawPool :: activateTextures(){
-	ID s = EntityDictionary::aRenders.size();
+	ID s = ParticleList::textures.size();
 	for (ID i = 0; i < s; i++){
-		ID tex = EntityDictionary::aRenders[i].tex;
+		ID tex = ParticleList::textures[i];
 		activeTex.push_back(tex);
 	}
 	batchDraw.resize(s);
@@ -17,14 +17,14 @@ void DrawPool ::clear(){
 	}
 }
 
-void DrawPool ::	batch (Actors& actors, float frameDelta){
-	actors.delta = frameDelta;
-	ID s = actors.rendering.size();
+void DrawPool ::	batch (Actors* actors, float frameDelta){
+	actors->delta = frameDelta;
+	ID s = actors->rendering.size();
 	clear();
 	for (ID i = 0; i < s; i++){
-		if (actors.state[i]->on()){
-			actors.refresh(i);
-			batch(i, actors.rendering[i].tex);
+		if (actors->state[i]->on()){
+			actors->refresh(i);
+			batch(i, actors->rendering[i].tex);
 		}
 	}
 }
@@ -39,14 +39,13 @@ void DrawPool ::	batch (ID index, ID tex){
 
 
 
-void DrawPool ::	draw (Actors& actors){
-	int s = batchDraw.size();	
+void DrawPool ::	draw (Actors* actors){
+	ID s = batchDraw.size();	
 	for (ID profile = 0; profile < s; profile++){
-		if (profile == 0)
-			M->gridBO.prepNPC(); //prep
-		int s = batchDraw[profile].size();	
+		M->gridBO.prep(activeTex[profile], 1); //prep
+		int s = batchDraw[profile].size();	 
 		for (ID i = 0; i < s; i++){
-			actors.draw(batchDraw[profile][i]);
+			actors->draw(batchDraw[profile][i]);
 		}
 	}
 }

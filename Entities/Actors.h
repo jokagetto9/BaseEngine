@@ -25,6 +25,9 @@ class Actors : public Props{
 	void Actors::reset();
 	void Actors::reset(ID id);
 	
+	bool Actors:: add(Rendering& r, Translation& t, Motion &m);
+
+
 	void Actors::activate(ID id, glm::vec3 pos);
 //************************************************** UPDATE ***************************************************
 	void Actors ::	update (float physDelta);

@@ -12,7 +12,7 @@ void AI::	setTarget(const glm::vec3 pos){
 
 glm::vec3 AI::getTarget(glm::vec3 pos, float aiDelta){
 	glm::vec3 targetV = targetP - pos;	
-	float maxChange = RUN_MAX_ACCEL * aiDelta;
+	float maxChange = MIN_ACCEL * aiDelta;
 	truncate (targetV, maxChange);
 	return targetV;
 }

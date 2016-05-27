@@ -1,15 +1,24 @@
 //********************************* INITIALIZATION *********************************
 #include "Motion.h"
 
+
 Motion::Motion(){		
 	speed = glm::vec3(0.0); 
 	prevPos = glm::vec3(0.0);	
-	maxS = RUN_MAX_ACCEL;
+	max.accel = MIN_ACCEL * 20;
+	max.speed = MIN_SPEED * 4;
+}
+
+Motion::Motion(MotionMax& mm){		
+	speed = glm::vec3(0.0); 
+	prevPos = glm::vec3(0.0);	
+	max.accel = MIN_ACCEL * mm.accel;
+	max.speed = MIN_SPEED * mm.speed;
 }
 
 
 void Motion::backTrack(Translation& t){
-	t.x_ = prevPos.x;
+	t.x_ = prevPos.x; 
 	t.y_ = prevPos.y;
 	t.z_ = prevPos.z;
 	speed = glm::vec3(0.0);
@@ -32,14 +41,13 @@ void Motion::move(Oriet o){
 
 void Motion::updateSpeed(float physDelta){
 	if (notZero(targetV)){
-		float maxChange = maxS * physDelta;
+		float maxChange = max.accel * physDelta;
 		//float maxChange = RUN_MAX_ACCEL * physDelta;		
 		
 		truncate (targetV, maxChange);	 //forceDiagonal
 
-		setSpeed(targetV);
-		//speed += targetV;		
-		//truncate(speed,  maxS);						// scale change to max speed
+		speed += targetV;	
+		truncate(speed,  max.speed*physDelta);						// scale change to max speed
 		//halting = false;
 
 	} else 
@@ -65,16 +73,4 @@ void Motion::fastDiagonal(float physDelta){
 }
 //*/
 
-
-
-Oriet facing(float theta){
-	loop360(theta);
-	Oriet o = DOWN;
-	if (theta <= 135 && theta > 45)			o = LEFT;	//left
-	else if (theta <= 225 && theta > 135)	o = UP;	//forward 
-	else if (theta <= 315 && theta > 225)	o = RIGHT;	//right
-	else if (theta <= 45 && theta >= 0 || theta < 360 && theta > 315) o = DOWN;//backward
-
-	return o;
-}
 

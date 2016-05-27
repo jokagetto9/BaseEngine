@@ -1,7 +1,7 @@
 #ifndef DRAWPOOL_H
 #define DRAWPOOL_H
 
-#include "EntityDictionary.h"
+#include "Dictionaries.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -14,10 +14,10 @@ class DrawPool {
 
 	void DrawPool ::clear();
 
-	void DrawPool ::	batch (Actors& actors, float frameDelta);
+	void DrawPool ::	batch (Actors* actors, float frameDelta);
 	void DrawPool ::	batch (ID index, ID tex);
 
-	void DrawPool ::	draw (Actors& actors);
+	void DrawPool ::	draw (Actors* actors);
 
 	vector<ID> activeTex;
 	vector<vector <ID>> batchDraw;

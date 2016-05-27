@@ -7,6 +7,7 @@
 enum AnimType { CYCLIC, WALK8, WALK12};  
 
 
+Oriet facing(float theta);
 //********************************* EXTERNAL *********************************
 
 
@@ -16,6 +17,7 @@ class Animation{
 public:
 
 	Animation::Animation();
+	Animation::Animation(ID t, ID min, ID max);
 	//Animation:: Node(_sprite);
 /*/ Purpose: default constructor /*/
 
@@ -42,11 +44,10 @@ Returns: -1, 0, 1, 0...
 Side Effects: tick increases by frameDelta
 /*/
 	
-	int Animation::getThetaIndex(Oriet o);
-
+	int Animation::getThetaIndex(float theta);
 
 	int type;
-	int index;
+	ID start, end;
 	float tick; 
 	int tpf;
 

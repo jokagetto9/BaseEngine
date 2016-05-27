@@ -9,11 +9,13 @@
 const float TURBO_SPEED = 0.2f;  // m/ms
 const float TURBO_ACCEL = 0.0005f;  // m/ms^2
 const float WALK_MAX_SPEED = 0.01f;  // m/ms
-const float RUN_MAX_SPEED = 0.0125f;//0.00625f;  // m/ms
-const float RUN_MAX_ACCEL = RUN_MAX_SPEED;//0.00625f;  // m/ms^2
+const float MIN_SPEED = 0.0025f;//0.00625f;  // m/ms
+const float MIN_ACCEL = 0.0005f;//0.00625f;  // m/ms^2
 
+struct MotionMax {
+	float accel, speed;
+};
 
-Oriet facing(float theta);
 
 //********************************* INITIALIZATION *********************************
 
@@ -22,6 +24,7 @@ class Motion: public Component  {
 public:
 	
 	Motion::Motion();
+	Motion::Motion(MotionMax& mm);
 	
 	void Motion::backTrack(Translation& t);
 	void Motion::move(Translation& t);
@@ -38,7 +41,8 @@ public:
 	void Motion::updateSpeed(float physDelta);
 
 		glm::vec3 speed, targetV, prevPos;	
-		float prevTheta, maxS;
+		float prevTheta;
+		MotionMax max;
 
 		//float targetSpeed;
 };

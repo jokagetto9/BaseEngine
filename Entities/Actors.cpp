@@ -30,6 +30,19 @@ void Actors::reset(ID id){
 	animation[id] = Animation();
 }
 
+bool Actors:: add(Rendering& r, Translation& t, Motion &m){
+	ID i = nextFree();
+	if (i < MAX_COMPONENTS){
+		rendering[i] = r;
+		translation[i] = t;
+		motion[i] = m;
+		state[i] = &still;
+		return true;
+	}
+	return false;
+}
+
+
 void Actors::activate(ID id, glm::vec3 pos){
 	ID s = state.size();
 	for (ID i = 0; i < s && i < id; i++){
@@ -89,18 +102,27 @@ void Actors ::	refresh (ID id){
 	Rendering &r = rendering[id]; 
 	Animation &a = animation[id]; 
 	Translation &t = translation[id]; 
+	
+	ID tweak = 0;
+	if (!state[id]->still()) 
+		tweak = a.frameTick(delta);
+
 
 	float camTheta = C->getCameraTheta(t.pos(), false);	
 	camTheta -= t.theta;
-	r.texIndex = a.getThetaIndex(facing(camTheta));
-	if (!state[id]->still()) 
-		r.texIndex += a.frameTick(delta);
+	tweak += a.getThetaIndex(camTheta);
+	rendering[id].texIndex = tweak;
 }
 
 
 void Actors ::	draw (ID id){
+	int index = rendering[id].texIndex; 
 	translation[id].translate();	
-		M->gridBO.drawx16(rendering[id].texIndex);	
+		if (index < 0){
+			glScalef(1, 1, -1);
+			index += 16;
+		}
+		M->gridBO.drawx16(animation[id].start + index);	
 	glPopMatrix(); //}	
 }
 
