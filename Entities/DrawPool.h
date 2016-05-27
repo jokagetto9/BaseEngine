@@ -4,7 +4,6 @@
 #include "Dictionaries.h"
 //********************************* CONSTANTS *********************************
 
-
 //********************************* INITIALIZATION *********************************
 
 class DrawPool {
@@ -19,7 +18,7 @@ class DrawPool {
 
 	void DrawPool ::	draw (Actors* actors);
 
-	vector<ID> activeTex;
+	vector<ID> activeProfiles;
 	vector<vector <ID>> batchDraw;
 		 
 

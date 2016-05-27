@@ -5,19 +5,21 @@ Animation::Animation(){
 	type = WALK12;
 	start = 0; end = 0;
 	tpf = 100;
-	if (tpf > 0) tick = rand() % tpf;
+	tick = rand() % tpf;
 }
 
-void Animation::init(AnimType t){
-	type = t;
-	//if (tpf > 0) tick = rand() % tpf;
 
-	if (type == CYCLIC){
-		
-		tpf = 100;
-		tick = 0;
-		end = 4;
-	}
+void Animation::setCyclic(ID min, ID max, ID frames){
+	type = CYCLIC;
+	//if (tpf > 0) tick = rand() % tpf;
+	
+	tpf = (max - min)*frames;	
+	tick = rand() % tpf;
+
+	//tick = 0;	
+	start = min;	
+	end = max;
+	
 }
 
 //********************************* DRAW *********************************
@@ -38,11 +40,14 @@ int Animation::frameTick( float frameDelta){
 		else if (tick >= tpf*3/4 && tick < tpf)	return 1;
 	}	
 	else if (type == CYCLIC){
-		tick += 0.3 * frameDelta;
+		tick += 0.1 * frameDelta;
 		if (tick >= tpf )tick -= tpf;
 		int i = tick/(tpf/end);
 		//int i = (int)tick % index; 
-		return i;
+		if (i < end)
+			return i;
+		else 
+			return 0;
 	}
 	return 0;
 }
@@ -52,9 +57,12 @@ const int WALK12INDEXES[] = {5, 9, 13, 1};
 //enum Oriet {LEFT, RIGHT, UP, DOWN,  UL, UR, DL, DR}; 
 int Animation::getThetaIndex(float theta){	
 	loop360(theta);
-	if (type == CYCLIC) 
+	if (type == CYCLIC) {
 		if (theta > 180 && theta < 360)
 			return -16;
+		else
+			return 0;
+	}
 	Oriet o = facing(theta);
 	if (type == WALK8) return WALK8INDEXES[o];	
 	if (type == WALK12) return WALK12INDEXES[o];

@@ -44,3 +44,10 @@ int XMLParser::getInt(char * c){
 	else 
 		return i;
 }
+
+
+float XMLParser::getFloat(char * c){	
+	stringstream ss; float f;
+	ss << c;	 ss >> f;
+	return f;
+}

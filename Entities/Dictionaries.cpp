@@ -1,11 +1,12 @@
 #include "Dictionaries.h"
 
-vector <Identity> PropList::profiles; 
+vector <Identity> PropList::names; 
 vector <Rendering> PropList::renders; 
 
-vector <Identity> ParticleList::profiles; 
-vector <ID> ParticleList::textures; 
+vector <Identity> ParticleList::names; 
+vector <ShaderProfile> ParticleList::profiles; 
 vector <ID> ParticleList::auxTex;
+vector <Animation> ParticleList::anim;
 vector <MotionMax> ParticleList::max;
 
 

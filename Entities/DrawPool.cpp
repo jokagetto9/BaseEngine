@@ -1,10 +1,9 @@
 #include "DrawPool.h"
 
 void DrawPool :: activateTextures(){
-	ID s = ParticleList::textures.size();
+	ID s = ParticleList::profiles.size();
 	for (ID i = 0; i < s; i++){
-		ID tex = ParticleList::textures[i];
-		activeTex.push_back(tex);
+		activeProfiles.push_back(i);
 	}
 	batchDraw.resize(s);
 	//
@@ -12,7 +11,7 @@ void DrawPool :: activateTextures(){
 
 
 void DrawPool ::clear(){
-	for (ID i = 0; i < activeTex.size(); i++){
+	for (ID i = 0; i < activeProfiles.size(); i++){
 			batchDraw[i].clear();
 	}
 }
@@ -31,8 +30,8 @@ void DrawPool ::	batch (Actors* actors, float frameDelta){
 
 
 void DrawPool ::	batch (ID index, ID tex){
-	for (ID i = 0; i < activeTex.size(); i++){
-		if (tex == activeTex[i])
+	for (ID i = 0; i < activeProfiles.size(); i++){
+		if (tex == ParticleList::profiles[i].tex)
 			batchDraw[i].push_back(index);
 	}
 }
@@ -41,11 +40,11 @@ void DrawPool ::	batch (ID index, ID tex){
 
 void DrawPool ::	draw (Actors* actors){
 	ID s = batchDraw.size();	
-	for (ID profile = 0; profile < s; profile++){
-		M->gridBO.prep(activeTex[profile], 1); //prep
-		int s = batchDraw[profile].size();	 
+	for (ID id = 0; id < s; id++){
+		M->gridBO.prep(ParticleList::profiles[id]); //prep
+		int s = batchDraw[id].size();	 
 		for (ID i = 0; i < s; i++){
-			actors->draw(batchDraw[profile][i]);
+			actors->draw(batchDraw[id][i]);
 		}
 	}
 }

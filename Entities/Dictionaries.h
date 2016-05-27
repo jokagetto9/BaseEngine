@@ -7,6 +7,7 @@
 
 enum EntityType {PROP, PARTICLE, ACTOR};   
 
+
 struct Identity {
 	string name;
 	ID id;
@@ -25,19 +26,21 @@ class Dictionary	{
 class PropList	: public Dictionary { 
 	public:
 		
-	static vector <Identity> & getID(){return profiles;}
+	static vector <Identity> & getID(){return names;}
 
-		static vector <Identity> profiles; 	
+		static vector <Identity> names; 	
 		static vector <Rendering> renders; 
 };
 
 class ParticleList : public Dictionary { 
 	public:
 
-	static vector <Identity> & getID(){return profiles;}
-		static vector <Identity> profiles; 		
-		static vector <ID> textures; 
+	static vector <Identity> & getID(){return names;}
+		static vector <Identity> names; 		
+		static vector <ShaderProfile> profiles; 
 		static vector <ID> auxTex;
+		static vector <float> scale;
+		static vector <Animation> anim;
 		static vector <MotionMax> max; 		
 		
 	//static vector <string> actionType; 

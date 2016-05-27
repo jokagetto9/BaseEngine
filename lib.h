@@ -82,6 +82,7 @@ const Drctn D_X [][2] = {{NE, SE}, {SW, NW}, {SW, SE}, {NE, NW}};
 // mod 2x2 = 0-3 
 const XZI G4_0 = {0, 0}; const XZI G4_1 = {1, 0};
 const XZI G4_2 = {0, 1}; const XZI G4_3 = {1, 1};
+const XZI G4__[] = {G4_2, G4_3, G4_0, G4_1,};
 //mod 4x4 = 0-15
 const XZI G16_2 = {2, 0};	const XZI G16_3 = {3, 0};
 const XZI G16_6 = {2, 1};	const XZI G16_7 = {3, 1};

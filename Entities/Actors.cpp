@@ -30,12 +30,13 @@ void Actors::reset(ID id){
 	animation[id] = Animation();
 }
 
-bool Actors:: add(Rendering& r, Translation& t, Motion &m){
+bool Actors:: add(Rendering& r, Translation& t, Motion &m, Animation &a){
 	ID i = nextFree();
 	if (i < MAX_COMPONENTS){
 		rendering[i] = r;
 		translation[i] = t;
 		motion[i] = m;
+		animation[i] = a;
 		state[i] = &still;
 		return true;
 	}
@@ -119,7 +120,6 @@ void Actors ::	draw (ID id){
 	int index = rendering[id].texIndex; 
 	translation[id].translate();	
 		if (index < 0){
-			glScalef(1, 1, -1);
 			index += 16;
 		}
 		M->gridBO.drawx16(animation[id].start + index);	
