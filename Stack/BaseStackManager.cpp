@@ -90,7 +90,8 @@ void BaseStackManager::setMenu(int flow){
 		}
 	} else {
 		if (currRoot){
-			if (currRoot->size() > flow){
+			ID s = currRoot->size();
+			if (s > flow){
 				currRoot->enter(stack, flow);
 			}
 		}

@@ -104,7 +104,7 @@ void Actors ::	refresh (ID id){
 	Animation &a = animation[id]; 
 	Translation &t = translation[id]; 
 	
-	ID tweak = 0;
+	int tweak = 0;
 	if (!state[id]->still()) 
 		tweak = a.frameTick(delta);
 
@@ -121,6 +121,7 @@ void Actors ::	draw (ID id){
 	translation[id].translate();	
 		if (index < 0){
 			index += 16;
+			M->gridBO.flip(-1, 1);
 		}
 		M->gridBO.drawx16(animation[id].start + index);	
 	glPopMatrix(); //}	

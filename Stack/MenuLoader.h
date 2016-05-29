@@ -18,6 +18,9 @@ public:
 	void MenuLoader::load();
 	void MenuLoader::loadMenuTree(ID id);
 	void MenuLoader::loadMenu(ID id, rapidxml::xml_node<> * node);
+	Menu MenuLoader::buildMenu(rapidxml::xml_node<> * node);
+
+
 	void MenuLoader::loadAuxillary(rapidxml::xml_node<> * node);
 	void MenuLoader::loadCursors();
 
@@ -26,7 +29,7 @@ public:
 
 private:
 	vector <string> menuFiles;		
-	vector <StackCommand *> rMenus;
+	vector <PlayCommand *> rMenus;
 	string cursorFile;
 
 

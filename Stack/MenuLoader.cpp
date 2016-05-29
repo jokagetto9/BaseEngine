@@ -59,29 +59,17 @@ void MenuLoader::loadMenu(ID id, rapidxml::xml_node<> * node){
 	rapidxml::xml_node<> *n;
 	rapidxml::xml_attribute<> *a;
 	string s = getText(node->name());
-	Menu menu;
-	bool success = false;
+	
+	bool success = true;
 	if (s == "Menu"){ 
-		for (a = node->first_attribute(); a; a = a->next_attribute()){
-			s = getText(a->name());
-			if (s == "name")
-				menu.name = getText(a->value());					
-			else if (s == "timeout")
-				menu.timeOut = getInt(a->value());					
-			else if (s == "lineh")
-				menu.lineH = getInt(a->value())*PIXELSCALE;					
-			else if (s == "linew")
-				menu.lineW = getInt(a->value())*PIXELSCALE;					
-			else if (s == "maxindex")
-				menu.maxIndex = getInt(a->value());	
-		}
+		Menu menu = buildMenu(node);
 		for (n = node->first_node(); n; n = n->next_sibling()){
 			if (getText(n->name()) == "Background"){
 				for (a = n->first_attribute(); a; a = a->next_attribute()){
 					s = getText(a->name());
 					if (s == "filename"){
 						menu.setBackground(loadTexture(a->value(), false));
-						success = true;
+						//success = true;
 					}
 					else if (s == "backdrop")
 						menu.backdrop = getInt(a->value());					
@@ -105,13 +93,36 @@ void MenuLoader::loadMenu(ID id, rapidxml::xml_node<> * node){
 						f = getInt(a->value());
 				}
 				menu.func = f;
-				menu.addFlow(getInt(n->value()));
+				menu.addFlow(getInt(n->value()));		
 			}
 		}
 		if (success) rMenus[id]->addMenu(menu);
-	}
-	
+	}	
 }
+
+
+Menu MenuLoader::buildMenu(rapidxml::xml_node<> * node){	
+	rapidxml::xml_attribute<> *a;
+	rapidxml::xml_node<> *n;
+	Menu menu;
+	string s;
+	for (a = node->first_attribute(); a; a = a->next_attribute()){
+		s = getText(a->name());
+		if (s == "name")
+			menu.name = getText(a->value());					
+		else if (s == "timeout")
+			menu.timeOut = getInt(a->value());					
+		else if (s == "lineh")
+			menu.lineH = getInt(a->value())*PIXELSCALE;					
+		else if (s == "linew")
+			menu.lineW = getInt(a->value())*PIXELSCALE;					
+		else if (s == "maxindex")
+			menu.maxIndex = getInt(a->value());	
+	}
+
+	return menu;
+}
+
 
 void MenuLoader::loadCursors(){	
 	if (cursorFile != ""){

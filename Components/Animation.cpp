@@ -67,7 +67,7 @@ int Animation::getThetaIndex(float theta){
 	if (type == WALK8) return WALK8INDEXES[o];	
 	if (type == WALK12) return WALK12INDEXES[o];
 	return 1;
-}
+ }
 
 void Animation::setTPF(int s){	tpf = s;}
 

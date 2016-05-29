@@ -15,6 +15,9 @@ public:
 	G->paused = false;
 	G->state = PLAY;
   }
+  
+  virtual void addMenu(Menu& menu){}
+
   virtual int size(){return 0;}
 };
 

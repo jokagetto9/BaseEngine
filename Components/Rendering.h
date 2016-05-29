@@ -17,7 +17,7 @@ public:
 		{	tex = t;	texIndex = id;	}
 
 	ID tex; 
-	ID texIndex;
+	int texIndex;
 };
 
 #endif
