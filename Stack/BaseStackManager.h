@@ -2,7 +2,7 @@
 #define BASESTACKMANAGER_H
 
 #include "../BaseInputManager.h"
-#include "MenuLoader.h"
+#include "BaseMenuLoader.h"
 
 
 //********************************* CONSTANTS *********************************
@@ -13,14 +13,14 @@ class BaseStackManager {
 public:
 	BaseStackManager::BaseStackManager();
 	// Constructor
-	void BaseStackManager::	init(MenuLoader& loader);	
+	void BaseStackManager::	init(BaseMenuLoader& loader);	
 	
 	void BaseStackManager::	loadCommand(PlayCommand * cmd);
 	
 	void BaseStackManager::	updateMenu();
 	void BaseStackManager::	update();
 	
-	void BaseStackManager::setMenu(int flow);
+	virtual void BaseStackManager::setMenu(int flow);
 	void BaseStackManager:: menuInput(MenuCommand * cmd);
 
 	void BaseStackManager::	pushMenu(Menu * s);
@@ -46,6 +46,7 @@ public:
 
 //************************************************** MEMBERS ***************************************************
 		bool menuView;
+		int index;
 		vector <Menu *> stack;
 		Menu * previewMenu; 
 		PlayCommand * currRoot; 

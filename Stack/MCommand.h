@@ -10,7 +10,7 @@
 
 class PlayCommand  {
 public:
-  virtual void enter(vector <Menu *>& stack, int i){
+  virtual void enter(vector <Menu *>& stack, ID id){
 	stack.clear();
 	G->paused = false;
 	G->state = PLAY;
@@ -24,9 +24,9 @@ public:
 
 class StackCommand : public PlayCommand{
 public:
-  virtual void enter(vector <Menu *>& stack, int i){
-	  if (size() > i){
-		stack.push_back(&menus[i]);		
+  void enter(vector <Menu *>& stack, ID id){
+	  if (size() > id){
+		stack.push_back(&menus[id]);		
 		G->paused = true;
 		if (G->state == PLAY)
 			G->state = PAUSE;
@@ -37,10 +37,12 @@ public:
 	  menus.push_back(menu);
   }
 
-  int size(){return menus.size();}
+	int size(){return menus.size();}
 
+	string getName(ID id){return menus[id].name;}
+	Menu * getMenu(ID id){return &menus[id];}
 protected:
-  vector<Menu> menus;  
+	vector<Menu> menus;  
 };
 
 

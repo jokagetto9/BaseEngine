@@ -3,7 +3,7 @@
 
 #include "BaseGameState.h"
 #include "Command.h"
-#include "Stack/MenuLoader.h"
+#include "Stack/BaseMenuLoader.h"
 
 //********************************* CONSTANTS *********************************
 
@@ -15,7 +15,7 @@ public:
 	
 	BaseInputManager::BaseInputManager(){} 
 
-	void BaseInputManager ::	init(MenuLoader& loader);	
+	void BaseInputManager ::	init(BaseMenuLoader& loader);	
 
 	
 //********************************* KEY CYCLE *********************************

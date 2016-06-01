@@ -4,8 +4,9 @@
 BaseStackManager::BaseStackManager(){
 	menuView = false;
 	previewMenu = NULL;
+	index = -1;
 }
-void BaseStackManager::	init(MenuLoader& loader){
+void BaseStackManager::	init(BaseMenuLoader& loader){
 	loader.registerRoot(&title);
 }
 
@@ -65,37 +66,12 @@ void BaseStackManager:: updateMenu(){
 
 //enum GameFunctionCode {BACK, QUIT, SAVE, LOAD, START, OPTN, USE, CNFM, PASS};
 void BaseStackManager::setMenu(int flow){
-	if (stack.back()->func){
-		GameFunctionCode func = (GameFunctionCode)flow;
-		if (func == BACK)	{
-			int i = stack.back()->index; //save for later?
-			stack.back()->quit();
-		}else if (func == START){			
-			PlayCommand play;
-			play.enter(stack, 0);
-			currRoot = NULL;
-		}else if (func == RESTART){	
-			G->loaded = false;
-		}else if (func == OPTN){	
-
-		}else if (func == MAINMENU){
-			stack.clear();
-			G->loaded = false;
-			G->state = TITLE;
-		}else if (func == QUIT){
-			G->gameActive = false;
-		}else if (func == USE){
-			//usageMenu.init(stack.back());
-			//stack.push_back(menuList[mt]);
+	if (currRoot){
+		ID s = currRoot->size();
+		if (s > flow){
+			currRoot->enter(stack, flow);
 		}
-	} else {
-		if (currRoot){
-			ID s = currRoot->size();
-			if (s > flow){
-				currRoot->enter(stack, flow);
-			}
-		}
-	} 	
+	}
 }
 /*
 		if (previewMenu == NULL){
@@ -138,7 +114,7 @@ void BaseStackManager::	rapidUpdate(){
 //********************************* DRAW *********************************
 void BaseStackManager::	draw(){	
 	if (!empty()){
-		//drawText();
+		drawText();
 		drawCursor();
 		//drawIcons();
 		drawBackground();
@@ -154,8 +130,7 @@ void BaseStackManager::	drawHUD(){
 
 
 void BaseStackManager::	drawText(){
-	//M->fontBO.use();	
-	//hudMenu.drawDebugConsole();
+	M->fontBO.use();	
 	stack.back()->drawText();
 	if(isOverlay())
 		getNextMenu()->drawText();

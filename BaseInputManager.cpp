@@ -1,7 +1,7 @@
 //********************************* INITIALIZATION *********************************
 #include "BaseInputManager.h"
 
-void BaseInputManager::init(MenuLoader& loader){	
+void BaseInputManager::init(BaseMenuLoader& loader){	
 	loader.registerRoot(&pause);
 	for (int i = 0; i < KEYS; i++) keyPressed[i] = false;		
 	for (int i = 0; i < SKEYS; i++) specialKeyPressed[i] = false;

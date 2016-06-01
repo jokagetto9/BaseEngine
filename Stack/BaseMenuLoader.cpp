@@ -1,19 +1,19 @@
 //********************************* INITIALIZATION *********************************
-#include "MenuLoader.h"
+#include "BaseMenuLoader.h"
 
-MenuLoader::MenuLoader(){
+BaseMenuLoader::BaseMenuLoader(){
 	cursorFile = "";
 	
 }
 
-void MenuLoader::registerRoot(StackCommand * m){
+void BaseMenuLoader::registerRoot(StackCommand * m){
 	if (m)
 		rMenus.push_back(m);
 }
 
 
 
-void MenuLoader::load(){
+void BaseMenuLoader::load(){
 	try {		
 		loadList("menulist.xml", "MenuList", "MenuFile", menuFiles);
 	}catch(...){
@@ -25,7 +25,7 @@ void MenuLoader::load(){
 	loadCursors();
 }//*/
 
-void MenuLoader::loadAuxillary(rapidxml::xml_node<> * node){
+void BaseMenuLoader::loadAuxillary(rapidxml::xml_node<> * node){
 	rapidxml::xml_attribute<> * a;
 	for (node; node; node = node->next_sibling()){
 		string s = getText(node->name());
@@ -40,7 +40,7 @@ void MenuLoader::loadAuxillary(rapidxml::xml_node<> * node){
 
 
 
-void MenuLoader::loadMenuTree(ID id){
+void BaseMenuLoader::loadMenuTree(ID id){
 	if (id < menuFiles.size() && id < rMenus.size()){
 		try {
 			rapidxml::file<> xmlFile(menuFiles[id].c_str()); // Default template is char
@@ -55,7 +55,7 @@ void MenuLoader::loadMenuTree(ID id){
 	}
 }
 
-void MenuLoader::loadMenu(ID id, rapidxml::xml_node<> * node){
+void BaseMenuLoader::loadMenu(ID id, rapidxml::xml_node<> * node){
 	rapidxml::xml_node<> *n;
 	rapidxml::xml_attribute<> *a;
 	string s = getText(node->name());
@@ -101,7 +101,7 @@ void MenuLoader::loadMenu(ID id, rapidxml::xml_node<> * node){
 }
 
 
-Menu MenuLoader::buildMenu(rapidxml::xml_node<> * node){	
+Menu BaseMenuLoader::buildMenu(rapidxml::xml_node<> * node){	
 	rapidxml::xml_attribute<> *a;
 	rapidxml::xml_node<> *n;
 	Menu menu;
@@ -124,7 +124,7 @@ Menu MenuLoader::buildMenu(rapidxml::xml_node<> * node){
 }
 
 
-void MenuLoader::loadCursors(){	
+void BaseMenuLoader::loadCursors(){	
 	if (cursorFile != ""){
 		try {
 			rapidxml::file<> xmlFile(cursorFile.c_str()); // Default template is char
@@ -157,13 +157,13 @@ void MenuLoader::loadCursors(){
 	}
 }
 
-void MenuLoader::printList(){
+void BaseMenuLoader::printList(){
 	for (int i = 0; i < menuFiles.size(); i++){
 		cout << menuFiles[i] << endl;
 	}
 }
 
-void MenuLoader::printMenu(int i){
+void BaseMenuLoader::printMenu(int i){
 	if (i < menuFiles.size()){
 
 
