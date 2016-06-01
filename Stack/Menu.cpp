@@ -14,6 +14,7 @@ Menu ::Menu (){
 	parent = (int)PASS;
 	timeOut = 0;	time = 0;
 	cursor.x = 0; cursor.z = 0;
+	txtPos.x = 0; txtPos.z = 0;
 	cursorID = -1;
 	index = 0; 	maxIndex = 0; 
 	backgroundT = 0;
@@ -63,11 +64,12 @@ void Menu::setFlow(int menuIndex){
 //void Menu::addFlow(ActionType action, int index){} 
 
 int Menu::getFlow(){
-	if (fixed){
-		return flows.front();
-	} else if (flows.size() >= index+1){
+	ID s = flows.size();
+	if (s > index){
 		return flows[index];
-	}
+	} else if (s == 1)
+		return flows[0];
+
 	return (int)BACK;
 }
 
@@ -117,10 +119,20 @@ void Menu::		rapidUpdate(){
 
 
 //********************************* draw *********************************
-
-
 	
-void Menu::	drawText(){}	
+
+void Menu::	drawText(){	
+	ID s = text.size();
+	if (s > 0){
+		M->fontBO.setBuffer(3);
+		M->fontBO.beginText(text[0]);
+		for (ID i = 1; i < s; i++){
+				M->fontBO.appendText(text[i], 0, i*lineH);
+		}
+		M->fontBO.loadMessage();
+		M->fontBO.draw(txtPos.x+100, txtPos.z+48);		
+	}	
+}
 void Menu::	drawCursor(){
 	if (cursorID >= 0 && cursorID < cursors.size()){
 		Cursor c = cursors[cursorID];

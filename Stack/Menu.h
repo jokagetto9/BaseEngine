@@ -60,6 +60,7 @@ class Menu   {
 	int parent;
 	//MenuType parent;
 	//vector <DisplayItem> items;
+	XZI txtPos;
 	vector <string> text;
 	vector <int> flows;
 	XZI cursor;
