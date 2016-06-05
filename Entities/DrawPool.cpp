@@ -36,14 +36,13 @@ void DrawPool ::	batch (ID index, ID tex){
 	}
 }
 
-
-
 void DrawPool ::	draw (Actors* actors){
 	ID s = batchDraw.size();	
-	for (ID id = 0; id < s; id++){
-		M->gridBO.prep(ParticleList::profiles[id]); //prep
-		int s = batchDraw[id].size();	 
+	for (ID id = 0; id < s; id++){//prep
+		int s = batchDraw[id].size();
 		for (ID i = 0; i < s; i++){
+			if (i == 0)
+				M->gridBO.prep(ParticleList::profiles[id]); 
 			actors->draw(batchDraw[id][i]);
 		}
 	}

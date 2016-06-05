@@ -20,6 +20,7 @@ class DrawPool {
 
 	vector<ID> activeProfiles;
 	vector<vector <ID>> batchDraw;
+	vector<ID> gearShift;
 		 
 
 };

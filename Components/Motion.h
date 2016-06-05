@@ -1,7 +1,7 @@
 #ifndef MOTION_H
 #define MOTION_H
 
-#include "Translation.h"
+#include "Location.h"
 
 
 //********************************* CONSTANTS *********************************
@@ -26,8 +26,8 @@ public:
 	Motion::Motion();
 	Motion::Motion(MotionMax& mm);
 	
-	void Motion::backTrack(Translation& t);
-	void Motion::move(Translation& t);
+	void Motion::backTrack(Location& l);
+	void Motion::move(Location& l);
 	
 	void Motion::stop(){speed = glm::vec3(0.0);}
 	
@@ -39,6 +39,8 @@ public:
 	void Motion::halt(){targetV = glm::vec3(0.0);}
 	
 	void Motion::updateSpeed(float physDelta);
+	
+	void Motion::adjust(glm::vec3 v, float aiDelta);
 
 		glm::vec3 speed, targetV, prevPos;	
 		float prevTheta;

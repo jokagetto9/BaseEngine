@@ -1,26 +1,29 @@
 //********************************* INITIALIZATION *********************************
-#include "AI.h"
+#include "Target.h"
 
-AI::AI(){		
+Target::Target(){		
 	targetP = glm::vec3(0.0); 
 }
 
-void AI::	setTarget(const glm::vec3 pos){
+void Target::	setTarget(const glm::vec3 pos){
 	targetP = pos;
 }
 
 
-glm::vec3 AI::getTarget(glm::vec3 pos, float aiDelta){
+glm::vec3 Target::getTarget(glm::vec3 pos, float aiDelta){
 	glm::vec3 targetV = targetP - pos;	
-	float maxChange = MIN_ACCEL * aiDelta;
-	truncate (targetV, maxChange);
+	//float maxChange = MIN_ACCEL * aiDelta;
+	truncate (targetV, 1);
 	return targetV;
 }
 
 /*/
-void AI:: crash (){
+void Target:: crash (){
 	float d = getDistSQ(targetP);
 	if (d < 3*3){
 		dead = true;
 	}
 }//*/
+
+
+

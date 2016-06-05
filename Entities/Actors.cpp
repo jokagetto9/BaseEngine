@@ -8,8 +8,9 @@ AttackState  Actors::charge;
 void Actors::reserve(ID max){
 	if (max < MAX_COMPONENTS){
 		animation.resize(max);
-		ai.resize(max);
+		target.resize(max);
 		motion.resize(max);
+		obstacles.resize(max);
 		Props::reserve(max);
 	}
 }
@@ -25,16 +26,17 @@ void Actors::reset(){
 }
 
 void Actors::reset(ID id){	
-	ai[id] = AI();
+	target[id] = Target();
 	motion[id] = Motion();
 	animation[id] = Animation();
+	obstacles[id].clear();
 }
 
-bool Actors:: add(Rendering& r, Translation& t, Motion &m, Animation &a){
+bool Actors:: add(Rendering& r, Location& l, Motion &m, Animation &a){
 	ID i = nextFree();
 	if (i < MAX_COMPONENTS){
 		rendering[i] = r;
-		translation[i] = t;
+		location[i] = l;
 		motion[i] = m;
 		animation[i] = a;
 		state[i] = &still;
@@ -47,7 +49,7 @@ bool Actors:: add(Rendering& r, Translation& t, Motion &m, Animation &a){
 void Actors::activate(ID id, glm::vec3 pos){
 	ID s = state.size();
 	for (ID i = 0; i < s && i < id; i++){
-		ai[i].setTarget(pos);
+		target[i].setTarget(pos);
 	}
 }
 
@@ -65,11 +67,7 @@ void Actors ::	update (ID id){
 	motion[id].updateSpeed(delta);
 	if (!state[id]->still()){
 		//TODO if stopped change to still
-		motion[id].move(translation[id]);
-
-
-
-		
+		motion[id].move(location[id]);		
 	}//TODO world wrap	
 	//NEWBRANCH quadtree
 }
@@ -86,9 +84,9 @@ void Actors ::	aiUpdate (float aiDelta){
 	
 void Actors ::	aiUpdate (ID id){
 	//TODO if has target
-	if (notZero(ai[id].targetP)){
-		glm::vec3 tempV = translation[id].pos();
-		tempV = ai[id].getTarget(tempV, delta);
+	if (notZero(target[id].targetP)){
+		glm::vec3 tempV = location[id].pos();
+		tempV = target[id].getTarget(tempV, delta);
 		motion[id].setTarget(tempV);
 		state[id] = &charge;
 	}else{
@@ -102,7 +100,7 @@ void Actors ::	aiUpdate (ID id){
 void Actors ::	refresh (ID id){
 	Rendering &r = rendering[id]; 
 	Animation &a = animation[id]; 
-	Translation &t = translation[id]; 
+	Location &t = location[id]; 
 	
 	int tweak = 0;
 	if (!state[id]->still()) 
@@ -118,7 +116,7 @@ void Actors ::	refresh (ID id){
 
 void Actors ::	draw (ID id){
 	int index = rendering[id].texIndex; 
-	translation[id].translate();	
+	location[id].translate();	
 		if (index < 0){
 			index += 16;
 			M->gridBO.flip(-1, 1);
@@ -131,6 +129,6 @@ void Actors ::	draw (ID id){
 //********************************* MEMBER FUNCTIONS *********************************
 
 Actor Actors::getActor(ID id){
-	Actor a = {state[id], translation[id], motion[id], ai[id]};
+	Actor a = {state[id], location[id], motion[id], target[id]};
 	return a;
 }

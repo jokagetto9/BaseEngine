@@ -2,17 +2,17 @@
 #define ACTORS_H
 
 #include "Particles.h"
-#include "../Components/AI.h"
+#include "../Components/Target.h"
+#include "../Components/Obstacles.h"
 #include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
-const ID P1 = 0;
 
 struct Actor {
 	State * st;
-	Translation &pos_;
+	Location &pos_;
 	Motion &mot_;
-	AI &ai_;
+	Target &tar_;
 	//Rendering &ren_;
 };
 
@@ -25,7 +25,7 @@ class Actors : public Props{
 	void Actors::reset();
 	void Actors::reset(ID id);
 	
-	bool Actors:: add(Rendering& r, Translation& t, Motion &m, Animation &a);
+	bool Actors:: add(Rendering& r, Location& l, Motion &m, Animation &a);
 
 
 	void Actors::activate(ID id, glm::vec3 pos);
@@ -44,8 +44,9 @@ class Actors : public Props{
 	Actor Actors::getActor(ID id);
 //************************************************** MEMBERS ***************************************************
 	
-	vector<AI> ai;
+	vector<Target> target;
 	vector<Motion> motion;
+	vector<Obstacles> obstacles;
 
 	float delta;
 

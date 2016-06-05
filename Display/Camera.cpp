@@ -18,7 +18,7 @@ void Camera::init (){
 void Camera::setupOpenGL(){
 	//fixed function proj matrix - replace later
 	glViewport(0, 0, dfWIDTH, dfHEIGHT);
-	glMatrixMode(GL_PROJECTION);
+	glMatrixMode(GL_PROJECTION); 
 	glLoadIdentity();
 
 	//fixed function view matrix - replace later
@@ -123,6 +123,11 @@ void Camera::adjustPos(Drctn d, int dist){
 	lockPos.x += ADJ_[d].x * dist;
 	lockPos.z += ADJ_[d].z * dist;
 }
+
+glm::vec3 Camera::	corner(){
+	return glm::vec3 (xPos-32, 0, zPos-12);
+}
+
 //********************************* EXTERNAL *********************************
 
 void loop360(float &theta){

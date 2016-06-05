@@ -131,7 +131,8 @@ Side Effects:
 
 //********************************* MEMBER FUNCTIONS *********************************
 
-
+	
+	glm::vec3 Camera::	corner();	
 	void Camera::	setTheta(float focus);	
 	bool Camera::	checkTheta();	
 

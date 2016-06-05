@@ -1,7 +1,7 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
-#include "Translation.h"
+#include "Location.h"
 
 //********************************* CONSTANTS *********************************
 enum AnimType { CYCLIC, WALK8, WALK12};  

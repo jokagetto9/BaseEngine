@@ -17,18 +17,18 @@ Motion::Motion(MotionMax& mm){
 }
 
 
-void Motion::backTrack(Translation& t){
-	t.x_ = prevPos.x; 
-	t.y_ = prevPos.y;
-	t.z_ = prevPos.z;
+void Motion::backTrack(Location& l){
+	l.x_ = prevPos.x; 
+	l.y_ = prevPos.y;
+	l.z_ = prevPos.z;
 	speed = glm::vec3(0.0);
 }
 
 
-void Motion::move(Translation& t){
-	setPrev(t.pos());	// track last position for collision detection
-	t.push(speed.x, speed.z);	//move according to speed for physDelta ms
-	t.theta = findTheta(speed);
+void Motion::move(Location& l){
+	setPrev(l.pos());	// track last position for collision detection
+	l.push(speed.x, speed.z);	//move according to speed for physDelta ms
+	l.theta = findTheta(speed);
 }
 
 
@@ -41,9 +41,7 @@ void Motion::move(Oriet o){
 
 void Motion::updateSpeed(float physDelta){
 	if (notZero(targetV)){
-		float maxChange = max.accel * physDelta;
-		//float maxChange = RUN_MAX_ACCEL * physDelta;		
-		
+		float maxChange = max.accel * physDelta;		
 		truncate (targetV, maxChange);	 //forceDiagonal
 
 		speed += targetV;	
@@ -59,6 +57,14 @@ void Motion::updateSpeed(float physDelta){
 			//halting = true;
 
 }
+
+
+void Motion::adjust(glm::vec3 v, float aiDelta){
+	targetV += v;
+	float maxChange = MIN_ACCEL * aiDelta;
+	truncate (targetV, maxChange);
+}
+
 
 /*/
 void Motion::fastDiagonal(float physDelta){

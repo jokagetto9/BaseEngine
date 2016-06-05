@@ -4,7 +4,8 @@
 #include "../Components/State.h"
 #include "../Components/Rendering.h"
 #include "../Components/Animation.h"
-#include "../Components/Translation.h"
+#include "../Components/Location.h"
+#include "../Components/Size.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -14,7 +15,7 @@ class Props {
 	public: 
 	Props::		Props(){}
 	virtual void Props ::	reserve (ID max);
-	bool Props:: add(Rendering& r, Translation& t);
+	bool Props:: add(Rendering& r, Location& l);
 	ID Props:: nextFree();
 
 	void Props::clear();
@@ -26,7 +27,8 @@ class Props {
 	//animation, texture
 	vector<Rendering> rendering;
 	vector<Animation> animation;
-	vector<Translation> translation;
+	vector<Location> location;
+	vector<Size> size;
 	
 	static State off;
 	static StillState still;

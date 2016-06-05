@@ -9,24 +9,23 @@
 //********************************* INITIALIZATION *********************************
 
 
-class Translation: public Component  {
+class Location: public Component  {
 public:
 	
-	Translation::Translation();
+	Location::Location();
 
-	glm::vec3 Translation::pos(){	return glm::vec3(x_, y_, z_);}
+	glm::vec3 Location::pos(){	return glm::vec3(x_, y_, z_);}
 		
-	void Translation::	place(float x, float z){x_ = x; z_ = z; }
-	void Translation::	push(float x, float z){	x_ += x; 	z_ += z; }
-	void Translation::	translate(){ glPushMatrix(); glTranslatef(x_, y_, z_);}
-	void Translation::	adjustPos(Drctn d, float dist);
+	void Location::	place(float x, float z){x_ = x; z_ = z; }
+	void Location::	push(float x, float z){	x_ += x; 	z_ += z; }
+	void Location::	translate(){ glPushMatrix(); glTranslatef(x_, y_, z_);}
+	void Location::	adjustPos(Drctn d, float dist);
 
-
+	bool  Location::withinRange(glm::vec3 tPos, float range);
 //********************************* MEMBER FUNCTIONS *********************************
 
 
 	float x_, y_, z_;
-	//float scale?
 	union {
 		float theta;
 		Drctn dir;

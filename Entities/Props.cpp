@@ -6,7 +6,8 @@ StillState  Props ::still;
 void Props ::	reserve (ID max){
 	if (max < MAX_COMPONENTS){
 		rendering.resize(max);
-		translation.resize(max);
+		location.resize(max);
+		size.resize(max);
 		state.resize(max);
 		clear();
 	}
@@ -14,11 +15,11 @@ void Props ::	reserve (ID max){
 
 
 
-bool Props:: add(Rendering& r, Translation& t){
+bool Props:: add(Rendering& r, Location& l){
 	ID i = nextFree();
 	if (i < MAX_COMPONENTS){
 		rendering[i] = r;
-		translation[i] = t;
+		location[i] = l;
 		state[i] = &still;
 		return true;
 	}
@@ -54,5 +55,5 @@ void Props::reset(){
 
 void Props::reset(ID id){	
 	//rendering[id] = Rendering(PROP, 0, 0);
-	translation[id] = Translation();
+	location[id] = Location();
 }
