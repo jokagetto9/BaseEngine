@@ -29,6 +29,7 @@ class Actors : public Props{
 
 
 	void Actors::activate(ID id, glm::vec3 pos);
+	void Actors::activateAll(glm::vec3 pos);
 //************************************************** UPDATE ***************************************************
 	void Actors ::	update (float physDelta);
 	void Actors ::	update (ID id);
@@ -49,7 +50,7 @@ class Actors : public Props{
 	vector<Obstacles> obstacles;
 
 	float delta;
-
+	ID count;
 
 	static MotionState walking;
 	static AttackState charge;

@@ -13,7 +13,7 @@ const int GROUP_MIN = 30; //min school spawneration
 const float COHESION_WEIGHT   = 0;//0.2f;
 const float ALIGNMENT_WEIGHT  = 0;//0.3f;
 const float SEPARATION_WEIGHT = 1;//0.5f;
-const float SEPARATION_R = 4.0f;
+const float SEPARATION_R = 3.0f;
 
 const float EAT_RATIO = 0.8;
 const float MAX_SCALE = 3.5;

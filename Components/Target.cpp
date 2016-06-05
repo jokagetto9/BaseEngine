@@ -13,7 +13,7 @@ void Target::	setTarget(const glm::vec3 pos){
 glm::vec3 Target::getTarget(glm::vec3 pos, float aiDelta){
 	glm::vec3 targetV = targetP - pos;	
 	//float maxChange = MIN_ACCEL * aiDelta;
-	truncate (targetV, 1);
+	truncate (targetV, 3);
 	return targetV;
 }
 

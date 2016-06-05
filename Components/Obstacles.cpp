@@ -2,8 +2,8 @@
 #include "Obstacles.h"
 
 Obstacles::Obstacles(){		
-	ob.resize(4, glm::vec3(0));
-	obDist.resize(4, FURTHEST);
+	ob.resize(8, glm::vec3(0));
+	obDist.resize(8, FURTHEST);
 	furthest = FURTHEST;
 	count = 0;
 }
@@ -89,7 +89,7 @@ glm::vec3 Obstacles::calcSep(glm::vec3 pos){
 			dv = pos - ob[i];
 			d = sqrt(obDist[i]);
 			if (d <= SEPARATION_R){
-				float c = (SEPARATION_R - d)/ SEPARATION_R;
+				float c = (SEPARATION_R - d/2)/ SEPARATION_R;
 				sep += c * dv/d;
 			}
 		}

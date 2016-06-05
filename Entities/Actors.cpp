@@ -12,6 +12,7 @@ void Actors::reserve(ID max){
 		motion.resize(max);
 		obstacles.resize(max);
 		Props::reserve(max);
+		count = 0;
 	}
 }
 
@@ -40,6 +41,7 @@ bool Actors:: add(Rendering& r, Location& l, Motion &m, Animation &a){
 		motion[i] = m;
 		animation[i] = a;
 		state[i] = &still;
+		count++;
 		return true;
 	}
 	return false;
@@ -49,6 +51,12 @@ bool Actors:: add(Rendering& r, Location& l, Motion &m, Animation &a){
 void Actors::activate(ID id, glm::vec3 pos){
 	ID s = state.size();
 	for (ID i = 0; i < s && i < id; i++){
+		target[i].setTarget(pos);
+	}
+}
+
+void Actors::activateAll(glm::vec3 pos){
+	for (ID i = 0; i < count; i++){
 		target[i].setTarget(pos);
 	}
 }

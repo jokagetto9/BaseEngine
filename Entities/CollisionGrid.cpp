@@ -15,8 +15,8 @@ void CollisionGrid ::	updateGrid (Actors* actors){
 	for (ID i = 0; i < s; i++){
 		if (actors->state[i]->on()){
 			glm::vec3 p = a->location[i].pos() - C->corner();
-			int x = p.x/8;
-			int z = p.z/8;
+			int x = p.x/16;
+			int z = p.z/16;
 			x += 1; z += 1;
 			if (x < 0) x = 0;
 			else if (x > 5) x = 5;
@@ -38,7 +38,7 @@ void CollisionGrid ::	updateObstacles (){
 			}
 		}
 	}
-	printGrid ();
+	//printGrid ();
 }
 
 
@@ -65,9 +65,9 @@ void CollisionGrid ::	checkGrid (ID index, ID x, ID z){
 	for (ID i = 0; i < 8; i++){		
 		tx = x + ADJ_[i].x; 
 		tz = z + ADJ_[i].z;
-		if (x > 0 && x < 6 && z > 0 && z < 5){
-			for (ID i = 0; i < grid[x][z].size(); i++){
-				ID index2 = grid[x][z][i];
+		if (tx > 0 && tx < 6 && tz > 0 && tz < 5){
+			for (ID i = 0; i < grid[tx][tz].size(); i++){
+				ID index2 = grid[tx][tz][i];
 				glm::vec3 pos = a->location[index2].pos();
 				testRange(index, pos);
 			}
@@ -80,7 +80,7 @@ void CollisionGrid:: testRange(ID index, glm::vec3 pos){
 	Location &l = a->location[index];
 	float d = getDistSq(l.pos(), pos);
 	if (d > 0 && d < 10*10) 
-		a->obstacles[index].testObject(l.pos(), d);
+		a->obstacles[index].testObject(pos, d);
 }
 
 
