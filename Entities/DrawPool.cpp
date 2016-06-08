@@ -1,7 +1,20 @@
 #include "DrawPool.h"
 
+
+DrawPool ::DrawPool(){
+	dict = NULL;
+}
+void DrawPool :: init(Dictionary * d){
+	if(dict != d){
+		dict = d;
+		activateTextures();
+	}
+
+}
+
 void DrawPool :: activateTextures(){
-	ID s = ParticleList::profiles.size();
+	//activeProfiles.clear();
+	ID s = dict->size();
 	for (ID i = 0; i < s; i++){
 		activeProfiles.push_back(i);
 	}
@@ -16,14 +29,23 @@ void DrawPool ::clear(){
 	}
 }
 
-void DrawPool ::	batch (Actors* actors, float frameDelta){
-	actors->delta = frameDelta;
-	ID s = actors->rendering.size();
+void DrawPool ::	batch (Props* ent){
+	ID s = ent->rendering.size();
 	clear();
 	for (ID i = 0; i < s; i++){
-		if (actors->state[i]->on()){
-			actors->refresh(i);
-			batch(i, actors->rendering[i].tex);
+		if (ent->state[i]->on()){
+			batch(i, ent->rendering[i].tex);
+		}
+	}
+}
+void DrawPool ::	batch (Particles* ent, float frameDelta){
+	ent->delta = frameDelta;
+	ID s = ent->rendering.size();
+	clear();
+	for (ID i = 0; i < s; i++){
+		if (ent->state[i]->on()){
+			ent->refresh(i);
+			batch(i, ent->rendering[i].tex);
 		}
 	}
 }
@@ -31,19 +53,19 @@ void DrawPool ::	batch (Actors* actors, float frameDelta){
 
 void DrawPool ::	batch (ID index, ID tex){
 	for (ID i = 0; i < activeProfiles.size(); i++){
-		if (tex == ParticleList::profiles[i].tex)
+		if (tex == dict->getProfile(i).tex)
 			batchDraw[i].push_back(index);
 	}
 }
 
-void DrawPool ::	draw (Actors* actors){
+void DrawPool ::	draw (Particles* ent){
 	ID s = batchDraw.size();	
 	for (ID id = 0; id < s; id++){//prep
 		int s = batchDraw[id].size();
 		for (ID i = 0; i < s; i++){
 			if (i == 0)
-				M->gridBO.prep(ParticleList::profiles[id]); 
-			actors->draw(batchDraw[id][i]);
+				M->gridBO.prep(dict->getProfile(id)); 
+			ent->draw(batchDraw[id][i]);
 		}
 	}
 }

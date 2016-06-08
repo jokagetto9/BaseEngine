@@ -10,13 +10,13 @@ void Props ::	reserve (ID max){
 		size.resize(max);
 		state.resize(max);
 		clear();
-	}
+	} 
 }
 
 
 
 bool Props:: add(Rendering& r, Location& l){
-	ID i = nextFree();
+	ID i = nextFree(); 
 	if (i < MAX_COMPONENTS){
 		rendering[i] = r;
 		location[i] = l;
@@ -39,6 +39,7 @@ ID Props:: nextFree(){
 
 
 void Props::clear(){
+	count = 0;
 	ID s = state.size();
 	for (ID i = 0; i < s; i++){
 			state[i] = &off;

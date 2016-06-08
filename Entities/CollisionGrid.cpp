@@ -8,7 +8,7 @@ void CollisionGrid ::clear(){
 	activeList.clear();
 }
 
-void CollisionGrid ::	updateGrid (Actors* actors){
+void CollisionGrid ::	updateGrid (Actors* actors){ 
 	a = actors;
 	ID s = actors->rendering.size();
 	clear();
@@ -90,8 +90,19 @@ void CollisionGrid:: applyAdjustments(){
 		ID index = activeList[i];
 		glm::vec3 pos = a->location[index].pos();
 		glm::vec3 sep = a->obstacles[index].calcSep(pos);
-		if (notZero(sep))
-			a->motion[index].targetV += sep;
+		if (notZero(sep)){
+			if (a->obstacles[index].collide(pos)){
+				a->motion[index].backTrack(a->location[index]);
+			}
+			truncate(sep, 1);
+			a->motion[index].targetV += sep;			
+		}else {
+			glm::vec3 coh = a->obstacles[index].calcCoh(pos); 
+			if (notZero(coh)){
+				truncate(coh, 0.001);
+				a->motion[index].targetV += coh;			
+			}
+		}
 	}
 
 	//a->motion[index].setSpeed

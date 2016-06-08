@@ -3,8 +3,7 @@
 vector <Identity> PropList::names; 
 vector <Rendering> PropList::renders; 
 
-vector <Identity> ParticleList::names; 
-vector <ShaderProfile> ParticleList::profiles; 
+vector <Identity> ParticleList::names;  
 vector <ID> ParticleList::auxTex;
 vector <Animation> ParticleList::anim;
 vector <MotionMax> ParticleList::max;

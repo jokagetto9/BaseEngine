@@ -13,7 +13,7 @@ const int GROUP_MIN = 30; //min school spawneration
 const float COHESION_WEIGHT   = 0;//0.2f;
 const float ALIGNMENT_WEIGHT  = 0;//0.3f;
 const float SEPARATION_WEIGHT = 1;//0.5f;
-const float SEPARATION_R = 3.0f;
+const float SEPARATION_R = 2.0f;
 
 const float EAT_RATIO = 0.8;
 const float MAX_SCALE = 3.5;
@@ -38,6 +38,7 @@ public:
 	glm::vec3 Obstacles::calcAlign();
 	glm::vec3 Obstacles::calcSep(glm::vec3 pos);
 	glm::vec3 Obstacles::calcCoh(glm::vec3 pos);
+	bool Obstacles::collide(glm::vec3 pos);
 
 	
 	void Obstacles::swap(ID i1, ID i2);

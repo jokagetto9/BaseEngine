@@ -2,8 +2,8 @@
 #include "Obstacles.h"
 
 Obstacles::Obstacles(){		
-	ob.resize(8, glm::vec3(0));
-	obDist.resize(8, FURTHEST);
+	ob.resize(4, glm::vec3(0));
+	obDist.resize(4, FURTHEST);
 	furthest = FURTHEST;
 	count = 0;
 }
@@ -93,10 +93,11 @@ glm::vec3 Obstacles::calcSep(glm::vec3 pos){
 				sep += c * dv/d;
 			}
 		}
-		return sep/(float)count;
+		return sep;
 	}else 
 		return glm::vec3(0.0);
 }
+
 
 glm::vec3 Obstacles::calcCoh(glm::vec3 pos){
 	glm::vec3 coh; coh = glm::vec3(0.0);
@@ -105,13 +106,27 @@ glm::vec3 Obstacles::calcCoh(glm::vec3 pos){
 		dv = ob[i] - pos;
 		d = sqrt(obDist[i]);
 		if (d > SEPARATION_R){			
-			float c = (GROUP_RANGE - d)/ GROUP_RANGE; //d/GROUP_RANGE;
-			coh += c * dv/d;
+			float c = (10 - d)/ 10; //d/GROUP_RANGE;
+			coh += c * dv/d; 
 		}
 	}
 	return coh;
 }
 
+bool Obstacles::collide(glm::vec3 pos){
+	if (count){
+		glm::vec3 sep; sep = glm::vec3(0.0);
+		glm::vec3 dv; float d;
+		for (int i = 0; i < count; i++){
+			dv = pos - ob[i];
+			d = obDist[i];
+			if (d <= 0.5){
+				return true;
+			}
+		}
+	}else 
+		return false;
+}
 
 void Obstacles::swap(ID i1, ID i2){
 	glm::vec3 v = ob[i1];

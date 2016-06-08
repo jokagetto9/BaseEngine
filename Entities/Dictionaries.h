@@ -17,10 +17,17 @@ struct Identity {
 //********************************* INITIALIZATION *********************************
 
 class Dictionary	{ 
-	public:
+public:
 
 	static ID Dictionary::getIndex(string name, vector<Identity> &id);
-	
+
+	ID size(){return profiles.size();}
+
+	ShaderProfile getProfile(ID id){ return profiles[id];}
+
+protected: 
+
+	vector <ShaderProfile> profiles; 
 };
 
 class PropList	: public Dictionary { 
@@ -37,14 +44,11 @@ class ParticleList : public Dictionary {
 
 	static vector <Identity> & getID(){return names;}
 		static vector <Identity> names; 		
-		static vector <ShaderProfile> profiles; 
 		static vector <ID> auxTex;
 		static vector <float> scale;
 		static vector <Animation> anim;
 		static vector <MotionMax> max; 		
 		
-	//static vector <string> actionType; 
-	//static vector <string> aAnim; 
 };
 
 #endif

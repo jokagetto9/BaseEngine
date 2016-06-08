@@ -18,12 +18,16 @@ Motion::Motion(MotionMax& mm){
 
 
 void Motion::backTrack(Location& l){
-	l.x_ = prevPos.x; 
-	l.y_ = prevPos.y;
-	l.z_ = prevPos.z;
-	speed = glm::vec3(0.0);
-}
-
+	glm::vec3 pos = l.pos();
+	pos -= prevPos;
+	pos /= 1.25;
+	l.push(-pos.x, -pos.z);
+	//l.x_ = prevPos.x; 
+	//l.y_ = prevPos.y;
+	//l.z_ = prevPos.z;
+	//speed /= 2;
+	//speed = glm::vec3(0.0);
+} 
 
 void Motion::move(Location& l){
 	setPrev(l.pos());	// track last position for collision detection

@@ -3,8 +3,6 @@
 
 #include "Particles.h"
 #include "../Components/Target.h"
-#include "../Components/Obstacles.h"
-#include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -18,7 +16,7 @@ struct Actor {
 
 //********************************* INITIALIZATION *********************************
 
-class Actors : public Props{
+class Actors : public Particles{
 	public: 
 	Actors::	Actors(){}
 	void Actors::reserve(ID max);
@@ -37,20 +35,11 @@ class Actors : public Props{
 	void Actors ::	aiUpdate (float aiDelta);
 	void Actors ::	aiUpdate (ID id);
 
-//************************************************** DRAW *************************************************** 
-
-	void Actors ::	refresh (ID id);
-	virtual void Actors ::	draw (ID id);	
-
 	Actor Actors::getActor(ID id);
 //************************************************** MEMBERS ***************************************************
 	
 	vector<Target> target;
-	vector<Motion> motion;
-	vector<Obstacles> obstacles;
 
-	float delta;
-	ID count;
 
 	static MotionState walking;
 	static AttackState charge;

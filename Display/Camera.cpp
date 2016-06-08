@@ -17,7 +17,7 @@ void Camera::init (){
 
 void Camera::setupOpenGL(){
 	//fixed function proj matrix - replace later
-	glViewport(0, 0, dfWIDTH, dfHEIGHT);
+	glViewport(0, 0, PIXELSCALE*pWIDTH, PIXELSCALE*pHEIGHT);
 	glMatrixMode(GL_PROJECTION); 
 	glLoadIdentity();
 

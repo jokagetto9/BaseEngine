@@ -29,6 +29,7 @@ class Props {
 	vector<Animation> animation;
 	vector<Location> location;
 	vector<Size> size;
+	ID count;
 	
 	static State off;
 	static StillState still;

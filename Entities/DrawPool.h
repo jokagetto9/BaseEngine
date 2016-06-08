@@ -8,20 +8,22 @@
 
 class DrawPool {
 	public: 	
-
+	DrawPool ::DrawPool();
+	void DrawPool :: init(Dictionary * d);
 	void DrawPool :: activateTextures();
 
 	void DrawPool ::clear();
-
-	void DrawPool ::	batch (Actors* actors, float frameDelta);
+	
+	void DrawPool ::	batch (Props* ent);
+	void DrawPool ::	batch (Particles* ent, float frameDelta);
 	void DrawPool ::	batch (ID index, ID tex);
 
-	void DrawPool ::	draw (Actors* actors);
+	void DrawPool ::	draw (Particles* ent);
 
 	vector<ID> activeProfiles;
 	vector<vector <ID>> batchDraw;
 	vector<ID> gearShift;
 		 
-
+	Dictionary * dict;
 };
 #endif

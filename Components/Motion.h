@@ -6,11 +6,12 @@
 
 //********************************* CONSTANTS *********************************
 
+const float PHYS_DELTA = 1000/20;	// ms per update
 const float TURBO_SPEED = 0.2f;  // m/ms
 const float TURBO_ACCEL = 0.0005f;  // m/ms^2
 const float WALK_MAX_SPEED = 0.01f;  // m/ms
-const float MIN_SPEED = 0.0025f;//0.00625f;  // m/ms
-const float MIN_ACCEL = 0.0005f;//0.00625f;  // m/ms^2
+const float MIN_SPEED = 0.125/PHYS_DELTA;//0.00625f;  // m/ms
+const float MIN_ACCEL = 0.025/PHYS_DELTA;//0.00625f;  // m/ms^2
 
 struct MotionMax {
 	float accel, speed;
