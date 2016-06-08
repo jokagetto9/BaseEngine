@@ -38,15 +38,11 @@ extern XZI RES;
 
 const double pi = glm::pi<double>();
 
-const int ZONE = 500;
-const int PLOT = 50;
 
-
-
-	const int PIXELSCALE = 4;			// 14x10	// 16x12
-	const int dfWIDTH = 256*PIXELSCALE;	// 224;		// 256;		
-	const int dfHEIGHT = 192*PIXELSCALE;	// 160;		// 192;
-	const float ASPECTR = (float)dfWIDTH / (float)dfHEIGHT; // pov ratio
+	extern ID PIXELSCALE;			// 14x10	// 16x12
+	const int pWIDTH = 256;	// 224;		// 256;		
+	const int pHEIGHT = 192;	// 160;		// 192;
+	const float ASPECTR = (float)pWIDTH / (float)pHEIGHT; // pov ratio
 
 	const float PERSPECTIVE = 60.0f;	
 

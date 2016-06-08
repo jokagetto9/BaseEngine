@@ -5,7 +5,7 @@ BaseGameState* G;
 
 ofstream logfile;
 XZI RES = {800, 600};
-
+ID PIXELSCALE = 4;	
 
 void BaseGameState::init(){
 
