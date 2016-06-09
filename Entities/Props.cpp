@@ -58,3 +58,19 @@ void Props::reset(ID id){
 	//rendering[id] = Rendering(PROP, 0, 0);
 	location[id] = Location();
 }
+
+
+
+void Props ::	draw (ID id){
+	int index = rendering[id].texIndex; 
+	location[id].translate();	
+		if (index < 0){
+			index += 16;
+			M->gridBO.flip(-1, 1);
+		}
+		ID start = 0;
+		if (animation.size() > id)
+			start = animation[id].start;
+		M->gridBO.drawGrid(start + index);	
+	glPopMatrix(); //}	
+}

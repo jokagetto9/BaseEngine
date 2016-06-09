@@ -14,7 +14,7 @@ void DrawPool :: init(Dictionary * d){
 
 void DrawPool :: activateTextures(){
 	//activeProfiles.clear();
-	ID s = dict->size();
+	ID s = dict->profileCount();
 	for (ID i = 0; i < s; i++){
 		activeProfiles.push_back(i);
 	}
@@ -58,7 +58,7 @@ void DrawPool ::	batch (ID index, ID tex){
 	}
 }
 
-void DrawPool ::	draw (Particles* ent){
+void DrawPool ::	draw (Props* ent){
 	ID s = batchDraw.size();	
 	for (ID id = 0; id < s; id++){//prep
 		int s = batchDraw[id].size();

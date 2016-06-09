@@ -5,7 +5,12 @@
 
 
 //********************************* CONSTANTS *********************************
-
+struct SizeProfile{
+	float rad;
+	float group;
+	float sep;
+	float coh;
+};
 //********************************* INITIALIZATION *********************************
 
 

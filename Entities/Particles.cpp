@@ -28,13 +28,3 @@ void Particles ::	refresh (ID id){
 }
 
 
-void Particles ::	draw (ID id){
-	int index = rendering[id].texIndex; 
-	location[id].translate();	
-		if (index < 0){
-			index += 16;
-			M->gridBO.flip(-1, 1);
-		}
-		M->gridBO.drawx16(animation[id].start + index);	
-	glPopMatrix(); //}	
-}

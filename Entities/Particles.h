@@ -4,7 +4,6 @@
 #include "Props.h"
 #include "../Components/Motion.h"
 #include "../Components/Obstacles.h"
-#include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -18,7 +17,6 @@ class Particles : public Props {
 //************************************************** DRAW *************************************************** 
 
 	void Particles ::	refresh (ID id);
-	virtual void Particles ::	draw (ID id);	
 
 
 //************************************************** MEMBERS ***************************************************

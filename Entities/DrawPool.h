@@ -18,7 +18,7 @@ class DrawPool {
 	void DrawPool ::	batch (Particles* ent, float frameDelta);
 	void DrawPool ::	batch (ID index, ID tex);
 
-	void DrawPool ::	draw (Particles* ent);
+	void DrawPool ::	draw (Props* ent);
 
 	vector<ID> activeProfiles;
 	vector<vector <ID>> batchDraw;

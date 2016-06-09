@@ -6,6 +6,7 @@
 #include "../Components/Animation.h"
 #include "../Components/Location.h"
 #include "../Components/Size.h"
+#include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -21,6 +22,9 @@ class Props {
 	void Props::clear();
 	virtual void Props::reset();
 	virtual void Props::reset(ID id);
+
+	
+	virtual void Props ::	draw (ID id);	
 
 	void Props::changeState(ID id, State * S){state[id] = S;}
 

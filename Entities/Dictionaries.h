@@ -19,35 +19,46 @@ struct Identity {
 class Dictionary	{ 
 public:
 
-	static ID Dictionary::getIndex(string name, vector<Identity> &id);
 
-	ID size(){return profiles.size();}
+	
+	void addProfile(ShaderProfile sp){profile.push_back(sp);}
+	void addIdentity(Identity id){identity.push_back(id);}
+	
+	ShaderProfile getProfile(ID id){ return profile[id];}
+	Identity & getID(ID id){return identity[id];}
 
-	ShaderProfile getProfile(ID id){ return profiles[id];}
+	ID Dictionary::getIndex(string name);
+	
+	ID profileCount(){return profile.size();}
+	
 
 protected: 
-
-	vector <ShaderProfile> profiles; 
+	
+	vector <Identity> identity; 	
+	vector <ShaderProfile> profile; 
 };
 
 class PropList	: public Dictionary { 
 	public:
 		
-	static vector <Identity> & getID(){return names;}
-
-		static vector <Identity> names; 	
-		static vector <Rendering> renders; 
+	void addProfileIndex(ID id){profileIndex.push_back(id);}
+	void addRendering(Rendering r){rendering.push_back(r);}
+	vector <ID> profileIndex; 
+	//	vector <ID> animIndex; 
+	//vector <Animation> anim;
+	
+	vector <Rendering> rendering; 
 };
+extern PropList propList;
 
 class ParticleList : public Dictionary { 
 	public:
-
-	static vector <Identity> & getID(){return names;}
-		static vector <Identity> names; 		
-		static vector <ID> auxTex;
-		static vector <float> scale;
-		static vector <Animation> anim;
-		static vector <MotionMax> max; 		
+	
+	void addMotion(MotionMax mm){max.push_back(mm);}
+		vector <ID> auxTex;
+		vector <float> scale;
+		vector <Animation> anim;
+		vector <MotionMax> max; 		
 		
 };
 

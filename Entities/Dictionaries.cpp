@@ -1,17 +1,11 @@
 #include "Dictionaries.h"
 
-vector <Identity> PropList::names; 
-vector <Rendering> PropList::renders; 
-
-vector <Identity> ParticleList::names;  
-vector <ID> ParticleList::auxTex;
-vector <Animation> ParticleList::anim;
-vector <MotionMax> ParticleList::max;
+PropList propList;
 
 
-ID Dictionary::getIndex(string name, vector<Identity> &id){
-	for (ID i = 0; i < id.size(); i++){
-		if (name == id[i].name)
+ID Dictionary::getIndex(string name){
+	for (ID i = 0; i < identity.size(); i++){
+		if (name == identity[i].name)
 			return i;
 	}
 	return 0;
