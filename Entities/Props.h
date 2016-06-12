@@ -27,17 +27,17 @@ class Props {
 	virtual void Props ::	draw (ID id);	
 
 	void Props::changeState(ID id, State * S){state[id] = S;}
+	virtual bool Props ::canMove (){return false;}
 
 	//animation, texture
 	vector<Rendering> rendering;
 	vector<Animation> animation;
 	vector<Location> location;
-	vector<Size> size;
 	ID count;
 	
+	vector<State*> state;
 	static State off;
 	static StillState still;
-	vector<State*> state;
 
 };
 #endif

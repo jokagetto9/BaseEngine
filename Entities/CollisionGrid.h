@@ -3,31 +3,38 @@
 
 #include "Dictionaries.h"
 //********************************* CONSTANTS *********************************
-
+struct Ob {
+	glm::vec3 pos;
+	ID sizeP;
+	//size scale
+};
 //********************************* INITIALIZATION *********************************
 
 class CollisionGrid {
 	public: 	
-		
+		 CollisionGrid ::CollisionGrid(){ent=NULL;}
+	void CollisionGrid ::init(ID x, ID z, ID n);
 	void CollisionGrid ::clear();
 		
-	void CollisionGrid ::	updateGrid (Actors* actors);
+	void CollisionGrid ::	updateGrid (Props* props);
+	void CollisionGrid ::	updateGrid (ID n);
 
-	void CollisionGrid ::	updateObstacles ();
+	void CollisionGrid ::	updateObstacles (ID n);
+	virtual XZI CollisionGrid ::	getGridXZ(glm::vec3 pos);
 	
 	void CollisionGrid ::	checkGrid (ID index, ID x, ID z);
 	void CollisionGrid ::	printGrid ();
 
-	void CollisionGrid:: testRange(ID index, glm::vec3 pos);
-	void CollisionGrid:: applyAdjustments();
+	void CollisionGrid:: testRange(ID index, Ob& o);
+	void CollisionGrid:: applyAdjustments(ID n);
+	
+	void CollisionGrid:: setActiveEnt(Particles* particles){ent = particles;}
 
-	vector<ID> grid[6][5] ;
-	vector<ID> activeList; 
-	Actors * a;
-	Particles *pa;
-	Props * pr;
+	vector<vector <vector<Ob>>> grid;
+	vector<vector <ID>> activeList;
 
-		 
+	Particles *ent;
+	XZI gridSize;
 
 };
 #endif

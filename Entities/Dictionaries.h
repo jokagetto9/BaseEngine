@@ -40,13 +40,14 @@ protected:
 
 class PropList	: public Dictionary { 
 	public:
-		
+		 
 	void addProfileIndex(ID id){profileIndex.push_back(id);}
 	void addRendering(Rendering r){rendering.push_back(r);}
+	void addSize(SizeProfile sp){size.push_back(sp);}
 	vector <ID> profileIndex; 
 	//	vector <ID> animIndex; 
 	//vector <Animation> anim;
-	
+	vector <SizeProfile> size; 	
 	vector <Rendering> rendering; 
 };
 extern PropList propList;

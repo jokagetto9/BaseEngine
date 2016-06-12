@@ -5,20 +5,16 @@
 
 
 //********************************* CONSTANTS *********************************
-struct SizeProfile{
-	float rad;
-	float group;
-	float sep;
-	float coh;
-};
+
 //********************************* INITIALIZATION *********************************
 
 
 class Size: public Component  {
 public:
-	Size::Size(){radius = 0;}
+	Size::Size(){scale = 1; id= 0;}
 
-	float radius;
+	float scale;
+	ID id;
 	//float box;
 	//float scale;
 

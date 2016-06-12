@@ -7,7 +7,6 @@ void Props ::	reserve (ID max){
 	if (max < MAX_COMPONENTS){
 		rendering.resize(max);
 		location.resize(max);
-		size.resize(max);
 		state.resize(max);
 		clear();
 	} 

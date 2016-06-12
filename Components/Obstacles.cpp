@@ -1,6 +1,10 @@
 //********************************* INITIALIZATION *********************************
 #include "Obstacles.h"
 
+
+SizeProfile * Obstacles::sizeP = NULL;
+vector<SizeProfile>  Obstacles::sizeProfiles;
+
 Obstacles::Obstacles(){		
 	ob.resize(4, glm::vec3(0));
 	obDist.resize(4, FURTHEST);
@@ -20,6 +24,7 @@ void Obstacles::clear(){
 	}
 	count = 0;
 	furthest = FURTHEST;
+	sizeP = &sizeProfiles[0];
 }
 //********************************* NEIGHBOURS *********************************
 
@@ -88,8 +93,8 @@ glm::vec3 Obstacles::calcSep(glm::vec3 pos){
 		for (int i = 0; i < count; i++){
 			dv = pos - ob[i];
 			d = sqrt(obDist[i]);
-			if (d <= SEPARATION_R){
-				float c = (SEPARATION_R - d/2)/ SEPARATION_R;
+			if (d <= sizeP->sepRad){
+				float c = (sizeP->sepRad - d/2)/ sizeP->sepRad;
 				sep += c * dv/d;
 			}
 		}
@@ -105,8 +110,8 @@ glm::vec3 Obstacles::calcCoh(glm::vec3 pos){
 	for (int i = 0; i < count; i++){
 		dv = ob[i] - pos;
 		d = sqrt(obDist[i]);
-		if (d > SEPARATION_R){			
-			float c = (10 - d)/ 10; //d/GROUP_RANGE;
+		if (d > sizeP->sepRad){			
+			float c = (sizeP->cohRad - d)/ sizeP->cohRad; //d/GROUP_RANGE;
 			coh += c * dv/d; 
 		}
 	}
@@ -118,9 +123,9 @@ bool Obstacles::collide(glm::vec3 pos){
 		glm::vec3 sep; sep = glm::vec3(0.0);
 		glm::vec3 dv; float d;
 		for (int i = 0; i < count; i++){
-			dv = pos - ob[i];
+			dv = pos - ob[i]; 
 			d = obDist[i];
-			if (d <= 0.5){
+			if (d <= sizeP->crashRad){
 				return true;
 			}
 		}

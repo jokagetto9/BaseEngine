@@ -17,10 +17,11 @@ class Particles : public Props {
 //************************************************** DRAW *************************************************** 
 
 	void Particles ::	refresh (ID id);
-
+	
+	virtual bool Particles ::canMove (){return true;}
 
 //************************************************** MEMBERS ***************************************************
-	
+	 
 	vector<Motion> motion;
 	vector<Obstacles> obstacles;
 	float delta;
