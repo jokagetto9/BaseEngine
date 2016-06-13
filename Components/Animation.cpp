@@ -4,7 +4,7 @@
 Animation::Animation(){
 	type = WALK12;
 	start = 0; end = 0;
-	tpf = 100;
+	tpf = 100 + rand() % 16;
 	tick = rand() % tpf;
 }
 
