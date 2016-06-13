@@ -23,6 +23,7 @@ public:
 	
 	void addProfile(ShaderProfile sp){profile.push_back(sp);}
 	void addIdentity(Identity id){identity.push_back(id);}
+	void addSize(Size s){size.push_back(s);}
 	
 	ShaderProfile getProfile(ID id){ return profile[id];}
 	Identity & getID(ID id){return identity[id];}
@@ -36,6 +37,7 @@ protected:
 	
 	vector <Identity> identity; 	
 	vector <ShaderProfile> profile; 
+	vector <Size> size; 
 };
 
 class PropList	: public Dictionary { 
@@ -43,11 +45,9 @@ class PropList	: public Dictionary {
 		 
 	void addProfileIndex(ID id){profileIndex.push_back(id);}
 	void addRendering(Rendering r){rendering.push_back(r);}
-	void addSize(SizeProfile sp){size.push_back(sp);}
 	vector <ID> profileIndex; 
 	//	vector <ID> animIndex; 
-	//vector <Animation> anim;
-	vector <SizeProfile> size; 	
+	//vector <Animation> anim;	
 	vector <Rendering> rendering; 
 };
 extern PropList propList;

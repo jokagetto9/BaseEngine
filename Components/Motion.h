@@ -11,7 +11,7 @@ const float TURBO_SPEED = 0.2f;  // m/ms
 const float TURBO_ACCEL = 0.0005f;  // m/ms^2
 const float WALK_MAX_SPEED = 0.01f;  // m/ms
 const float MIN_SPEED = 0.125/PHYS_DELTA;//0.00625f;  // m/ms
-const float MIN_ACCEL = 0.025/PHYS_DELTA;//0.00625f;  // m/ms^2
+const float MIN_ACCEL = 0.125/PHYS_DELTA/4;//0.00625f;  // m/ms^2
 
 struct MotionMax {
 	float accel, speed;

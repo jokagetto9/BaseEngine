@@ -11,10 +11,11 @@
 
 class Size: public Component  {
 public:
-	Size::Size(){scale = 1; id= 0;}
+	Size::Size(){ id= 0; scale = 1;}
+	Size::Size(ID i, float s){ id = i; scale = s; }
 
-	float scale;
 	ID id;
+	float scale;
 	//float box;
 	//float scale;
 
