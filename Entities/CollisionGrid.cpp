@@ -1,7 +1,4 @@
 #include "CollisionGrid.h"
-#include "../../Entities/MonsterBook.h"
-
-
 
 void CollisionGrid ::init(ID x, ID z, ID n){
 	grid.resize(x);
@@ -16,48 +13,44 @@ void CollisionGrid ::init(ID x, ID z, ID n){
 void CollisionGrid ::clear(){
 	for (ID x = 0; x < gridSize.x; x++)
 		for (ID z = 0; z < gridSize.z; z++)
-			grid[x][z].clear();	
-	
+			grid[x][z].clear();
+
 	for (ID i = 0; i < activeList.size(); i++)
 		activeList[i].clear();	
 }
 
-void CollisionGrid ::	updateGrid (Props* props){
-	ID s = ent->rendering.size();
-	clear();
+void CollisionGrid ::	addProps(Props* props){
+	ID s = props->rendering.size();
 	for (ID i = 0; i < s; i++){
-		if (ent->state[i]->on()){
-			Ob o; o.pos = ent->location[i].pos() - C->corner();
-			o.sizeP = 0; //add propList.sizeP
-			XZI xz = getGridXZ(o.pos);
+		if (props->state[i]->on()){
+			Ob o; o.pos = props->location[i].pos();
+			XZI xz = getGridXZ(o.pos - C->corner());
 			grid[xz.x][xz.z].push_back(o);
 		}
 	}
 }
 
-
-void CollisionGrid ::	updateGrid (ID n){
+void CollisionGrid ::	addEntities (ID n){ 
 	assert(n < activeList.size());
 	assert(ent != NULL);
-	ID s = ent->rendering.size();
-	clear();
+	ID s = ent->obstacles.size();
 	for (ID i = 0; i < s; i++){
 		if (ent->state[i]->on()){
 			Ob o; o.pos = ent->location[i].pos();
-			o.sizeP = 0;
+			o.sizeP = i;
 			XZI xz = getGridXZ(o.pos - C->corner());
-			grid[xz.x][xz.z].push_back(o);
 			ent->obstacles[i].grid = xz;
+			grid[xz.x][xz.z].push_back(o);
 			activeList[n].push_back(i);
 		}
 	}
 }
 
-
 XZI CollisionGrid ::	getGridXZ(glm::vec3 pos){
 	XZI xz;
-	xz.x = pos.x/16 + 1;
-	xz.z = pos.z/16 + 1;
+	xz.x = pos.x/16;
+	xz.z = pos.z/16;
+	xz.x += 1; xz.z += 1;
 	if (xz.x < 0) xz.x = 0;
 	else if (xz.x > gridSize.x-1) xz.x = gridSize.x-1;
 	if (xz.z < 0) xz.z = 0;
@@ -74,14 +67,23 @@ void CollisionGrid ::	updateObstacles (ID n){
 		XZI g = ent->obstacles[i].grid;
 		checkGrid(index, g.x, g.z);	
 	}
+	/*/
+	for (ID x = 0; x < gridSize.x; x++){
+		for (ID z = 0; z < gridSize.z; z++){
+			for (ID i = 0; i < grid[x][z].size(); i++){
+				ID index = grid[x][z][i].sizeP;
+				checkGrid(index, x, z);				
+			}
+		}
+	}//*/
 	//printGrid ();
 }
 
 
 void CollisionGrid ::	printGrid (){
 	cout << endl;
-	for (ID z = 0; z < 5; z++){
-		for (ID x = 0; x < 6; x++){
+	for (ID z = 0; z < gridSize.x; z++){
+		for (ID x = 0; x < gridSize.z; x++){
 			cout << grid[x][z].size() << " ";	
 		}
 		cout << endl;
@@ -121,8 +123,7 @@ void CollisionGrid:: testRange(ID index, Ob& o){
 }
 
 
-
-void CollisionGrid:: applyAdjustments(ID n){	
+void CollisionGrid:: applyAdjustments(ID n){
 	assert(n < activeList.size());
 	for (ID i = 0; i < activeList[n].size(); i++){
 		ID index = activeList[n][i];
@@ -137,7 +138,7 @@ void CollisionGrid:: applyAdjustments(ID n){
 		}else {
 			glm::vec3 coh = ent->obstacles[index].calcCoh(pos); 
 			if (notZero(coh)){
-				truncate(coh, 0.0001);
+				truncate(coh, 0.001);
 				ent->motion[index].targetV += coh;			
 			}
 		}
