@@ -5,7 +5,7 @@ Animation::Animation(){
 	type = WALK12;
 	start = 0; end = 0;
 	tpf = 100 + rand() % 16;
-	tick = rand() % tpf;
+	randomTick();
 }
 
 
@@ -22,6 +22,15 @@ void Animation::setCyclic(ID min, ID max, ID frames){
 	
 }
 
+void Animation::setFrameRate(ID frames){
+	if (type == WALK20){
+		tpf = 8 * frames;
+	}	
+}
+
+void Animation::	randomTick(){
+	tick = rand() % tpf;
+}
 //********************************* DRAW *********************************
 
 
@@ -38,7 +47,23 @@ int Animation::frameTick( float frameDelta){
 		if (tick >= tpf )tick -= tpf;
 		if (tick >= tpf/4 && tick < tpf/2)	return - 1;	
 		else if (tick >= tpf*3/4 && tick < tpf)	return 1;
-	}	
+	}
+	else if (type == WALK20){
+		tick += 0.1 * frameDelta;
+		if (tick >= tpf )tick -= tpf;
+		if (tick < tpf/8 || 
+			tick >= tpf*4/8 && tick < tpf*5/8)			return 0;
+		else if (tick >= tpf/8 && tick < tpf*2/8 || 
+			tick >= tpf*3/8 && tick < tpf*4/8)			return -1;
+		else if (tick >= tpf*2/8 && tick < tpf*3/8)		return -2;
+		else if (tick >= tpf*5/8 && tick < tpf*6/8 ||
+			tick >= tpf*7/8 && tick < tpf)				return 1;
+		else if (tick >= tpf*6/8 && tick < tpf*7/8)		
+			return 2;
+		else
+			return 0;
+	}		
+
 	else if (type == CYCLIC){
 		tick += 0.1 * frameDelta;
 		if (tick >= tpf )tick -= tpf;
@@ -53,6 +78,7 @@ int Animation::frameTick( float frameDelta){
 }
 const int WALK8INDEXES[] = {4, 8, 12, 0};
 const int WALK12INDEXES[] = {5, 9, 13, 1};
+const int WALK20INDEXES[] = {7, 12, 17, 2};
 	
 //enum Oriet {LEFT, RIGHT, UP, DOWN,  UL, UR, DL, DR}; 
 int Animation::getThetaIndex(float theta){	
@@ -66,6 +92,7 @@ int Animation::getThetaIndex(float theta){
 	Oriet o = facing(theta);
 	if (type == WALK8) return WALK8INDEXES[o];	
 	if (type == WALK12) return WALK12INDEXES[o];
+	if (type == WALK20) return WALK20INDEXES[o];
 	return 1;
  }
 

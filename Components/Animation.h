@@ -4,7 +4,7 @@
 #include "Location.h"
 
 //********************************* CONSTANTS *********************************
-enum AnimType { CYCLIC, WALK8, WALK12};  
+enum AnimType { CYCLIC, WALK8, WALK12, WALK20};  
 
 
 Oriet facing(float theta);
@@ -19,7 +19,10 @@ public:
 	Animation::Animation();
 
 	void Animation::setCyclic(ID min, ID max, ID frames);
+	void Animation::setFrameRate(ID frames);
+
 	
+	void Animation::	randomTick();
 //********************************* DRAW *********************************
 	
 	void Animation::	draw(float frameDelta);
