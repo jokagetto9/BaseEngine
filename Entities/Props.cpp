@@ -5,6 +5,7 @@ StillState  Props ::still;
 
 void Props ::	reserve (ID max){
 	if (max < MAX_COMPONENTS){
+		type.resize(max);
 		rendering.resize(max);
 		location.resize(max);
 		state.resize(max);
@@ -14,9 +15,10 @@ void Props ::	reserve (ID max){
 
 
 
-bool Props:: add(Rendering& r, Location& l){
+bool Props:: add(ID id, Rendering& r, Location& l){
 	ID i = nextFree(); 
 	if (i < MAX_COMPONENTS){
+		type[i] = id;
 		rendering[i] = r;
 		location[i] = l;
 		state[i] = &still;
@@ -72,4 +74,15 @@ void Props ::	draw (ID id){
 			start = animation[id].start;
 		M->gridBO.drawGrid(start + index);	
 	glPopMatrix(); //}	
+}
+
+
+
+
+ID Props::getSizeIndex(ID id){
+	if (dict){
+		ID i = type[id];
+		return dict->getSizeIndex(i);
+	}else
+		return 0;
 }

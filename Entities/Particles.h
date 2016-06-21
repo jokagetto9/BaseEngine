@@ -11,7 +11,7 @@
 
 class Particles : public Props {
 	public: 
-	Particles::		Particles();
+		Particles::		Particles(){dict = &particleList;}
 
 
 //************************************************** DRAW *************************************************** 

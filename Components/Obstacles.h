@@ -5,7 +5,12 @@
 
 
 //********************************* CONSTANTS *********************************
-
+struct Ob {
+	glm::vec3 pos;
+	ID sizeP;
+	float d;
+	//size scale
+};
 struct SizeProfile{
 	float crashRad;
 	float sepRad;
@@ -32,12 +37,12 @@ public:
 	Obstacles::Obstacles(ID max);
 	void Obstacles::clear();
 	
-	void Obstacles::testObject(glm::vec3 pos, float d);
-	void Obstacles::addObject(ID i, glm::vec3 pos, float d);
+	void Obstacles::testObject(glm::vec3 pos, Ob &o);
+	void Obstacles::addObject(ID i, Ob &o);
 	void Obstacles::shuffle(ID i1, ID i2);
 	void Obstacles::updateObDist(glm::vec3 pos);
 
-	void applyProfile(SizeProfile s);
+	void Obstacles::applyProfile(ID id);
 	glm::vec3 Obstacles::calcAlign();
 	glm::vec3 Obstacles::calcSep(glm::vec3 pos);
 	glm::vec3 Obstacles::calcCoh(glm::vec3 pos);
@@ -48,11 +53,13 @@ public:
 
 	vector <glm::vec3> ob;
 	vector <float> obDist;
+	vector <ID> obSize;
 	float furthest;
 	ID count;
 	XZI grid;
 
-	static SizeProfile * sizeP;
+	static SizeProfile ignore;
+	static SizeProfile & sizeP;
 	static vector<SizeProfile> sizeProfiles;
 
 };

@@ -18,12 +18,12 @@ struct Actor {
 
 class Actors : public Particles{
 	public: 
-	Actors::	Actors(){}
+	Actors::	Actors(){dict = &actorList;}
 	void Actors::reserve(ID max);
 	void Actors::reset();
 	void Actors::reset(ID id);
 	
-	bool Actors:: add(Rendering& r, Location& l, Motion &m, Animation &a);
+	bool Actors:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a);
 
 
 	void Actors::activate(ID id, glm::vec3 pos);
@@ -39,7 +39,6 @@ class Actors : public Particles{
 //************************************************** MEMBERS ***************************************************
 	
 	vector<Target> target;
-
 
 	static MotionState walking;
 	static AttackState charge;

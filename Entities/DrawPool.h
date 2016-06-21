@@ -1,7 +1,7 @@
 #ifndef DRAWPOOL_H
 #define DRAWPOOL_H
 
-#include "Dictionaries.h"
+#include "Particles.h"
 //********************************* CONSTANTS *********************************
 
 //********************************* INITIALIZATION *********************************

@@ -2,12 +2,14 @@
 #include "Obstacles.h"
 
 
-SizeProfile * Obstacles::sizeP = NULL;
+SizeProfile Obstacles::ignore = {0, 0, 0, 0, 0};
+SizeProfile & Obstacles::sizeP = ignore;
 vector<SizeProfile>  Obstacles::sizeProfiles;
 
 Obstacles::Obstacles(){		
 	ob.resize(4, glm::vec3(0));
 	obDist.resize(4, FURTHEST);
+	obSize.resize(4, 0);
 	furthest = FURTHEST;
 	count = 0;
 }
@@ -24,25 +26,34 @@ void Obstacles::clear(){
 	}
 	count = 0;
 	furthest = FURTHEST;
-	sizeP = &sizeProfiles[0];
+	sizeP = sizeProfiles[0];
 }
 //********************************* NEIGHBOURS *********************************
 
-void Obstacles::testObject(glm::vec3 pos, float d){
-	ID s = ob.size();
-	if (count < s){
-		for (ID c = 0; c < s; c++){
-			if (d < obDist[c] ){
-				addObject(count, pos, d);
-				if (count)
-					shuffle(c, count);
-				count++;
+void Obstacles::applyProfile(ID id){
+	assert (id < sizeProfiles.size());
+	sizeP = sizeProfiles[id];
+}
+
+void Obstacles::testObject(glm::vec3 pos, Ob &o){
+	o.d = getDistSq(pos, o.pos);
+	applyProfile(o.sizeP);
+	if (o.d > 0 && o.d < sizeP.cohRad*sizeP.cohRad) {
+		ID s = ob.size();
+		if (count < s){
+			for (ID c = 0; c < s; c++){
+				if (o.d < obDist[c] ){
+					addObject(count, o);
+					if (count)
+						shuffle(c, count);
+					count++;
+				}
 			}
+		}else if (o.d < furthest) {		
+			addObject(s-1, o);
+			furthest = o.d;
+			shuffle(0, s-1);
 		}
-	}else if (d < furthest) {		
-		addObject(s-1, pos, d);
-		furthest = d;
-		shuffle(0, s-1);
 	}
 }
 
@@ -59,9 +70,10 @@ void Obstacles::shuffle(ID i1, ID i2){
 	}
 	furthest = obDist[count-1];
 }
-void Obstacles::addObject(ID i, glm::vec3 pos, float d){
-	ob[i] = pos;
-	obDist[i] = d;
+void Obstacles::addObject(ID i, Ob &o){
+	ob[i] = o.pos;
+	obDist[i] = o.d;
+	obSize[i] = o.sizeP;
 }
 
 
@@ -80,7 +92,7 @@ glm::vec3 Obstacles::calcAlign(){
 	float d;
 	for (int i = 0; i < count; i++){
 			d = obDist[i];
-			float c = (GROUP_RANGE - d)/ GROUP_RANGE;
+			float c = (sizeP.cohRad - d)/ sizeP.cohRad;
 			//align += motion[i]->speed * c;
 	}
 	return align;
@@ -91,13 +103,15 @@ glm::vec3 Obstacles::calcSep(glm::vec3 pos){
 		glm::vec3 sep; sep = glm::vec3(0.0);
 		glm::vec3 dv; float d;
 		for (int i = 0; i < count; i++){
+			applyProfile(obSize[i]);
 			dv = pos - ob[i];
 			d = sqrt(obDist[i]);
-			if (d <= sizeP->sepRad){
-				float c = (sizeP->sepRad - d/2)/ sizeP->sepRad;
+			if (d <= sizeP.sepRad){
+				float c = (sizeP.sepRad - d/2)/ sizeP.sepRad;
 				sep += c * dv/d;
 			}
 		}
+		truncate(sep, sizeP.sepWt);
 		return sep;
 	}else 
 		return glm::vec3(0.0);
@@ -108,13 +122,15 @@ glm::vec3 Obstacles::calcCoh(glm::vec3 pos){
 	glm::vec3 coh; coh = glm::vec3(0.0);
 	glm::vec3 dv; float d;
 	for (int i = 0; i < count; i++){
+		applyProfile(obSize[i]);
 		dv = ob[i] - pos;
 		d = sqrt(obDist[i]);
-		if (d > sizeP->sepRad){			
-			float c = (sizeP->cohRad - d)/ sizeP->cohRad; //d/GROUP_RANGE;
+		if (d > sizeP.sepRad){			
+			float c = (sizeP.cohRad - d)/ sizeP.cohRad; //d/GROUP_RANGE;
 			coh += c * dv/d; 
 		}
 	}
+	truncate(coh, sizeP.cohWt);
 	return coh;
 }
 
@@ -122,10 +138,11 @@ bool Obstacles::collide(glm::vec3 pos){
 	if (count){
 		glm::vec3 sep; sep = glm::vec3(0.0);
 		glm::vec3 dv; float d;
-		for (int i = 0; i < count; i++){
+		for (int i = 0; i < count; i++){			
+			applyProfile(obSize[i]);
 			dv = pos - ob[i]; 
 			d = obDist[i];
-			if (d <= sizeP->crashRad){
+			if (d <= sizeP.crashRad){
 				return true;
 			}
 		}

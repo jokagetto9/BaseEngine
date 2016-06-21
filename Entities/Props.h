@@ -1,12 +1,8 @@
 #ifndef PROPS_H
 #define PROPS_H
 
-#include "../Components/State.h"
-#include "../Components/Rendering.h"
-#include "../Components/Animation.h"
+#include "Dictionaries.h"
 #include "../Components/Location.h"
-#include "../Components/Size.h"
-#include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -14,9 +10,15 @@
 
 class Props {
 	public: 
-	Props::		Props(){}
+	Props::		Props(){dict = &propList;}
 	virtual void Props ::	reserve (ID max);
-	bool Props:: add(Rendering& r, Location& l);
+
+
+	void Props::applyDict(Dictionary * d){dict = d;}
+	Dictionary *  Props::getDict(){return dict;}
+
+
+	bool Props:: add(ID id, Rendering& r, Location& l);
 	ID Props:: nextFree();
 
 	void Props::clear();
@@ -28,8 +30,14 @@ class Props {
 
 	void Props::changeState(ID id, State * S){state[id] = S;}
 	virtual bool Props ::canMove (){return false;}
+	
+	ID Props::getSizeIndex(ID id);
+
+
+
 
 	//animation, texture
+	vector<ID> type;
 	vector<Rendering> rendering;
 	vector<Animation> animation;
 	vector<Location> location;
@@ -38,6 +46,6 @@ class Props {
 	vector<State*> state;
 	static State off;
 	static StillState still;
-
+	Dictionary * dict;
 };
 #endif

@@ -23,9 +23,13 @@ void CollisionGrid ::	addProps(Props* props){
 	ID s = props->rendering.size();
 	for (ID i = 0; i < s; i++){
 		if (props->state[i]->on()){
-			Ob o; o.pos = props->location[i].pos();
-			XZI xz = getGridXZ(o.pos - C->corner());
-			grid[xz.x][xz.z].push_back(o);
+			Ob o; 
+			o.sizeP = props->getSizeIndex(i);
+			if (o.sizeP){
+				o.pos = props->location[i].pos();			
+				XZI xz = getGridXZ(o.pos - C->corner());
+				grid[xz.x][xz.z].push_back(o);
+			}
 		}
 	}
 }
@@ -36,12 +40,15 @@ void CollisionGrid ::	addEntities (ID n){
 	ID s = ent->obstacles.size();
 	for (ID i = 0; i < s; i++){
 		if (ent->state[i]->on()){
-			Ob o; o.pos = ent->location[i].pos();
-			o.sizeP = i;
-			XZI xz = getGridXZ(o.pos - C->corner());
-			ent->obstacles[i].grid = xz;
-			grid[xz.x][xz.z].push_back(o);
-			activeList[n].push_back(i);
+			Ob o; 
+			o.sizeP = ent->getSizeIndex(i);
+			if (o.sizeP){
+				o.pos = ent->location[i].pos();			
+				XZI xz = getGridXZ(o.pos - C->corner());
+				ent->obstacles[i].grid = xz;
+				grid[xz.x][xz.z].push_back(o);
+				activeList[n].push_back(i);
+			}
 		}
 	}
 }
@@ -67,15 +74,6 @@ void CollisionGrid ::	updateObstacles (ID n){
 		XZI g = ent->obstacles[i].grid;
 		checkGrid(index, g.x, g.z);	
 	}
-	/*/
-	for (ID x = 0; x < gridSize.x; x++){
-		for (ID z = 0; z < gridSize.z; z++){
-			for (ID i = 0; i < grid[x][z].size(); i++){
-				ID index = grid[x][z][i].sizeP;
-				checkGrid(index, x, z);				
-			}
-		}
-	}//*/
 	//printGrid ();
 }
 
@@ -97,7 +95,7 @@ void CollisionGrid ::	checkGrid (ID index, ID x, ID z){
 		Ob o = grid[x][z][i];
 		if(o.pos != pos){
 			//applySizeProfile(o.sizeP);
-			testRange(index, o);	
+			ent->obstacles[index].testObject(pos, o);
 		}
 	}
 	int tx, tz;
@@ -108,18 +106,11 @@ void CollisionGrid ::	checkGrid (ID index, ID x, ID z){
 			for (ID i = 0; i < grid[tx][tz].size(); i++){
 				Ob o = grid[tx][tz][i];
 				//applySizeProfile(o.sizeP);
-				testRange(index, o);
+				ent->obstacles[index].testObject(pos, o);
 			}
 		}
 	}
 
-}
-
-void CollisionGrid:: testRange(ID index, Ob& o){
-	glm::vec3 pos = ent->location[index].pos() ;
-	float d = getDistSq(pos, o.pos);
-	if (d > 0 && d < 10*10) 
-		ent->obstacles[index].testObject(o.pos, d);
 }
 
 
@@ -133,12 +124,12 @@ void CollisionGrid:: applyAdjustments(ID n){
 			if (ent->obstacles[index].collide(pos)){
 				ent->motion[index].backTrack(ent->location[index]);
 			}
-			truncate(sep, 1);
+			//truncate(sep, 1);
 			ent->motion[index].targetV += sep;			
 		}else {
 			glm::vec3 coh = ent->obstacles[index].calcCoh(pos); 
 			if (notZero(coh)){
-				truncate(coh, 0.001);
+				//truncate(coh, 0.001);
 				ent->motion[index].targetV += coh;			
 			}
 		}

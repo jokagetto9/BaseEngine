@@ -11,7 +11,7 @@
 
 class Size: public Component  {
 public:
-	Size::Size(){ id= 0; scale = 1;}
+	Size::Size(){ id = 0; scale = 1;}
 	Size::Size(ID i, float s){ id = i; scale = s; }
 
 	ID id;

@@ -1,13 +1,9 @@
 #ifndef COLLISIONGRID_H
 #define COLLISIONGRID_H
 
-#include "Dictionaries.h"
+#include "Particles.h"
 //********************************* CONSTANTS *********************************
-struct Ob {
-	glm::vec3 pos;
-	ID sizeP;
-	//size scale
-};
+
 //********************************* INITIALIZATION *********************************
 
 class CollisionGrid {

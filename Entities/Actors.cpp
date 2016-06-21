@@ -32,9 +32,10 @@ void Actors::reset(ID id){
 	obstacles[id].clear();
 }
 
-bool Actors:: add(Rendering& r, Location& l, Motion &m, Animation &a){
+bool Actors:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a){
 	ID i = nextFree();
 	if (i < MAX_COMPONENTS){
+		type[i] = id;
 		rendering[i] = r;
 		location[i] = l;
 		motion[i] = m;

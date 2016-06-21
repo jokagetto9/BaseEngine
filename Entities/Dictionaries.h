@@ -1,8 +1,13 @@
 #ifndef DICTIONARIES_H
 #define DICTIONARIES_H
 
-#include "Actors.h"
+#include "../Components/State.h"
+#include "../Components/Rendering.h"
+#include "../Components/Animation.h"
+#include "../Components/Motion.h"
+#include "../Components/Size.h"
 
+#include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
 enum EntityType {PROP, PARTICLE, ACTOR};   
@@ -14,7 +19,7 @@ struct Identity {
 	//EntityType type;
 };
 
-//********************************* INITIALIZATION *********************************
+//********************************* ABSTRACT *********************************
 
 class Dictionary	{ 
 public:
@@ -27,6 +32,7 @@ public:
 	
 	ShaderProfile getProfile(ID id){ return profile[id];}
 	Identity & getID(ID id){return identity[id];}
+	ID getSizeIndex(ID id){return size[id].id;}
 
 	ID Dictionary::getIndex(string name);
 	
@@ -40,6 +46,8 @@ protected:
 	vector <Size> size; 
 };
 
+//********************************* PROPS *********************************
+
 class PropList	: public Dictionary { 
 	public:
 		 
@@ -52,6 +60,8 @@ class PropList	: public Dictionary {
 };
 extern PropList propList;
 
+//********************************* PARTICLES *********************************
+
 class ParticleList : public Dictionary { 
 	public:
 	
@@ -62,5 +72,17 @@ class ParticleList : public Dictionary {
 		vector <MotionMax> max; 		
 		
 };
+
+extern ParticleList particleList;
+
+//********************************* ACTORS *********************************
+
+class ActorList : public ParticleList { 
+public:	
+
+
+
+};
+extern ActorList actorList;
 
 #endif
