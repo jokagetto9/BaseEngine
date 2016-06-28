@@ -1,17 +1,13 @@
 #include "Actors.h"
 
-MotionState  Actors::walking;
-AttackState  Actors::charge;
+MotionState  Actors::moving;
 
 
 
 void Actors::reserve(ID max){
 	if (max < MAX_COMPONENTS){
-		animation.resize(max);
 		target.resize(max);
-		motion.resize(max);
-		obstacles.resize(max);
-		Props::reserve(max);
+		Particles::reserve(max);
 	}
 }
 

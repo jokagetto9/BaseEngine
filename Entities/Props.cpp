@@ -43,7 +43,7 @@ void Props::clear(){
 	count = 0;
 	ID s = state.size();
 	for (ID i = 0; i < s; i++){
-			state[i] = &off;
+		state[i] = &off;
 	}
 }
 

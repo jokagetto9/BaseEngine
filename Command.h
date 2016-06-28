@@ -18,7 +18,7 @@ public:
   void exec(Actor& a){
 	if (o != STOP){
 		a.mot_.move(o); 
-		a.st = &Actors::walking;
+		a.st = &Actors::moving;
 	}else {
 		a.mot_.halt();
 		a.st = &Props::still;

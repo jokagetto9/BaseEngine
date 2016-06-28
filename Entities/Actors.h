@@ -40,8 +40,7 @@ class Actors : public Particles{
 	
 	vector<Target> target;
 
-	static MotionState walking;
-	static AttackState charge;
+	static MotionState moving;
 
 };
 #endif

@@ -15,9 +15,10 @@ class Particles : public Props {
 
 
 //************************************************** DRAW *************************************************** 
-
-	void Particles ::	refresh (ID id);
 	
+	virtual void Particles::reserve(ID max);
+	void Particles ::	refresh (ID id);
+	bool Particles:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a);
 	virtual bool Particles ::canMove (){return true;}
 
 //************************************************** MEMBERS ***************************************************
@@ -25,6 +26,7 @@ class Particles : public Props {
 	vector<Motion> motion;
 	vector<Obstacles> obstacles;
 	float delta;
-
+	
+	static AttackState charge;
 };
 #endif

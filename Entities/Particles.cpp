@@ -1,6 +1,17 @@
 #include "Particles.h"
 
 
+AttackState  Particles::charge;
+
+void Particles::reserve(ID max){
+	if (max < MAX_COMPONENTS){
+		animation.resize(max);
+		motion.resize(max);
+		obstacles.resize(max);
+		Props::reserve(max);
+	}
+}
+
 //************************************************** DRAW *************************************************** 
 
 
@@ -21,3 +32,20 @@ void Particles ::	refresh (ID id){
 }
 
 
+
+
+
+bool Particles:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a){
+	ID i = nextFree();
+	if (i < MAX_COMPONENTS){
+		type[i] = id;
+		rendering[i] = r;
+		location[i] = l;
+		motion[i] = m;
+		animation[i] = a;
+		state[i] = &charge;
+		count++;
+		return true;
+	}
+	return false;
+}
