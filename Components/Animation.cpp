@@ -4,7 +4,7 @@
 Animation::Animation(){
 	type = WALK12;
 	start = 0; end = 0;
-	tpf = 100 + rand() % 16;
+	tpf = 100 ;//+ rand() % 16;
 	randomTick();
 }
 
@@ -29,7 +29,8 @@ void Animation::setFrameRate(ID frames){
 }
 
 void Animation::	randomTick(){
-	tick = rand() % tpf;
+	tick = rand() % (int)(tpf/10);
+	tick *= 10;
 }
 //********************************* DRAW *********************************
 
