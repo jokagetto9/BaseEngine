@@ -12,6 +12,7 @@ struct Ob {
 	//size scale
 };
 struct SizeProfile{
+	float baseRad;
 	float crashRad;
 	float sepRad;
 	float sepWt;

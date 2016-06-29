@@ -36,9 +36,9 @@ void Obstacles::applyProfile(ID id){
 }
 
 void Obstacles::testObject(glm::vec3 pos, Ob &o){
-	o.d = getDistSq(pos, o.pos);
 	applyProfile(o.sizeP);
-	if (o.d > 0 && o.d < sizeP.cohRad*sizeP.cohRad) {
+	o.d = sqrt(getDistSq(pos, o.pos))-sizeP.baseRad;
+	if (o.d > 0 && o.d < sizeP.cohRad) {
 		ID s = ob.size();
 		if (count < s){
 			for (ID c = 0; c < s; c++){
@@ -81,7 +81,7 @@ void Obstacles::addObject(ID i, Ob &o){
 void Obstacles::updateObDist(glm::vec3 pos){
 	for (int i = 0; i < count; i++){
 		if (!obDist[i])
-			obDist[i] = getDistSq(ob[i], pos);
+			obDist[i] = sqrt(getDistSq(ob[i], pos));
 	}
 }
 
@@ -103,11 +103,12 @@ glm::vec3 Obstacles::calcSep(glm::vec3 pos){
 		glm::vec3 sep; sep = glm::vec3(0.0);
 		glm::vec3 dv; float d;
 		for (int i = 0; i < count; i++){
+			d = obDist[i];
 			applyProfile(obSize[i]);
 			dv = pos - ob[i];
-			d = sqrt(obDist[i]);
+			dv *= d/(d+sizeP.baseRad); 
 			if (d <= sizeP.sepRad){
-				float c = (sizeP.sepRad - d/2)/ sizeP.sepRad;
+				float c = (sizeP.sepRad - d)/ sizeP.sepRad;
 				sep += c * dv/d;
 			}
 		}
@@ -123,8 +124,9 @@ glm::vec3 Obstacles::calcCoh(glm::vec3 pos){
 	glm::vec3 dv; float d;
 	for (int i = 0; i < count; i++){
 		applyProfile(obSize[i]);
+		d = obDist[i];
 		dv = ob[i] - pos;
-		d = sqrt(obDist[i]);
+		dv *= d/(d+sizeP.baseRad); 
 		if (d > sizeP.sepRad){			
 			float c = (sizeP.cohRad - d)/ sizeP.cohRad; //d/GROUP_RANGE;
 			coh += c * dv/d; 
