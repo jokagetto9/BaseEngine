@@ -27,11 +27,11 @@ public:
 
 //********************************* INPUT RESPONSES *********************************
 	
-	PlayCommand * BaseInputManager::		checkPause();
+	PlayCommand * BaseInputManager::			checkPause();
 	virtual MoveCommand * BaseInputManager::	directionInput();
 	virtual Command * BaseInputManager::		mouseInput();
-	Command * BaseInputManager::		actionInput();
-	MenuCommand * BaseInputManager::		menuInput();
+	Command * BaseInputManager::				actionInput();
+	MenuCommand * BaseInputManager::			menuInput();
 
 //********************************* MEMBER FUNCTIONS *********************************
 
@@ -40,7 +40,9 @@ public:
 
 	XZI BaseInputManager::		mousePos();
 
-
+		
+		bool mouseR, mouseL;	
+		int mX, mY;
 //************************************************** MEMBERS ***************************************************
 protected:
 	static const int D = 4;
@@ -53,8 +55,6 @@ protected:
 
 		bool keyPressed[KEYS];		//keyboard state array
 		bool specialKeyPressed[SKEYS];	//special key state array
-		bool mouseR, mouseL;		
-		int mX, mY;
 
 		SDL_Event ev;
 		MoveCommand movecmd;
@@ -65,7 +65,7 @@ protected:
 		
 		StackCommand pause;
 		PlayCommand	play;
-
+		
 };
 
 #endif

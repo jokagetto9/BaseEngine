@@ -1,8 +1,10 @@
 
 //********************************* INITIALIZATION *********************************
 #include "Camera.h"
+#include "../Stack/Menu.h"
 Camera* Camera::instance = 0;
 Camera* C;
+
 
 void Camera::init (){	
 	//if(_DEBUG) cout << "Initializing Camera" << endl;
@@ -50,6 +52,9 @@ void Camera::setupOpenGL(){
 
 void Camera::quit(){delete instance; instance = NULL;}
 
+
+
+
 //********************************* CAMERA FUNCTIONS *********************************
 
 // pan camera in 360 degrees
@@ -63,6 +68,24 @@ void Camera::zoom(float frameDelta){
 	if (yPos < 20 ) yPos = 20;		// zoom min
 	if (yPos > 100) yPos = 100;		// zoom max
 }//*/
+
+void Camera:: setCursorPos(int x, int y){	
+	glm::vec3 c = corner();
+	mX = (x+0.5)*0.25+c.x;
+	mY = (y+1)*0.25+c.z;		
+}
+void Camera::		drawCursor(){
+	M->gridBO.use();
+	ShaderProfile sp = {Menu::cursors[0].t, 0.0625, G1x1};
+	M->gridBO.prep(sp);
+	glPushMatrix();
+		glTranslatef(mX, 0, mY);
+		M->gridBO.drawGrid(0);
+	glPopMatrix();
+
+	//cursor
+	//M->cursorBO.drawCursor(c.t, c.id, mX, mY);
+}
 
 //********************************* UPDATE *********************************
 void Camera::update(glm::vec3 focusP){

@@ -17,6 +17,7 @@ struct MotionMax {
 	float accel, speed;
 };
 
+glm::vec3 scaleVector(glm::vec3 p1, glm::vec3 p2, float scale);
 
 //********************************* INITIALIZATION *********************************
 

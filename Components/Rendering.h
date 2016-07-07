@@ -18,6 +18,7 @@ public:
 
 	ID tex; 
 	int texIndex;
+	int baseIndex;
 };
 
 #endif

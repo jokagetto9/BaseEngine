@@ -2,7 +2,6 @@
 #define ACTORS_H
 
 #include "Particles.h"
-#include "../Components/Target.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -24,13 +23,11 @@ class Actors : public Particles{
 	void Actors::reset(ID id);
 	
 	bool Actors:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a);
-
-
+	void Actors::setTarget(ID id, glm::vec3 pos);
 	void Actors::activate(ID id, glm::vec3 pos);
 	void Actors::activateAll(glm::vec3 pos);
 //************************************************** UPDATE ***************************************************
-	void Actors ::	update (float physDelta);
-	void Actors ::	update (ID id);
+
 
 	void Actors ::	aiUpdate (float aiDelta);
 	void Actors ::	aiUpdate (ID id);
@@ -38,7 +35,6 @@ class Actors : public Particles{
 	Actor Actors::getActor(ID id);
 //************************************************** MEMBERS ***************************************************
 	
-	vector<Target> target;
 
 	static MotionState moving;
 

@@ -4,6 +4,7 @@
 #include "Props.h"
 #include "../Components/Motion.h"
 #include "../Components/Obstacles.h"
+#include "../Components/Target.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -12,8 +13,11 @@
 class Particles : public Props {
 	public: 
 		Particles::		Particles(){dict = &particleList;}
+		ID Particles ::	createParticle (ParticleList& list, EntityXZ ent);
 
-
+			void Particles ::	update (float physDelta);
+	void Particles ::	update (ID id);
+		void Particles::chargeParticle (ID id, glm::vec3 targ);
 //************************************************** DRAW *************************************************** 
 	
 	virtual void Particles::reserve(ID max);
@@ -25,6 +29,7 @@ class Particles : public Props {
 	 
 	vector<Motion> motion;
 	vector<Obstacles> obstacles;
+	vector<Target> target;
 	float delta;
 	
 	static AttackState charge;

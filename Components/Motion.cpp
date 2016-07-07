@@ -84,3 +84,10 @@ void Motion::fastDiagonal(float physDelta){
 //*/
 
 
+
+
+glm::vec3 scaleVector(glm::vec3 p1, glm::vec3 p2, float scale){
+	glm::vec3 targetV = p2 - p1;	
+	truncate (targetV, 10);
+	return targetV;
+}

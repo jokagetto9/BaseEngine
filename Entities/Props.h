@@ -3,8 +3,14 @@
 
 #include "Dictionaries.h"
 #include "../Components/Location.h"
+#include "../Components/Health.h"
 //********************************* CONSTANTS *********************************
 
+struct EntityXZ{
+	ID id;
+	int x;
+	int z;
+};
 
 //********************************* INITIALIZATION *********************************
 
@@ -12,6 +18,7 @@ class Props {
 	public: 
 	Props::		Props(){dict = &propList;}
 	virtual void Props ::	reserve (ID max);
+	ID Props ::	createProp (PropList& list, EntityXZ ent);
 
 
 	void Props::applyDict(Dictionary * d){dict = d;}
@@ -38,6 +45,7 @@ class Props {
 
 	//animation, texture
 	vector<ID> type;
+	vector<Health> health;
 	vector<Rendering> rendering;
 	vector<Animation> animation;
 	vector<Location> location;

@@ -6,6 +6,7 @@ StillState  Props ::still;
 void Props ::	reserve (ID max){
 	if (max < MAX_COMPONENTS){
 		type.resize(max);
+		health.resize(max);
 		rendering.resize(max);
 		location.resize(max);
 		state.resize(max);
@@ -13,6 +14,22 @@ void Props ::	reserve (ID max){
 	} 
 }
 
+ID Props ::	createProp (PropList& list, EntityXZ ent){
+	ID i = nextFree(); 
+	if (i < MAX_COMPONENTS){
+		Rendering r;		Location l;
+		type[i] = i;
+		//health[i] = list.maxHealth[ent.id];
+		rendering[i] = list.rendering[ent.id];
+		location[i].place(ent.x, ent.z);
+
+		state[i] = &still;
+
+		count++;
+		return i;
+	}
+	return MAX_COMPONENTS;
+}
 
 
 bool Props:: add(ID id, Rendering& r, Location& l){

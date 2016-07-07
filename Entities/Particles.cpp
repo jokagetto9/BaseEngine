@@ -8,9 +8,58 @@ void Particles::reserve(ID max){
 		animation.resize(max);
 		motion.resize(max);
 		obstacles.resize(max);
+		target.resize(max);
 		Props::reserve(max);
 	}
 }
+
+
+ID Particles ::	createParticle (ParticleList& list, EntityXZ ent){
+	ID i = nextFree(); 
+	if (i < MAX_COMPONENTS){
+		Rendering r;		Location l;
+		type[i] = i;
+
+		location[i].place(ent.x, ent.z);
+		rendering[i].tex = list.getProfile(ent.id).tex;
+		animation[i] = particleList.anim[ent.id];
+		motion[i] = Motion(particleList.max[ent.id]);
+		state[i] = &charge;
+		count++;
+		return i;
+	}
+	return MAX_COMPONENTS;
+}
+
+
+//************************************************** UPDATE ***************************************************
+
+void Particles ::	update (float physDelta){	
+	delta = physDelta;
+	ID s = state.size();
+	for (ID i = 0; i < s; i++){
+		update(i);
+	}
+}
+
+void Particles ::	update (ID id){
+	motion[id].updateSpeed(delta);
+	if (!state[id]->still()){
+		//TODO if stopped change to still
+		motion[id].move(location[id]);		
+	}//TODO world wrap	
+	//NEWBRANCH quadtree
+}
+
+void Particles::chargeParticle (ID id, glm::vec3 targ){
+	if (id < count){
+		glm::vec3 tempV = scaleVector(location[id].pos(), targ, 10);
+		motion[id].setTarget(tempV);
+		state[id] = &charge;
+	}
+}
+
+
 
 //************************************************** DRAW *************************************************** 
 

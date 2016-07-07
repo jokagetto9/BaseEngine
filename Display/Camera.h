@@ -73,7 +73,7 @@ Side Effects:  init proj and view matrixes,
 /*/ Purpose: close camera 
 Side Effects:  deletes instance
 /*/
-
+	
 
 //********************************* CAMERA MOVEMENT *********************************
 
@@ -89,6 +89,8 @@ Parameter(s):  frameDelta - change per frame -> UP is negative
 Side Effects:  dist changes 20-80 
 /*/
 	
+	void Camera:: setCursorPos(int x, int y);
+	void Camera::		drawCursor();	
 	
 //********************************* CAMERA MODES *********************************
 
@@ -128,6 +130,7 @@ Side Effects:
 	float lockTheta;		
 	glm::vec3 lockPos;			//locked cam position 
 
+	float mX, mY;
 
 //********************************* MEMBER FUNCTIONS *********************************
 

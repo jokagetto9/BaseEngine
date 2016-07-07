@@ -1,5 +1,5 @@
-#ifndef TRANSLATION_H
-#define TRANSLATION_H
+#ifndef LOCATION_H
+#define LOCATION_H
 
 #include "Component.h"  
 #include "../Display/Camera.h"

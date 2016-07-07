@@ -6,7 +6,6 @@ MotionState  Actors::moving;
 
 void Actors::reserve(ID max){
 	if (max < MAX_COMPONENTS){
-		target.resize(max);
 		Particles::reserve(max);
 	}
 }
@@ -44,11 +43,9 @@ bool Actors:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a){
 }
 
 
-void Actors::activate(ID id, glm::vec3 pos){
-	ID s = state.size();
-	for (ID i = 0; i < s && i < id; i++){
-		target[i].setTarget(pos);
-	}
+void Actors::setTarget(ID id, glm::vec3 pos){
+	if (id < count)
+		target[id].setTarget(pos);
 }
 
 void Actors::activateAll(glm::vec3 pos){
@@ -57,24 +54,6 @@ void Actors::activateAll(glm::vec3 pos){
 	}
 }
 
-//************************************************** UPDATE ***************************************************
-
-void Actors ::	update (float physDelta){	
-	delta = physDelta;
-	ID s = state.size();
-	for (ID i = 0; i < s; i++){
-		update(i);
-	}
-}
-
-void Actors ::	update (ID id){
-	motion[id].updateSpeed(delta);
-	if (!state[id]->still()){
-		//TODO if stopped change to still
-		motion[id].move(location[id]);		
-	}//TODO world wrap	
-	//NEWBRANCH quadtree
-}
 
 void Actors ::	aiUpdate (float aiDelta){
 	delta = aiDelta;
@@ -89,8 +68,7 @@ void Actors ::	aiUpdate (float aiDelta){
 void Actors ::	aiUpdate (ID id){
 	//TODO if has target
 	if (notZero(target[id].targetP)){
-		glm::vec3 tempV = location[id].pos();
-		tempV = target[id].getTarget(tempV, delta);
+		glm::vec3 tempV = scaleVector(location[id].pos(), target[id].targetP, 10);
 		motion[id].setTarget(tempV);
 		state[id] = &charge;
 	}else{
