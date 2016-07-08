@@ -18,12 +18,14 @@ ID Particles ::	createParticle (ParticleList& list, EntityXZ ent){
 	ID i = nextFree(); 
 	if (i < MAX_COMPONENTS){
 		Rendering r;		Location l;
-		type[i] = i;
+		type[i] = ent.id;
 
 		location[i].place(ent.x, ent.z);
 		rendering[i].tex = list.getProfile(ent.id).tex;
 		animation[i] = particleList.anim[ent.id];
 		motion[i] = Motion(particleList.max[ent.id]);
+		health[i].set(12);
+		health[i].setRate(-1);
 		state[i] = &charge;
 		count++;
 		return i;

@@ -34,7 +34,8 @@ class Props {
 
 	
 	virtual void Props ::	draw (ID id);	
-
+	
+	virtual void Props ::	updateHP();	
 	void Props::changeState(ID id, State * S){state[id] = S;}
 	virtual bool Props ::canMove (){return false;}
 	

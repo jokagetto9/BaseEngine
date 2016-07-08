@@ -18,11 +18,11 @@ ID Props ::	createProp (PropList& list, EntityXZ ent){
 	ID i = nextFree(); 
 	if (i < MAX_COMPONENTS){
 		Rendering r;		Location l;
-		type[i] = i;
+		type[i] = ent.id;
 		//health[i] = list.maxHealth[ent.id];
 		rendering[i] = list.rendering[ent.id];
 		location[i].place(ent.x, ent.z);
-
+		health[i].health = 1;
 		state[i] = &still;
 
 		count++;
@@ -95,6 +95,16 @@ void Props ::	draw (ID id){
 
 
 
+void Props ::	updateHP(){
+	ID s = state.size();
+	for (ID i = 0; i < s; i++){		
+		if (state[i]->on()){
+			if (health[i].update(1) == 0){
+				state[i] = &off;
+			}
+		}
+	}
+}
 
 ID Props::getSizeIndex(ID id){
 	if (dict){
