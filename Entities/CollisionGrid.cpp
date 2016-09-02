@@ -34,6 +34,23 @@ void CollisionGrid ::	addProps(Props* props){
 	}
 }
 
+
+void CollisionGrid ::	addParticles(Particles* particles){
+	ID s = particles->rendering.size();
+	for (ID i = 0; i < s; i++){
+		if (particles->state[i]->on()){
+			Ob o; 
+			o.sizeP = particles->getSizeIndex(i);
+			if (o.sizeP){
+				o.pos = particles->location[i].pos();			
+				XZI xz = getGridXZ(o.pos - C->corner());
+				grid[xz.x][xz.z].push_back(o);
+			}
+		}
+	}
+}
+
+
 void CollisionGrid ::	addEntities (ID n){ 
 	assert(n < activeList.size());
 	assert(ent != NULL);

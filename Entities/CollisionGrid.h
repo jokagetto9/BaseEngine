@@ -13,6 +13,7 @@ class CollisionGrid {
 	void CollisionGrid ::clear();
 		
 	void CollisionGrid ::	addProps (Props* props);
+	void CollisionGrid ::	addParticles (Particles* particles);
 	void CollisionGrid ::	addEntities (ID n);
 	XZI CollisionGrid ::	getGridXZ(glm::vec3 pos);
 

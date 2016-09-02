@@ -43,7 +43,10 @@ bool BaseEngine::initGLAttrib(){
 bool BaseEngine::initGLEW(){
 	glewExperimental = GL_TRUE;
 	GLenum status = glewInit(); 
-	if (status != GLEW_OK) {cout << "GLEW Error: " << glewGetErrorString(status) << "\n"; exit(1);}
+	if (status != GLEW_OK) {
+		cout << "GLEW Error: " << glewGetErrorString(status) << "\n"; 		
+		logfile << "GLEW Error: " << glewGetErrorString(status) << "\n"; 
+		exit(1);}
 	return true;
 	//GLenum error = glGetError(); if (error != GL_NO_ERROR){ 		cout << "OpenGL Error: " << error << " " << gluErrorString(error) << endl;}	
 }
@@ -67,7 +70,11 @@ bool BaseEngine::initSDL(){
 	
 	// init SDL_image
 	int imgFlags = IMG_INIT_PNG;
-	if( !( IMG_Init( imgFlags ) & imgFlags ) ){	printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() ); 	return false;	}
+	if( !( IMG_Init( imgFlags ) & imgFlags ) ){	
+		printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+		logfile << "SDL_image could not initialize: " <<  IMG_GetError() << endl;
+		return false;	
+	}
 	
 	//init renderer
 	/*/Create vsynced renderer for window

@@ -8,6 +8,7 @@
 struct Ob {
 	glm::vec3 pos;
 	ID sizeP;
+	ID crashP;
 	float d;
 	//size scale
 };
