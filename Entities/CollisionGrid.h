@@ -1,36 +1,38 @@
 #ifndef COLLISIONGRID_H
 #define COLLISIONGRID_H
 
-#include "Particles.h"
+#include "Actors.h"
+#include "CollisionSet.h"
 //********************************* CONSTANTS *********************************
+
 
 //********************************* INITIALIZATION *********************************
 
 class CollisionGrid {
 	public: 	
 		
-	void CollisionGrid ::init(ID x, ID z, ID n);
+	void CollisionGrid ::init(ID x, ID z, Props& pr, Particles& pa, Actors& ac);
+	void CollisionGrid ::setGridSize(VGrid& g);
+	
+	void CollisionGrid:: checkCollisions(Props& pr, Particles& pa, Actors& ac);
+
+	void CollisionGrid:: checkCollision(ID radsq, GridData* g1 , GridData* g2);	
+	void CollisionGrid:: checkCollisions(GridData* g1, GridData* g2, CollisionSet* col);	
+	
+
+
+	float CollisionGrid ::getDistance(GridData* g1, GridData* g2);
 	void CollisionGrid ::clear();
 		
-	void CollisionGrid ::	addProps (Props* props);
-	void CollisionGrid ::	addParticles (Particles* particles);
-	void CollisionGrid ::	addEntities (ID n);
-	XZI CollisionGrid ::	getGridXZ(glm::vec3 pos);
-
-	void CollisionGrid ::	updateObstacles (ID n);
-	
-	void CollisionGrid ::	checkGrid (ID index, ID x, ID z);
-	void CollisionGrid ::	printGrid ();
-	
-	void CollisionGrid:: testRange(ID index, Ob& o);
 	void CollisionGrid:: applyAdjustments(ID n);
+	
 
-	void CollisionGrid:: setActiveEnt(Particles* particles){ent = particles;}
-	
-	vector<vector <vector<Ob>>> grid;
-	vector<vector <ID>> activeList;
-	Particles * ent;
-	
+	Props * props;
+	Particles * particles;
+	Actors * actors;	
+
+	CollisionSet collisions;
+
 	XZI gridSize;
 		 
 

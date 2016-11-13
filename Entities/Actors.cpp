@@ -36,6 +36,7 @@ bool Actors:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a){
 		motion[i] = m;
 		animation[i] = a;
 		state[i] = &still;
+		gData[i] = GridData(i, 3);
 		count++;
 		return true;
 	}

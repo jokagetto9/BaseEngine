@@ -24,6 +24,7 @@ ID Particles ::	createParticle (ParticleList& list, EntityXZ ent){
 		rendering[i].tex = list.getProfile(ent.id).tex;
 		animation[i] = particleList.anim[ent.id];
 		motion[i] = Motion(particleList.max[ent.id]);
+		gData[i] = GridData(i, 2);
 		health[i].set(12);
 		health[i].setRate(-1);
 		state[i] = &charge;
@@ -49,7 +50,11 @@ void Particles ::	update (ID id){
 	if (!state[id]->still()){
 		//TODO if stopped change to still
 		motion[id].move(location[id]);		
-	}//TODO world wrap	
+		
+	}
+	if(gData[id].enabled)
+		updateGrid(id);
+	//TODO world wrap	
 	//NEWBRANCH quadtree
 }
 
@@ -95,6 +100,7 @@ bool Particles:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a){
 		motion[i] = m;
 		animation[i] = a;
 		state[i] = &charge;
+		gData[i] = GridData(i, 2);
 		count++;
 		return true;
 	}

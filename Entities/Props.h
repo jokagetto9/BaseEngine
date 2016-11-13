@@ -3,6 +3,7 @@
 
 #include "Dictionaries.h"
 #include "../Components/Location.h"
+#include "../Components/GridData.h"
 #include "../Components/Health.h"
 //********************************* CONSTANTS *********************************
 
@@ -16,7 +17,7 @@ struct EntityXZ{
 
 class Props {
 	public: 
-	Props::		Props(){dict = &propList;}
+	Props::		Props();
 	virtual void Props ::	reserve (ID max);
 	ID Props ::	createProp (PropList& list, EntityXZ ent);
 
@@ -35,14 +36,21 @@ class Props {
 	
 	virtual void Props ::	draw (ID id);	
 	
+	virtual void Props ::	update();	
 	virtual void Props ::	updateHP();	
 	void Props::changeState(ID id, State * S){state[id] = S;}
 	virtual bool Props ::canMove (){return false;}
 	
+	glm::vec3 Props ::getPos(ID id);
 	ID Props::getSizeIndex(ID id);
+	void Props::setGridSize(ID x, ID z);
 
+	void Props::updateGrid(ID id);
 
-
+	
+	XZI Props ::	getGridXZ(glm::vec3 pos);
+	
+	void Props ::	printGrid ();
 
 	//animation, texture
 	vector<ID> type;
@@ -50,6 +58,10 @@ class Props {
 	vector<Rendering> rendering;
 	vector<Animation> animation;
 	vector<Location> location;
+	vector<GridData> gData;
+	
+	VGrid grid;
+
 	ID count;
 	
 	vector<State*> state;

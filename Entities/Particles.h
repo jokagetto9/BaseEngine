@@ -14,10 +14,10 @@ class Particles : public Props {
 	public: 
 		Particles::		Particles(){dict = &particleList;}
 		ID Particles ::	createParticle (ParticleList& list, EntityXZ ent);
-
-			void Particles ::	update (float physDelta);
+		 
+	void Particles ::	update (float physDelta);
 	void Particles ::	update (ID id);
-		void Particles::chargeParticle (ID id, glm::vec3 targ);
+	void Particles::chargeParticle (ID id, glm::vec3 targ);
 //************************************************** DRAW *************************************************** 
 	
 	virtual void Particles::reserve(ID max);
