@@ -16,7 +16,7 @@ GridData::GridData(){
 
 GridData::GridData(ID i, ID e){
 	enabled = true;
-	xz.x = 0; xz.z = 0;	
+	xz.x = -1; xz.z = -1;	
 
 	id = i;	
 	ent = e;
@@ -69,8 +69,8 @@ void GridData ::	removeData (VGrid &grid){
 		}
 	}else if(prev){
 		prev->next = NULL;
-	}else{	
-		grid[prevxz.x][prevxz.z] = NULL;
+	}else if (prevxz.x >= 0 && prevxz.z >= 0){
+ 		grid[prevxz.x][prevxz.z] = NULL;
 	}
 }
 

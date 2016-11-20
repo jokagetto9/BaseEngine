@@ -7,11 +7,7 @@
 #include "../Components/Health.h"
 //********************************* CONSTANTS *********************************
 
-struct EntityXZ{
-	ID id;
-	int x;
-	int z;
-};
+
 
 //********************************* INITIALIZATION *********************************
 

@@ -70,5 +70,38 @@ void DrawPool ::	draw (Props* ent){
 	}
 }
 
+void DrawPool ::	batch (EntityList* ent){
+	ID s = ent->rendering.size();
+	clear();
+	for (ID i = 0; i < s; i++){
+		if (ent->state[i]->on()){
+			//ent->refresh(i);
+			batch(i, ent->rendering[i].tex);
+		}
+	}
+}
+
+void DrawPool ::	batch (EntityList* ent, float frameDelta){
+	ent->delta = frameDelta;
+	ID s = ent->rendering.size();
+	clear();
+	for (ID i = 0; i < s; i++){
+		if (ent->state[i]->on()){
+			ent->refresh(i);
+			batch(i, ent->rendering[i].tex);
+		}
+	}
+}
+void DrawPool ::	draw (EntityList* ent){
+	ID profiles = batchDraw.size();	
+	for (ID id = 0; id < profiles; id++){//prep
+		int s = batchDraw[id].size();
+		for (ID i = 0; i < s; i++){
+			if (i == 0)
+				M->gridBO.prep(dict->getProfile(id)); 
+			ent->draw(batchDraw[id][i]);
+		}
+	}
+}
 
 

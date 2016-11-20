@@ -17,16 +17,17 @@ Motion::Motion(MotionMax& mm){
 }
 
 
-void Motion::backTrack(Location& l){
+void Motion::backTrack(Location& l, float ratio){
 	glm::vec3 pos = l.pos();
+	l.place(prevPos);
 	pos -= prevPos;
-	pos /= 1.25;
-	l.push(-pos.x, -pos.z);
-	//l.x_ = prevPos.x; 
+	pos *= ratio;
+	l.push(pos.x, pos.z);
+	//l.x_ = .x; 
 	//l.y_ = prevPos.y;
 	//l.z_ = prevPos.z;
 	//speed /= 2;
-	//speed = glm::vec3(0.0);
+	speed = glm::vec3(0.0);
 } 
 
 void Motion::move(Location& l){

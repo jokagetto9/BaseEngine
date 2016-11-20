@@ -2,7 +2,7 @@
 #define COLLISIONGRID_H
 
 #include "Actors.h"
-#include "CollisionSet.h"
+#include "EntityList.h"
 //********************************* CONSTANTS *********************************
 
 
@@ -11,13 +11,14 @@
 class CollisionGrid {
 	public: 	
 		
-	void CollisionGrid ::init(ID x, ID z, Props& pr, Particles& pa, Actors& ac);
-	void CollisionGrid ::setGridSize(VGrid& g);
 	
-	void CollisionGrid:: checkCollisions(Props& pr, Particles& pa, Actors& ac);
+	void CollisionGrid ::init(ID x, ID z, Props& pr, Particles& pa, Actors& ac);
+	
+	void CollisionGrid ::setGridSize(VGrid& g);
+	void CollisionGrid:: checkCollisions(EntityList& ent);
 
 	void CollisionGrid:: checkCollision(ID radsq, GridData* g1 , GridData* g2);	
-	void CollisionGrid:: checkCollisions(GridData* g1, GridData* g2, CollisionSet* col);	
+	void CollisionGrid:: checkCollisions(GridData* g1, GridData* g2, EntityList& ent, CollisionSet* col);	
 	
 
 
@@ -26,13 +27,7 @@ class CollisionGrid {
 		
 	void CollisionGrid:: applyAdjustments(ID n);
 	
-
-	Props * props;
-	Particles * particles;
-	Actors * actors;	
-
-	CollisionSet collisions;
-
+	
 	XZI gridSize;
 		 
 

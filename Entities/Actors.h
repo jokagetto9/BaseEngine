@@ -22,7 +22,7 @@ class Actors : public Particles{
 	void Actors::reset();
 	void Actors::reset(ID id);
 	
-	bool Actors:: add(ID id, Rendering& r, Location& l, Motion &m, Animation &a);
+	bool Actors:: createActor(ID id, Rendering& r, Location& l, Motion &m, Animation &a);
 	void Actors::setTarget(ID id, glm::vec3 pos);
 	void Actors::activate(ID id, glm::vec3 pos);
 	void Actors::activateAll(glm::vec3 pos);

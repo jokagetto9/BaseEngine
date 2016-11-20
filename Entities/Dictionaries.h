@@ -12,6 +12,11 @@
 
 enum EntityType {PROP, PARTICLE, ACTOR};   
 
+struct EntityXZ{
+	ID id;
+	int x;
+	int z;
+};
 
 struct Identity {
 	string name;

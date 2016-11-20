@@ -28,7 +28,7 @@ public:
 	Motion::Motion();
 	Motion::Motion(MotionMax& mm);
 	
-	void Motion::backTrack(Location& l);
+	void Motion::backTrack(Location& l, float ratio);
 	void Motion::move(Location& l);
 	
 	void Motion::stop(){speed = glm::vec3(0.0);}

@@ -2,12 +2,13 @@
 #define COMMAND_H
 
 #include "Entities/Actors.h"
+#include "Entities/EntityList.h"
 
 class Command {
 public:
 	//Command::Command(){PID = P1};
 	virtual ~Command() {} 
-  virtual void exec(Actor& a) = 0;
+  virtual void exec(Entity& e) = 0;
   //ID PID;  
 };
 
@@ -15,13 +16,13 @@ public:
 
 class MoveCommand : public Command {
 public:
-  void exec(Actor& a){
+  void exec(Entity& e){
 	if (o != STOP){
-		a.mot_.move(o); 
-		a.st = &Actors::moving;
+		e.mot_.move(o); 
+		e.st = &EntityList::moving;
 	}else {
-		a.mot_.halt();
-		a.st = &Props::still;
+		e.mot_.halt();
+		e.st = &EntityList::still;
 	}
   }
 	Oriet o;
