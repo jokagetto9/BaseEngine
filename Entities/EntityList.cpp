@@ -157,9 +157,10 @@ void EntityList::setTarget(ID id, glm::vec3 pos){
 		target[id].setTarget(pos);
 }
 
-void EntityList::activateAll(glm::vec3 pos){
+void EntityList::activateAll(ID id){
+	glm::vec3 pos = location[id].pos();
 	for (ID i = 0; i < count; i++){
-		if (gData[i].ent==3)
+		if (gData[i].ent==3 && gData[i].id != id)
 			target[i].setTarget(pos);
 	}
 }
@@ -277,6 +278,8 @@ void EntityList ::	updateHP(){
 		}
 	}
 }
+
+//************************************************** AI ***************************************************
 
 void EntityList ::	aiUpdate (float aiDelta){
 	delta = aiDelta;
@@ -425,6 +428,10 @@ void EntityList:: applyCollisions(ID id){
 }
 //************************************************** GET ***************************************************
 
+Entity EntityList::getEntity(ID id){
+	Entity e = {state[id], location[id], motion[id], gData[id], collide[id], target[id], swarm[id], health[id]};
+	return e;
+}
 glm::vec3 EntityList :: getPos(ID id){
 	return location[id].pos();
 }
@@ -456,9 +463,4 @@ ID EntityList::getSizeIndex(ID id){
 		return dict->getSizeIndex(i);
 	}else
 		return 0;
-}
-
-EntityStruct EntityList::getEntity(ID id){
-	EntityStruct a = {state[id], location[id], motion[id], target[id]};
-	return a;
 }

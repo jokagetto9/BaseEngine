@@ -1,7 +1,6 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include "Entities/Actors.h"
 #include "Entities/EntityList.h"
 
 class Command {

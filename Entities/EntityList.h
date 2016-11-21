@@ -3,24 +3,29 @@
 
 
 #include "Dictionaries.h"
-#include "../Components/CollisionSet.h"
 #include "../Components/Location.h"
+#include "../Components/Motion.h"
 #include "../Components/GridData.h"
+#include "../Components/CollisionSet.h"
+#include "../Components/Target.h"
+#include "../Components/Swarming.h"
 #include "../Components/Health.h"
 
-#include "../Components/Motion.h"
-#include "../Components/Swarming.h"
-#include "../Components/Target.h"
 //********************************* CONSTANTS *********************************
 
 
 
-struct EntityStruct {
+struct Entity {
 	State * st;
+	//vector<Rendering> rendering;
+	//vector<Animation> animation;
 	Location &pos_;
 	Motion &mot_;
+	GridData& dat_; 
+	CollisionSet& col_;
 	Target &tar_;
-	//Rendering &ren_;
+	Swarming& ai_;
+	Health& health;
 };
 
 //********************************* INITIALIZATION *********************************
@@ -51,7 +56,7 @@ class EntityList {
 	
 	void EntityList::setTarget(ID id, glm::vec3 pos);
 	void EntityList::activate(ID id, glm::vec3 pos);
-	void EntityList::activateAll(glm::vec3 pos);
+	void EntityList::activateAll(ID id);
 
 //********************************* DRAW *********************************
 
@@ -89,9 +94,9 @@ class EntityList {
 
 //************************************************** GET ***************************************************
 	
+	Entity EntityList::getEntity(ID id);
 	virtual bool EntityList ::canMove (){return false;}
 	Dictionary *  EntityList::getDict(){return dict;}
-	EntityStruct EntityList::getEntity(ID id);
 	
 	glm::vec3 EntityList ::getPos(ID id);
 	XZI EntityList ::	getGridXZ(glm::vec3 pos);
@@ -100,18 +105,24 @@ class EntityList {
 
 //************************************************** MEMBERS ***************************************************
 	//animation, texture
+
 	vector<ID> type;
-	vector<Health> health;
-	vector<Rendering> rendering;
-	vector<Animation> animation;
-	vector<Location> location;
-	vector<GridData> gData;  
 	vector<State*> state;
 
+	vector<Rendering> rendering;
+	vector<Animation> animation;
+
+	vector<Location> location;
 	vector<Motion> motion;
+
+	vector<GridData> gData; 
+	vector<CollisionSet> collide; 
+
 	vector<Target> target;
 	vector<Swarming> swarm;
-	vector<CollisionSet> collide;
+
+	vector<Health> health;
+
 
 
 	float delta;
