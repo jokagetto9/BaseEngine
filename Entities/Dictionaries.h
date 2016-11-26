@@ -10,7 +10,7 @@
 #include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
 
-enum EntityType {PROP, PARTICLE, ACTOR};   
+//enum EntityType {PROP, PARTICLE, ACTOR};   
 
 struct EntityXZ{
 	ID id;
@@ -18,11 +18,6 @@ struct EntityXZ{
 	int z;
 };
 
-struct Identity {
-	string name;
-	ID id;
-	//EntityType type;
-};
 
 //********************************* ABSTRACT *********************************
 
@@ -31,17 +26,20 @@ public:
 
 
 	
-	void addProfile(ShaderProfile sp){profile.push_back(sp);}
-	void addIdentity(Identity id){identity.push_back(id);}
-	void addSize(Size s){size.push_back(s);}
+	void Dictionary::addProfile(ShaderProfile sp){profile.push_back(sp);}
+	void Dictionary::addIdentity(Identity id){identity.push_back(id);}
+	void Dictionary::addSize(Size s){size.push_back(s);}
 	
-	ShaderProfile getProfile(ID id){ return profile[id];}
-	Identity & getID(ID id){return identity[id];}
-	ID getSizeIndex(ID id){return size[id].id;}
+	ShaderProfile Dictionary::getProfile(ID id){ return profile[id];}
+	Identity & Dictionary::getID(ID id){return identity[id];}
+	float Dictionary::getCol(ID id);
+	float Dictionary::getSep(ID id){return size[id].sepR;}
+	float Dictionary::getAvo(ID id){return size[id].avoR;}
+	Size Dictionary::getSize(ID id){return size[id];}
 
 	ID Dictionary::getIndex(string name);
 	
-	ID profileCount(){return profile.size();}
+	ID Dictionary::profileCount(){return profile.size();}
 	
 
 protected: 

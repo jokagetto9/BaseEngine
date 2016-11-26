@@ -29,26 +29,6 @@ void DrawPool ::clear(){
 	}
 }
 
-void DrawPool ::	batch (Props* ent){
-	ID s = ent->rendering.size();
-	clear();
-	for (ID i = 0; i < s; i++){
-		if (ent->state[i]->on()){
-			batch(i, ent->rendering[i].tex);
-		}
-	}
-}
-void DrawPool ::	batch (Particles* ent, float frameDelta){
-	ent->delta = frameDelta;
-	ID s = ent->rendering.size();
-	clear();
-	for (ID i = 0; i < s; i++){
-		if (ent->state[i]->on()){
-			ent->refresh(i);
-			batch(i, ent->rendering[i].tex);
-		}
-	}
-}
 
 
 void DrawPool ::	batch (ID index, ID tex){
@@ -58,17 +38,6 @@ void DrawPool ::	batch (ID index, ID tex){
 	}
 }
 
-void DrawPool ::	draw (Props* ent){
-	ID s = batchDraw.size();	
-	for (ID id = 0; id < s; id++){//prep
-		int s = batchDraw[id].size();
-		for (ID i = 0; i < s; i++){
-			if (i == 0)
-				M->gridBO.prep(dict->getProfile(id)); 
-			ent->draw(batchDraw[id][i]);
-		}
-	}
-}
 
 void DrawPool ::	batch (EntityList* ent){
 	ID s = ent->rendering.size();

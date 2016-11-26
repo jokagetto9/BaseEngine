@@ -6,7 +6,7 @@ State  EntityList ::off;
 StillState  EntityList ::still;
 MotionState  EntityList::moving;
 AttackState  EntityList::charge;
-
+vector<Dictionary *> EntityList::lib;
 
 
 void EntityList::reserve(ID max){
@@ -81,20 +81,6 @@ ID EntityList:: nextFree(){
 	return MAX_COMPONENTS;
 }
 
-bool EntityList:: add(ID id, Rendering& r, Location& l){
-	ID i = nextFree(); 
-	if (i < MAX_COMPONENTS){
-		type[i] = id;
-		rendering[i] = r;
-		location[i] = l;
-		health[i].health = 1;
-		state[i] = &still;			
-		gData[i] = GridData(i, 1);
-		count++;
-		return true;
-	}
-	return false;
-}
 
 ID EntityList ::	createProp (PropList& list, EntityXZ ent){
 	ID i = nextFree(); 
@@ -104,9 +90,10 @@ ID EntityList ::	createProp (PropList& list, EntityXZ ent){
 		//health[i] = list.maxHealth[ent.id];
 		rendering[i] = list.rendering[ent.id];
 		location[i].place(ent.x, ent.z);
-		health[i].health = 1;
-		state[i] = &still;			
-		gData[i] = GridData(i, 1);
+		health[i].health = 100;
+		state[i] = &still;	
+		Identity id = list.getID(ent.id);
+		gData[i] = GridData(i, id);
 		count++;
 		return i;
 	}
@@ -121,9 +108,10 @@ ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent){
 
 		location[i].place(ent.x, ent.z);
 		rendering[i].tex = list.getProfile(ent.id).tex;
-		animation[i] = particleList.anim[ent.id];
-		motion[i] = Motion(particleList.max[ent.id]);
-		gData[i] = GridData(i, 2);
+		animation[i] = list.anim[ent.id];
+		motion[i] = Motion(list.max[ent.id]);
+		Identity id = list.getID(ent.id);
+		gData[i] = GridData(i, id);
 		health[i].set(12);
 		health[i].setRate(-1);
 		state[i] = &charge;
@@ -134,16 +122,17 @@ ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent){
 }
 
 
-bool EntityList:: createActor(ID id, Rendering& r, Location& l, Motion &m, Animation &a){
+bool EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a){
 	ID i = nextFree();
 	if (i < MAX_COMPONENTS){
-		type[i] = id;
+		type[i] = id.type;
 		rendering[i] = r;
 		location[i] = l;
 		motion[i] = m;
 		animation[i] = a;
 		state[i] = &still;
-		gData[i] = GridData(i, 3);
+		gData[i] = GridData(i, id);
+		health[i].set(5);
 		count++;
 		return true;
 	}
@@ -160,8 +149,16 @@ void EntityList::setTarget(ID id, glm::vec3 pos){
 void EntityList::activateAll(ID id){
 	glm::vec3 pos = location[id].pos();
 	for (ID i = 0; i < count; i++){
-		if (gData[i].ent==3 && gData[i].id != id)
+		if (gData[i].ent==3 && gData[i].index != id)
 			target[i].setTarget(pos);
+	}
+}
+
+void EntityList::chargeParticle (ID id, glm::vec3 targ){
+	if (id < count){
+		glm::vec3 tempV = scaleVector(location[id].pos(), targ, 10);
+		motion[id].setTarget(tempV);
+		state[id] = &charge;
 	}
 }
 
@@ -203,11 +200,70 @@ void EntityList ::	printGrid (){
 }
 
 
+//************************************************** AI ***************************************************
+
+void EntityList ::	aiUpdate (float aiDelta){
+	delta = aiDelta;
+	ID s = state.size();
+	for (ID i = 0; i < s; i++){
+		if (state[i]->on()){
+			aiUpdate(i);
+		}
+	}
+}
+	
+void EntityList ::	aiUpdate (ID id){
+
+	if (notZero(target[id].targetP)){
+		if  (gData[id].ent != 2){	//update target if not !!!targetlocked!!!
+			glm::vec3 tempV = scaleVector(location[id].pos(), target[id].targetP, 0.1);
+			motion[id].setTarget(tempV);
+		}
+		state[id] = &charge; //check set still 
+		applyAIInteractions(id); //apply without target? !!!wary!!!
+	}else if (gData[id].ent != 2){
+		state[id] = &still;
+	}
+	health[id].update(1);
+	if (health[id].isDead()){
+		state[id] = &off;
+		gData[id].disableData(grid);
+	}
+
+
+}
+void EntityList:: applyAIInteractions(ID id){
+	if( getEnt(id) == 3){
+		float sepRad = 2;
+		swarm[id].reset();
+		ID s = collide[id].size();
+		for (ID i = 0; i < s; i++){	
+			CollisionData cd = collide[id].getCollisionData(i);	
+
+			if (gData[cd.obj2].enabled){ 				// in case of deleted entities
+				sepRad = getSepRad(gData[cd.obj2]);
+				sepRad += getSepRad(gData[id]);
+				sepRad /= 2;
+
+				swarm[id].calcSep(sepRad, cd.dist, cd.distV);	
+			}
+		}
+		swarm[id].normalizeVectors();
+		if (notZero(swarm[id].sep.v)){
+			glm::vec3 v = motion[id].targetV;
+			v *= 0.04;
+			motion[id].targetV = swarm[id].sep.v;	
+			motion[id].targetV += v;
+		}
+	}
+
+}
+
 //************************************************** UPDATE ***************************************************
 
 
 void EntityList ::	refresh (ID id){
-	if (gData[id].ent != 1){
+	if (getEnt(id) != 1){
 		Rendering &r = rendering[id]; 
 		Animation &a = animation[id]; 
 		Location &t = location[id]; 
@@ -224,9 +280,6 @@ void EntityList ::	refresh (ID id){
 	}
 }
 
-
-
-
 void EntityList ::	update(){
 	ID s = state.size();
 	for (ID i = 0; i < s; i++){
@@ -235,11 +288,10 @@ void EntityList ::	update(){
 	}
 }
 
-
-
 void EntityList ::	update (float physDelta){	
 	delta = physDelta;
 	ID s = state.size();
+	clearGrid();
 	for (ID i = 0; i < s; i++){
 		update(i);
 	}
@@ -268,67 +320,6 @@ void EntityList::updateGrid(ID id){
 		gData[id].updateData(grid);
 }
 
-void EntityList ::	updateHP(){
-	ID s = state.size();
-	for (ID i = 0; i < s; i++){		
-		if (state[i]->on()){
-			if (health[i].update(1) == 0){
-				state[i] = &off;
-			}
-		}
-	}
-}
-
-//************************************************** AI ***************************************************
-
-void EntityList ::	aiUpdate (float aiDelta){
-	delta = aiDelta;
-	ID s = state.size();
-	for (ID i = 0; i < s; i++){
-		if (state[i]->on()){
-			aiUpdate(i);
-		}
-	}
-}
-	
-void EntityList ::	aiUpdate (ID id){
-	//TODO if has target
-	if (notZero(target[id].targetP)){
-		glm::vec3 tempV = scaleVector(location[id].pos(), target[id].targetP, 0.1);
-		motion[id].setTarget(tempV);
-		state[id] = &charge;
-		applyAIInteractions(id);
-	}else{
-		state[id] = &still;
-	}
-}
-void EntityList:: applyAIInteractions(ID id){
-	if( gData[id].ent > 1){
-		swarm[id].reset();
-		ID s = collide[id].size();
-		for (ID i = 0; i < s; i++){	
-			CollisionData cd = collide[id].getCollisionData(i);		
-			swarm[id].calcSep(cd.dist, cd.distV);
-		}
-		swarm[id].normalizeVectors();
-		if (notZero(swarm[id].sep.v)){
-			glm::vec3 v = motion[id].targetV;
-			v *= 0.01;
-			motion[id].targetV = swarm[id].sep.v;	
-			motion[id].targetV += v;
-		}
-	}
-
-}
-
-
-void EntityList::chargeParticle (ID id, glm::vec3 targ){
-	if (id < count){
-		glm::vec3 tempV = scaleVector(location[id].pos(), targ, 10);
-		motion[id].setTarget(tempV);
-		state[id] = &charge;
-	}
-}
 
 //************************************************** COLLISION ***************************************************
 
@@ -354,7 +345,14 @@ void EntityList:: checkCollisions(){
 							g2 = NULL;
 					}
 					while(g2){		
-						checkCollisions(g1->id, g2->id);
+						
+						if ( g1 == g2){
+							cout << "Train Wreck ";
+							cout << g1->xz.x << ", " << g1->xz.z << "     " ;
+							cout << g2->xz.x << ", " << g2->xz.z  ;
+							cout << endl;
+						}
+						checkCollisions(g1->index, g2->index);
 						g2 = g2->next;
 					}
 				}	
@@ -364,19 +362,24 @@ void EntityList:: checkCollisions(){
 }	
 
 void EntityList:: checkCollisions(ID g1, ID g2){
-	float d;
-	glm::vec3 p1, p2, dv1, dv2;
-	p1 = getPos(g1);
-	p2 = getPos(g2);
-	dv1 = p1 - p2;
-	dv2 = p2 - p1;
-	d = sqrt(getDistSq(p1, p2)); //-2
 	
-	if (d <= swarm[g2].coh.rad) {
-		collide[g1].add(g1, g2, d, dv1); 
-		collide[g2].add(g2, g1, d, dv2); 
+	try{
+		float d;
+		glm::vec3 p1, p2, dv1, dv2;
+		p1 = getPos(g1);
+		p2 = getPos(g2);
+		dv1 = p1 - p2;
+		dv2 = p2 - p1;
+		d = sqrt(getDistSq(p1, p2)); //-2
+		if (d <= swarm[g2].coh.rad && g1 != g2) {
+			collide[g1].add(g1, g2, d, dv1); 
+			collide[g2].add(g2, g1, d, dv2); 
+			//prevent double collisions
+		}
+	}catch(...){
+		cout << g1 << ", " << g2 << "collision failure." ;
+		cout << endl;
 	}
-
 	/*// col, sep, avo, ali, coh
 	
 	glm::vec3 pos = ent->location[index].pos();
@@ -410,22 +413,53 @@ void EntityList:: applyCollisions(){
 
 
 void EntityList:: applyCollisions(ID id){
-	if( gData[id].ent > 1){
-		//swarm[id].reset();
-		ID s = collide[id].size();
-		for (ID i = 0; i < s; i++){	
-			CollisionData cd = collide[id].getCollisionData(i);		
-			if(cd.dist < swarm[id].col.rad){
+	float colRad = 1.2;
+	ID s = collide[id].size();
+	for (ID i = 0; i < s; i++){	
+		CollisionData cd = collide[id].getCollisionData(i);	
+				
+		colRad = getColRad(gData[id]);
+		colRad += getColRad(gData[cd.obj2]);
+		colRad /= 2;
+				
+		if(cd.dist < colRad){
+			if (getEnt(id) == 1 && gData[cd.obj2].ent == 2){
+				health[id].health -= 3;
+		//1 and 3 /if damaging
+			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 1){
+			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 2){ 
+				// lasers cant hit lasers //bullets can though				
+			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 3 ){
+				//if consuming and consumable
+				health[id].kill();
+			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 4) {
+				//particle hits player - source dependent
+		//3 and 1 //if damaging
+			}else if (gData[id].ent == 3 && gData[cd.obj2].ent == 2){
+				//e2 damaging and e1 damageable
+				//damage calc - defense vs power
+				//damage animation if powerful
+				health[id].health -= 5;
+				//target[id].noTarget();
 				motion[id].backTrack(location[id], swarm[id].col.rat);
-			}else {			
-				//swarm[id].calcSep(cd.dist, cd.distV);
+				glm::vec3 p = motion[cd.obj2].speed;
+				//p *= 5;
+				location[id].push(p);
+		//3 and 3
+		//3 and 4
+		//4 and 1
+			}else if (gData[id].ent == 4 && gData[cd.obj2].ent == 2){ 
+				//hero hits particle - enemy dependent
+			}else if (gData[id].ent == 4 && gData[cd.obj2].ent == 3){ 
+				//hero hits enemy - enemy dependent
+			}else {		
+				// if e2.halting and e1.haltable			
+				motion[id].backTrack(location[id], swarm[id].col.rat);
 			}
 		}
-		//swarm[id].normalizeVectors();	
-		//motion[id].targetV += swarm[id].sep.v;	
-	}
-
+	}	
 }
+
 //************************************************** GET ***************************************************
 
 Entity EntityList::getEntity(ID id){
@@ -435,6 +469,7 @@ Entity EntityList::getEntity(ID id){
 glm::vec3 EntityList :: getPos(ID id){
 	return location[id].pos();
 }
+
 
 //should be overidden function
 XZI EntityList ::	getGridXZ(glm::vec3 pos){
@@ -457,10 +492,33 @@ XZI EntityList ::	getGridXZ(glm::vec3 pos){
 	return xz; 
 }
 
-ID EntityList::getSizeIndex(ID id){
-	if (dict){
-		ID i = type[id];
-		return dict->getSizeIndex(i);
-	}else
+
+//************************************************** DICTIONARY ***************************************************
+
+Dictionary * EntityList::getDict(ID e){
+	if (e < lib.size()) 
+		return lib.at(e);
+	else{
+		cout << "Dictionary " << e << " failed" ;
+		cout << endl;
+		return NULL;
+	}
+}
+
+
+float EntityList::getColRad(GridData & g){
+	Dictionary * d = getDict(g.ent);
+	if (d)
+		return d->getCol(g.type);
+	else
 		return 0;
 }
+float EntityList::getSepRad(GridData & g){
+	Dictionary * d = getDict(g.ent);
+	if (d)
+		return d->getSep(g.type);
+	else
+		return 0;
+}
+
+	

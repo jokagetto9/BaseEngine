@@ -28,6 +28,7 @@ class CollisionSet {
 
 	vector <CollisionData> set;
 
+	ID max;
 	//CollisionResponse 
 	//CollisionCriteria
 

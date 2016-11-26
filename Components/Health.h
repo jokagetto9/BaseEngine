@@ -18,7 +18,7 @@ public:
 	int Health::update(float delta){ 		
 		if (rate){
 			health += rate * delta;  	
-			if (health < 0){
+			if (health <= 0){
 				health = 0; rate = 0;
 			}else if (health > maxHealth){
 				health = maxHealth; rate = 0;
@@ -29,6 +29,7 @@ public:
 	void Health::set(int h){ health = h; maxHealth = h;  }
 	void Health::setRate(int r){ rate = r;  }
 	bool Health::isDead(){return health <= 0;}
+	void Health::kill(){ health = 0;}
 
 	int health;
 	int maxHealth;

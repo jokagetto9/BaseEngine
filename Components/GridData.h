@@ -14,7 +14,9 @@ class GridData: public Component  {
 public:
 	
 	GridData::GridData();
-	GridData::GridData(ID i, ID e);
+	GridData::GridData(ID i, Identity& id);
+	
+	void GridData::reset();
 	
 	bool GridData::setGrid(XZI g);
 	void GridData::setGrid(VGrid g);
@@ -22,21 +24,23 @@ public:
 
 	void GridData ::	updateData (VGrid &grid);
 	void GridData ::	removeData (VGrid &grid);
+	void GridData ::	disableData (VGrid &grid);
 	XZI GridData ::	getGridXZ(XZI gridSize, glm::vec3 pos);
-
-
-	bool enabled;
 	
-	ID id;
+	string name;
+	int index;
+	int type;
 	int ent;
+
 	XZI xz;
 	XZI prevxz;
-	
+
+	bool enabled;	
+
 	GridData * next;	
 	GridData * prev;
 };
 
-extern XZI GRIDSIZE; 
 
 
 #endif

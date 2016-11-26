@@ -20,7 +20,7 @@ class Swarming {
 	
 
 
-	void Swarming::calcSep(float d, glm::vec3 dv);
+	void Swarming::calcSep(float rad, float d, glm::vec3 dv);
 			
 	
 	void Swarming::normalizeVectors();

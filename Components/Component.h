@@ -5,6 +5,15 @@
 
 //********************************* CONSTANTS *********************************
 const ID MAX_COMPONENTS = 10000;
+
+
+struct Identity {
+	string name;
+	ID index;
+	int type;
+	int ent; 
+};
+
 //********************************* INITIALIZATION *********************************
 
 

@@ -39,10 +39,10 @@ void Swarming::reset(){
 
 
 
-void Swarming::calcSep(float d, glm::vec3 dv){
-	dv *= d/(d+col.rad); 
-	if (d <= sep.rad){
-		float c = (sep.rad - d)/ sep.rad;
+void Swarming::calcSep(float rad, float d, glm::vec3 dv){
+	//dv *= d/(d+col.rad); 
+	if (d <= rad){
+		float c = (rad - d)/ rad;
 		sep.v += c * dv/d;
 	}
 }

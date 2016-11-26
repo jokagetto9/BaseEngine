@@ -1,32 +1,39 @@
 //********************************* INITIALIZATION *********************************
 #include "GridData.h"
 
-XZI GRIDSIZE = {4, 4};
 
 GridData::GridData(){
+	reset();
+}
+
+void GridData::reset(){
 	enabled = false;
 	xz.x = -1; xz.z = -1;	
 	prevxz.x = -1; prevxz.z = -1;	
-	
-	id = 0;	
+	name = "";
+	index = 0;	
 	ent = -1;
+	type = -1;
 	next = NULL;	
 	prev = NULL;
 }
 
-GridData::GridData(ID i, ID e){
+GridData::GridData(ID i, Identity &id){
 	enabled = true;
 	xz.x = -1; xz.z = -1;	
-
-	id = i;	
-	ent = e;
+	prevxz.x = -1; prevxz.z = -1;
+	
+	name = id.name;
+	index = i;	
+	ent = id.ent;
+	type = id.type;
 	next = NULL;	
 	prev = NULL;
 }
 
 bool GridData::setGrid(XZI g){
 	if (xz.x == g.x && xz.z == g.z)
-		return false;
+		return true;
 	else {	
 		prevxz.x = xz.x; prevxz.z = xz.z;
 		xz.x = g.x; xz.z = g.z;	
@@ -35,9 +42,7 @@ bool GridData::setGrid(XZI g){
 }
 
 void GridData ::	updateData (VGrid &grid){
-	GridData * temp;
-
-	removeData(grid);
+	//removeData(grid);
 
 	GridData * g = grid[xz.x][xz.z];
 	if (g){
@@ -74,3 +79,7 @@ void GridData ::	removeData (VGrid &grid){
 	}
 }
 
+
+void GridData ::	disableData (VGrid &grid){
+	removeData(grid);	reset();
+}
