@@ -417,7 +417,7 @@ void EntityList:: applyCollisions(){
 	}
 }
 
-//COLLISIONSHIT
+//!!!COLLISION!!!SHIT!!!
 void EntityList:: applyCollisions(ID id){
 	float colRad = 1.2;
 	ID s = collide[id].size();
@@ -433,6 +433,8 @@ void EntityList:: applyCollisions(ID id){
 				health[id].health -= 3;
 		//1 and 3 /if damaging
 			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 1){
+				//if consuming and consumable
+				health[id].kill();
 			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 2){ 
 				// lasers cant hit lasers //bullets can though				
 			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 3 ){
