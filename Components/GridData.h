@@ -25,12 +25,14 @@ public:
 	void GridData ::	updateData (VGrid &grid);
 	void GridData ::	removeData (VGrid &grid);
 	void GridData ::	disableData (VGrid &grid);
-	XZI GridData ::	getGridXZ(XZI gridSize, glm::vec3 pos);
+	XZI GridData ::		getGridXZ(XZI gridSize, glm::vec3 pos);
+	void GridData ::	setGroup(ID g){group = g;}
 	
 	string name;
 	int index;
 	int type;
 	int ent;
+	int group;
 
 	XZI xz;
 	XZI prevxz;

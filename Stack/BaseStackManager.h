@@ -30,7 +30,7 @@ public:
 	
 //********************************* DRAW *********************************
 	void BaseStackManager::	draw();
-	void BaseStackManager::	drawHUD();
+	virtual void BaseStackManager::	drawHUD();
 	void BaseStackManager::	drawMenus();
 	void BaseStackManager::	drawText();
 	

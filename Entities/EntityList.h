@@ -48,14 +48,13 @@ class EntityList {
 	ID EntityList:: nextFree();
 	ID EntityList ::	createProp (PropList& list, EntityXZ ent);
 	ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent);	
-	bool EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a);
+	ID EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a);
 
 	
 
 //********************************* ACTIVATE *********************************
 	
 	void EntityList::setTarget(ID id, glm::vec3 pos);
-	void EntityList::activate(ID id, glm::vec3 pos);
 	void EntityList::activateAll(ID id);
 
 //********************************* DRAW *********************************
@@ -134,6 +133,9 @@ class EntityList {
 	VGrid grid;
 	XZI gridSize;
 	ID count;		
+
+
+	Subject death;
 
 
 	static State off;

@@ -1,6 +1,7 @@
 #ifndef DICTIONARIES_H
 #define DICTIONARIES_H
 
+#include "../Template/SubObj.h"
 #include "../Components/State.h"
 #include "../Components/Rendering.h"
 #include "../Components/Animation.h"

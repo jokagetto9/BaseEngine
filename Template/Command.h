@@ -1,7 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include "Entities/EntityList.h"
+#include "../Entities/EntityList.h"
 
 class Command {
 public:

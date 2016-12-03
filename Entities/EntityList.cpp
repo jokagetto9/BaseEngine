@@ -90,6 +90,7 @@ ID EntityList ::	createProp (PropList& list, EntityXZ ent){
 		//health[i] = list.maxHealth[ent.id];
 		rendering[i] = list.rendering[ent.id];
 		location[i].place(ent.x, ent.z);
+		target[i] = Target();
 		health[i].health = 100;
 		state[i] = &still;	
 		Identity id = list.getID(ent.id);
@@ -110,6 +111,7 @@ ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent){
 		rendering[i].tex = list.getProfile(ent.id).tex;
 		animation[i] = list.anim[ent.id];
 		motion[i] = Motion(list.max[ent.id]);
+		target[i] = Target();
 		Identity id = list.getID(ent.id);
 		gData[i] = GridData(i, id);
 		health[i].set(12);
@@ -122,21 +124,22 @@ ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent){
 }
 
 
-bool EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a){
+ID EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a){
 	ID i = nextFree();
 	if (i < MAX_COMPONENTS){
 		type[i] = id.type;
 		rendering[i] = r;
 		location[i] = l;
 		motion[i] = m;
+		target[i] = Target();
 		animation[i] = a;
 		state[i] = &still;
 		gData[i] = GridData(i, id);
 		health[i].set(5);
 		count++;
-		return true;
+		return i;
 	}
-	return false;
+	return MAX_COMPONENTS;
 }
 
 //********************************* ACTIVATE *********************************
@@ -224,8 +227,11 @@ void EntityList ::	aiUpdate (ID id){
 	}else if (gData[id].ent != 2){
 		state[id] = &still;
 	}
+
+	//!!!DEATH!!!
 	health[id].update(1);
 	if (health[id].isDead()){
+		death.notify(gData[id]);
 		state[id] = &off;
 		gData[id].disableData(grid);
 	}
@@ -411,13 +417,13 @@ void EntityList:: applyCollisions(){
 	}
 }
 
-
+//COLLISIONSHIT
 void EntityList:: applyCollisions(ID id){
 	float colRad = 1.2;
 	ID s = collide[id].size();
 	for (ID i = 0; i < s; i++){	
 		CollisionData cd = collide[id].getCollisionData(i);	
-				
+		int damage = 0;		
 		colRad = getColRad(gData[id]);
 		colRad += getColRad(gData[cd.obj2]);
 		colRad /= 2;
@@ -446,11 +452,17 @@ void EntityList:: applyCollisions(ID id){
 				//p *= 5;
 				location[id].push(p);
 		//3 and 3
-		//3 and 4
+
+			}else if (gData[id].ent == 3 && gData[cd.obj2].ent == 4){ 
+				//damage++;
+				//cout << damage << endl;
+				//hero hits enemy - enemy dependent
 		//4 and 1
 			}else if (gData[id].ent == 4 && gData[cd.obj2].ent == 2){ 
 				//hero hits particle - enemy dependent
 			}else if (gData[id].ent == 4 && gData[cd.obj2].ent == 3){ 
+				health[0].health--;
+				cout<< health[0].health << endl;
 				//hero hits enemy - enemy dependent
 			}else {		
 				// if e2.halting and e1.haltable			

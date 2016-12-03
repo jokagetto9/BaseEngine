@@ -6,7 +6,7 @@ GridData::GridData(){
 	reset();
 }
 
-void GridData::reset(){
+void GridData::reset(){ 
 	enabled = false;
 	xz.x = -1; xz.z = -1;	
 	prevxz.x = -1; prevxz.z = -1;	
@@ -14,6 +14,7 @@ void GridData::reset(){
 	index = 0;	
 	ent = -1;
 	type = -1;
+	group = -1;
 	next = NULL;	
 	prev = NULL;
 }
@@ -26,6 +27,7 @@ GridData::GridData(ID i, Identity &id){
 	name = id.name;
 	index = i;	
 	ent = id.ent;
+	group = -1;
 	type = id.type;
 	next = NULL;	
 	prev = NULL;
