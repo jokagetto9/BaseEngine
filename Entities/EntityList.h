@@ -47,7 +47,9 @@ class EntityList {
 	
 	ID EntityList:: nextFree();
 	ID EntityList ::	createProp (PropList& list, EntityXZ ent);
-	ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent);	
+	ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent);		
+	ID EntityList:: createActor(ParticleList& list, EntityXZ ent);
+
 	ID EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a);
 
 	

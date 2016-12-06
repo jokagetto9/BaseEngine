@@ -7,6 +7,7 @@
 #include "../Components/Animation.h"
 #include "../Components/Motion.h"
 #include "../Components/Size.h"
+#include "../Components/Health.h"
 
 #include "../../Display/ModelManager.h"
 //********************************* CONSTANTS *********************************
@@ -15,8 +16,8 @@
 
 struct EntityXZ{
 	ID id;
-	int x;
-	int z;
+	float x;
+	float z;
 };
 
 
@@ -30,6 +31,7 @@ public:
 	void Dictionary::addProfile(ShaderProfile sp){profile.push_back(sp);}
 	void Dictionary::addIdentity(Identity id){identity.push_back(id);}
 	void Dictionary::addSize(Size s){size.push_back(s);}
+	void Dictionary::addHealth(Health h){health.push_back(h);}
 	
 	ShaderProfile Dictionary::getProfile(ID id){ return profile[id];}
 	Identity & Dictionary::getID(ID id){return identity[id];}
@@ -42,12 +44,11 @@ public:
 	
 	ID Dictionary::profileCount(){return profile.size();}
 	
-
-protected: 
 	
 	vector <Identity> identity; 	
 	vector <ShaderProfile> profile; 
 	vector <Size> size; 
+	vector <Health> health; 
 };
 
 //********************************* PROPS *********************************

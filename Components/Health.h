@@ -12,7 +12,7 @@
 class Health: public Component  {
 public:
 	
-	Health::Health()		{	health = 0; maxHealth = 1;	rate = 0;}
+	Health::Health()		{	health = 1; maxHealth = 1;	rate = 0;}
 	Health::Health(int h)		{	health = h; maxHealth = h;	rate = 0;}
 
 	int Health::update(float delta){ 		
@@ -30,6 +30,7 @@ public:
 	void Health::setRate(int r){ rate = r;  }
 	bool Health::isDead(){return health <= 0;}
 	void Health::kill(){ health = 0;}
+	float Health::percent(){ float h = health; return h/maxHealth;}
 
 	int health;
 	int maxHealth;

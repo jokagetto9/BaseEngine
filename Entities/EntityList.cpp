@@ -91,7 +91,7 @@ ID EntityList ::	createProp (PropList& list, EntityXZ ent){
 		rendering[i] = list.rendering[ent.id];
 		location[i].place(ent.x, ent.z);
 		target[i] = Target();
-		health[i].health = 100;
+		health[i] = list.health[ent.id];
 		state[i] = &still;	
 		Identity id = list.getID(ent.id);
 		gData[i] = GridData(i, id);
@@ -114,7 +114,7 @@ ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent){
 		target[i] = Target();
 		Identity id = list.getID(ent.id);
 		gData[i] = GridData(i, id);
-		health[i].set(12);
+		health[i] = list.health[ent.id];
 		health[i].setRate(-1);
 		state[i] = &charge;
 		count++;
@@ -123,6 +123,26 @@ ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent){
 	return MAX_COMPONENTS;
 }
 
+ID EntityList:: createActor(ParticleList& list, EntityXZ ent){
+	ID i = nextFree();
+	if (i < MAX_COMPONENTS){
+		type[i] = ent.id;
+
+		location[i].place(ent.x, ent.z);
+		rendering[i].tex = list.getProfile(ent.id).tex;
+		animation[i] = list.anim[ent.id];
+		animation[i].randomTick();
+		motion[i] = Motion(list.max[ent.id]);
+		target[i] = Target();
+		Identity id = list.getID(ent.id);
+		state[i] = &still;
+		gData[i] = GridData(i, id);
+		health[i] = list.health[ent.id];
+		count++;
+		return i;
+	}
+	return MAX_COMPONENTS;
+}
 
 ID EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a){
 	ID i = nextFree();
@@ -133,9 +153,10 @@ ID EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, 
 		motion[i] = m;
 		target[i] = Target();
 		animation[i] = a;
+		animation[i].randomTick();
 		state[i] = &still;
 		gData[i] = GridData(i, id);
-		health[i].set(5);
+		health[i].set(80);
 		count++;
 		return i;
 	}
@@ -438,7 +459,7 @@ void EntityList:: applyCollisions(ID id){
 			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 2){ 
 				// lasers cant hit lasers //bullets can though				
 			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 3 ){
-				//if consuming and consumable
+				//if consuming and consumablew
 				health[id].kill();
 			}else if (gData[id].ent == 2 && gData[cd.obj2].ent == 4) {
 				//particle hits player - source dependent
@@ -464,7 +485,6 @@ void EntityList:: applyCollisions(ID id){
 				//hero hits particle - enemy dependent
 			}else if (gData[id].ent == 4 && gData[cd.obj2].ent == 3){ 
 				health[0].health--;
-				cout<< health[0].health << endl;
 				//hero hits enemy - enemy dependent
 			}else {		
 				// if e2.halting and e1.haltable			
