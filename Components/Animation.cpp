@@ -1,11 +1,14 @@
 //********************************* INITIALIZATION *********************************
 #include "Animation.h"
 
+ Command Animation::nothing;
+
 Animation::Animation(){
 	type = WALK12;
 	start = 0; end = 0;
-	tpf = 100 ;//+ rand() % 16;
+	tpf = 4 * 60 * 8 ;//+ rand() % 16;
 	randomTick();
+	refresh = &nothing;
 }
 
 
@@ -13,7 +16,7 @@ void Animation::setCyclic(ID min, ID max, ID frames){
 	type = CYCLIC;
 	//if (tpf > 0) tick = rand() % tpf;
 	
-	tpf = (max - min)*frames;	
+	tpf = (max - min)*60*frames;	
 	tick = rand() % tpf;
 
 	//tick = 0;	
@@ -23,8 +26,10 @@ void Animation::setCyclic(ID min, ID max, ID frames){
 }
 
 void Animation::setFrameRate(ID frames){
-	if (type == WALK20){
-		tpf = 8 * frames;
+	if (type == WALK12){
+		tpf = 4 * 60 * frames;
+	} else if (type == WALK20){
+		tpf = 8 * 60 * frames;
 	}	
 }
 
@@ -38,19 +43,19 @@ void Animation::	randomTick(){
 // cycle looping animations
 int Animation::frameTick( float frameDelta){
 	if (type == WALK8){
-		tick += 0.2 * frameDelta;
+		tick += frameDelta;
 		if (tick >= tpf )tick -= tpf;
 		if (tick >= tpf/2)	{ glTranslatef(0, 0.5, 0);   return 1;	}
 		else if (tick >= tpf*3/4 && tick < tpf)	return 1;
 	}
 	else if (type == WALK12){
-		tick += 0.1 * frameDelta;
+		tick += frameDelta;
 		if (tick >= tpf )tick -= tpf;
 		if (tick >= tpf/4 && tick < tpf/2)	return - 1;	
 		else if (tick >= tpf*3/4 && tick < tpf)	return 1;
 	}
 	else if (type == WALK20){
-		tick += 0.1 * frameDelta;
+		tick += frameDelta;
 		if (tick >= tpf )tick -= tpf;
 		if (tick < tpf/8 || 
 			tick >= tpf*4/8 && tick < tpf*5/8)			return 0;
@@ -66,7 +71,7 @@ int Animation::frameTick( float frameDelta){
 	}		
 
 	else if (type == CYCLIC){
-		tick += 0.1 * frameDelta;
+		tick += frameDelta;
 		if (tick >= tpf )tick -= tpf;
 		int i = tick/(tpf/end);
 		//int i = (int)tick % index; 

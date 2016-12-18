@@ -5,10 +5,7 @@
 
 class Command {
 public:
-	//Command::Command(){PID = P1};
-	virtual ~Command() {} 
-  virtual void exec(Entity& e) = 0;
-  //ID PID;  
+	virtual void exec(Entity& e) {};
 };
 
 
@@ -26,5 +23,9 @@ public:
   }
 	Oriet o;
 };
+
+
+
+
 
 #endif

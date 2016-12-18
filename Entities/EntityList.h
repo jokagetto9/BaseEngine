@@ -17,9 +17,9 @@
 
 struct Entity {
 	State * st;
-	//vector<Rendering> rendering;
-	//vector<Animation> animation;
-	Location &pos_;
+	Rendering &ren_;
+	Animation &ani_;
+	Location &loc_;
 	Motion &mot_;
 	GridData& dat_; 
 	CollisionSet& col_;
@@ -42,22 +42,8 @@ class EntityList {
 	virtual void EntityList::reset(ID id);
 	
 	void EntityList::clear();
-
-//********************************* INSERT *********************************
 	
 	ID EntityList:: nextFree();
-	ID EntityList ::	createProp (PropList& list, EntityXZ ent);
-	ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent);		
-	ID EntityList:: createActor(ParticleList& list, EntityXZ ent);
-
-	ID EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a);
-
-	
-
-//********************************* ACTIVATE *********************************
-	
-	void EntityList::setTarget(ID id, glm::vec3 pos);
-	void EntityList::activateAll(ID id);
 
 //********************************* DRAW *********************************
 		
@@ -82,7 +68,6 @@ class EntityList {
 
 	void EntityList::changeState(ID id, State * S){state[id] = S;}
 		 
-	void EntityList::chargeParticle (ID id, glm::vec3 targ);
 	
 
 //************************************************** COLLISION ***************************************************
@@ -112,7 +97,6 @@ class EntityList {
 //************************************************** MEMBERS ***************************************************
 	//animation, texture
 
-	vector<ID> type;
 	vector<State*> state;
 
 	vector<Rendering> rendering;
@@ -136,7 +120,6 @@ class EntityList {
 	XZI gridSize;
 	ID count;		
 
-
 	Subject death;
 
 
@@ -145,6 +128,27 @@ class EntityList {
 	static MotionState moving;
 	static AttackState charge;
 	static vector<Dictionary *> lib;
+
+
+//********************************* MEMBER FUNCTIONS *********************************
+	
+	void EntityList ::	setDrawFeatures (ID eIndex, Rendering& r, Animation &a){rendering[eIndex] = r; animation[eIndex] = a;}
+	
+	void EntityList ::	place (ID eIndex, float x, float z){location[eIndex].place(x, z);}
+	
+
+	
+	void EntityList::setTarget(ID id, glm::vec3 pos);
+	void EntityList ::	setMotion (ID eIndex, Motion &m){motion[eIndex] = m;}
+	void EntityList::	scaleMotion (ID id, glm::vec3 targ);
+	void EntityList ::	setGridData (Identity& iden){gData[iden.index] = GridData(iden);}
+	void EntityList ::	setState (ID eIndex, State* s){state[eIndex] = s;}
+
+
+	void EntityList ::	setHealth (ID eIndex, Health &h){health[eIndex] = h;}
+
+
+
 
 };
 #endif

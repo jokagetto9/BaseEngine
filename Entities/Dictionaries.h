@@ -63,7 +63,6 @@ class PropList	: public Dictionary {
 	//vector <Animation> anim;	
 	vector <Rendering> rendering; 
 };
-extern PropList propList;
 
 //********************************* PARTICLES *********************************
 
@@ -78,16 +77,6 @@ class ParticleList : public Dictionary {
 		
 };
 
-extern ParticleList particleList;
 
-//********************************* ACTORS *********************************
-
-class ActorList : public ParticleList { 
-public:	
-
-
-
-};
-extern ActorList actorList;
 
 #endif

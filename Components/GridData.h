@@ -14,7 +14,7 @@ class GridData: public Component  {
 public:
 	
 	GridData::GridData();
-	GridData::GridData(ID i, Identity& id);
+	GridData::GridData(Identity& id);
 	
 	void GridData::reset();
 	

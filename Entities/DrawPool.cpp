@@ -11,13 +11,13 @@ void DrawPool :: init(Dictionary * d){
 	}
 
 }
-
+  
 void DrawPool :: activateTextures(){
 	//activeProfiles.clear();
 	ID s = dict->profileCount();
 	for (ID i = 0; i < s; i++){
 		activeProfiles.push_back(i);
-	}
+	} 
 	batchDraw.resize(s);
 	//
 }

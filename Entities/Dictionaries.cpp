@@ -1,8 +1,5 @@
 #include "Dictionaries.h"
 
-PropList propList;
-ParticleList particleList;
-ActorList actorList;
 
 
 ID Dictionary::getIndex(string name){

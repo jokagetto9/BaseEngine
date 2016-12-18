@@ -11,7 +11,6 @@ vector<Dictionary *> EntityList::lib;
 
 void EntityList::reserve(ID max){
 	if (max < MAX_COMPONENTS){
-		type.resize(max);
 		health.resize(max);
 		rendering.resize(max);
 		location.resize(max);
@@ -82,109 +81,9 @@ ID EntityList:: nextFree(){
 }
 
 
-ID EntityList ::	createProp (PropList& list, EntityXZ ent){
-	ID i = nextFree(); 
-	if (i < MAX_COMPONENTS){
-		Rendering r;		Location l;
-		type[i] = ent.id;
-		//health[i] = list.maxHealth[ent.id];
-		rendering[i] = list.rendering[ent.id];
-		location[i].place(ent.x, ent.z);
-		target[i] = Target();
-		health[i] = list.health[ent.id];
-		state[i] = &still;	
-		Identity id = list.getID(ent.id);
-		gData[i] = GridData(i, id);
-		count++;
-		return i;
-	}
-	return MAX_COMPONENTS;
-}
-
-ID EntityList ::	createParticle (ParticleList& list, EntityXZ ent){
-	ID i = nextFree(); 
-	if (i < MAX_COMPONENTS){
-		Rendering r;		Location l;
-		type[i] = ent.id;
-
-		location[i].place(ent.x, ent.z);
-		rendering[i].tex = list.getProfile(ent.id).tex;
-		animation[i] = list.anim[ent.id];
-		motion[i] = Motion(list.max[ent.id]);
-		target[i] = Target();
-		Identity id = list.getID(ent.id);
-		gData[i] = GridData(i, id);
-		health[i] = list.health[ent.id];
-		health[i].setRate(-1);
-		state[i] = &charge;
-		count++;
-		return i;
-	}
-	return MAX_COMPONENTS;
-}
-
-ID EntityList:: createActor(ParticleList& list, EntityXZ ent){
-	ID i = nextFree();
-	if (i < MAX_COMPONENTS){
-		type[i] = ent.id;
-
-		location[i].place(ent.x, ent.z);
-		rendering[i].tex = list.getProfile(ent.id).tex;
-		animation[i] = list.anim[ent.id];
-		animation[i].randomTick();
-		motion[i] = Motion(list.max[ent.id]);
-		target[i] = Target();
-		Identity id = list.getID(ent.id);
-		state[i] = &still;
-		gData[i] = GridData(i, id);
-		health[i] = list.health[ent.id];
-		count++;
-		return i;
-	}
-	return MAX_COMPONENTS;
-}
-
-ID EntityList:: createActor(Identity& id, Rendering& r, Location& l, Motion &m, Animation &a){
-	ID i = nextFree();
-	if (i < MAX_COMPONENTS){
-		type[i] = id.type;
-		rendering[i] = r;
-		location[i] = l;
-		motion[i] = m;
-		target[i] = Target();
-		animation[i] = a;
-		animation[i].randomTick();
-		state[i] = &still;
-		gData[i] = GridData(i, id);
-		health[i].set(80);
-		count++;
-		return i;
-	}
-	return MAX_COMPONENTS;
-}
 
 //********************************* ACTIVATE *********************************
 
-void EntityList::setTarget(ID id, glm::vec3 pos){
-	if (id < count)
-		target[id].setTarget(pos);
-}
-
-void EntityList::activateAll(ID id){
-	glm::vec3 pos = location[id].pos();
-	for (ID i = 0; i < count; i++){
-		if (gData[i].ent==3 && gData[i].index != id)
-			target[i].setTarget(pos);
-	}
-}
-
-void EntityList::chargeParticle (ID id, glm::vec3 targ){
-	if (id < count){
-		glm::vec3 tempV = scaleVector(location[id].pos(), targ, 10);
-		motion[id].setTarget(tempV);
-		state[id] = &charge;
-	}
-}
 
 //********************************* DRAW *********************************
 
@@ -497,7 +396,7 @@ void EntityList:: applyCollisions(ID id){
 //************************************************** GET ***************************************************
 
 Entity EntityList::getEntity(ID id){
-	Entity e = {state[id], location[id], motion[id], gData[id], collide[id], target[id], swarm[id], health[id]};
+	Entity e = {state[id], rendering[id], animation[id], location[id], motion[id], gData[id], collide[id], target[id], swarm[id], health[id]};
 	return e;
 }
 glm::vec3 EntityList :: getPos(ID id){
@@ -526,6 +425,17 @@ XZI EntityList ::	getGridXZ(glm::vec3 pos){
 	return xz; 
 }
 
+//************************************************** SET ***************************************************
+
+void EntityList::setTarget(ID id, glm::vec3 pos){
+		target[id].setTarget(pos);
+}
+
+void EntityList::scaleMotion (ID id, glm::vec3 targ){
+		glm::vec3 tempV = scaleVector(location[id].pos(), targ, 10);
+		motion[id].setTarget(tempV);
+		state[id] = &charge;
+}
 
 //************************************************** DICTIONARY ***************************************************
 

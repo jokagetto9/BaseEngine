@@ -19,13 +19,13 @@ void GridData::reset(){
 	prev = NULL;
 }
 
-GridData::GridData(ID i, Identity &id){
+GridData::GridData(Identity &id){
 	enabled = true;
 	xz.x = -1; xz.z = -1;	
 	prevxz.x = -1; prevxz.z = -1;
 	
 	name = id.name;
-	index = i;	
+	index = id.index;	
 	ent = id.ent;
 	group = -1;
 	type = id.type;
