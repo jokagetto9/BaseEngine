@@ -6,22 +6,28 @@ State  EntityList ::off;
 StillState  EntityList ::still;
 MotionState  EntityList::moving;
 AttackState  EntityList::charge;
-vector<Dictionary *> EntityList::lib;
+//vector<Dictionary *> EntityList::lib;
 
 
 void EntityList::reserve(ID max){
 	if (max < MAX_COMPONENTS){
-		health.resize(max);
-		rendering.resize(max);
-		location.resize(max);
-		gData.resize(max);
 		state.resize(max);
+		gData.resize(max);
+
+		rendering.resize(max);
+		animation.resize(max);
+		
+		size.resize(max);
+		location.resize(max);
+		motion.resize(max);
+
 		
 		collide.resize(max);
-		animation.resize(max);
-		motion.resize(max);
 		swarm.resize(max);
 		target.resize(max);
+
+
+		health.resize(max);
 		clear();
 	} 
 }
@@ -131,6 +137,7 @@ void EntityList ::	aiUpdate (float aiDelta){
 	for (ID i = 0; i < s; i++){
 		if (state[i]->on()){
 			aiUpdate(i);
+			healthUpdate(i);
 		}
 	}
 }
@@ -147,7 +154,10 @@ void EntityList ::	aiUpdate (ID id){
 	}else if (gData[id].ent != 2){
 		state[id] = &still;
 	}
+}
 
+
+void EntityList ::	healthUpdate (ID id){
 	//!!!DEATH!!!
 	health[id].update(1);
 	if (health[id].isDead()){
@@ -155,9 +165,8 @@ void EntityList ::	aiUpdate (ID id){
 		state[id] = &off;
 		gData[id].disableData(grid);
 	}
-
-
 }
+
 void EntityList:: applyAIInteractions(ID id){
 	if( getEnt(id) == 3){
 		float sepRad = 2;
@@ -167,8 +176,8 @@ void EntityList:: applyAIInteractions(ID id){
 			CollisionData cd = collide[id].getCollisionData(i);	
 
 			if (gData[cd.obj2].enabled){ 				// in case of deleted entities
-				sepRad = getSepRad(gData[cd.obj2]);
-				sepRad += getSepRad(gData[id]);
+				sepRad = getInnerRad(gData[cd.obj2].index);
+				sepRad += getInnerRad(gData[id].index);
 				sepRad /= 2;
 
 				swarm[id].calcSep(sepRad, cd.dist, cd.distV);	
@@ -344,8 +353,8 @@ void EntityList:: applyCollisions(ID id){
 	for (ID i = 0; i < s; i++){	
 		CollisionData cd = collide[id].getCollisionData(i);	
 		int damage = 0;		
-		colRad = getColRad(gData[id]);
-		colRad += getColRad(gData[cd.obj2]);
+		colRad = getOuterRad(gData[id].index);
+		colRad += getOuterRad(gData[cd.obj2].index);
 		colRad /= 2;
 				
 		if(cd.dist < colRad){
@@ -437,7 +446,7 @@ void EntityList::scaleMotion (ID id, glm::vec3 targ){
 		state[id] = &charge;
 }
 
-//************************************************** DICTIONARY ***************************************************
+/************************************************** DICTIONARY ***************************************************
 
 Dictionary * EntityList::getDict(ID e){
 	if (e < lib.size()) 
@@ -464,5 +473,6 @@ float EntityList::getSepRad(GridData & g){
 	else
 		return 0;
 }
+*/
 
 	

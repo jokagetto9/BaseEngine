@@ -2,7 +2,6 @@
 #define ANIMATION_H
 
 #include "Location.h"
-#include  "../Template/Command.h"
 
 //********************************* CONSTANTS *********************************
 enum AnimType { CYCLIC, WALK8, WALK12, WALK20};  
@@ -44,10 +43,8 @@ public:
 	void Animation::setTPF(int s);
 
 	
-	Command * refresh;
 
 
-	static Command nothing;
 
 };
 #endif

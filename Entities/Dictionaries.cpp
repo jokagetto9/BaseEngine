@@ -10,7 +10,3 @@ ID Dictionary::getIndex(string name){
 	return 0;
 }
 
-
-	float Dictionary::getCol(ID id){
-		return size[id].colR;
-	}

@@ -1,5 +1,5 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef COMPONENTS_H
+#define COMPONENTS_H
 
 #include "../lib.h"
 
@@ -19,11 +19,20 @@ struct Identity {
 
 class Component  {
 	public:
-		
-
-
-
-
 };
+
+
+
+
+struct Size  {
+	float innerRad;
+	float outerRad;
+	float sight;
+	//vector <boxes>
+	//float scale;
+};
+
+
+
 
 #endif

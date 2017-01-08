@@ -3,13 +3,17 @@
 
 
 #include "Dictionaries.h"
+#include "../Components/GridData.h"
 #include "../Components/Location.h"
 #include "../Components/Motion.h"
-#include "../Components/GridData.h"
 #include "../Components/CollisionSet.h"
+#include "../Components/AIBrain.h"
 #include "../Components/Target.h"
 #include "../Components/Swarming.h"
 #include "../Components/Health.h"
+#include "../Components/Damage.h"
+#include "../Components/Properties.h"
+
 
 //********************************* CONSTANTS *********************************
 
@@ -63,6 +67,7 @@ class EntityList {
 	
 	void EntityList ::	aiUpdate (float aiDelta);
 	void EntityList ::	aiUpdate (ID id);
+	void EntityList ::	healthUpdate (ID id);
 	
 	void EntityList:: applyAIInteractions(ID id);
 
@@ -89,23 +94,22 @@ class EntityList {
 
 //************************************************** DICTIONARY ***************************************************
 	
-	static void EntityList ::	addDict (Dictionary* d){lib.push_back(d);}
+	//static void EntityList ::	addDict (Dictionary* d){lib.push_back(d);}
 	Dictionary * EntityList::getDict(ID e);
-	float EntityList::getColRad(GridData & g);
-	float EntityList::getSepRad(GridData & g);
 
 //************************************************** MEMBERS ***************************************************
 	//animation, texture
 
 	vector<State*> state;
+	vector<GridData> gData; 
 
 	vector<Rendering> rendering;
 	vector<Animation> animation;
-
+	
+	vector<Size> size;
 	vector<Location> location;
 	vector<Motion> motion;
 
-	vector<GridData> gData; 
 	vector<CollisionSet> collide; 
 
 	vector<Target> target;
@@ -127,11 +131,13 @@ class EntityList {
 	static StillState still;
 	static MotionState moving;
 	static AttackState charge;
-	static vector<Dictionary *> lib;
 
 
 //********************************* MEMBER FUNCTIONS *********************************
-	
+
+	void EntityList ::	setState (ID eIndex, State* s){state[eIndex] = s;}
+	void EntityList ::	setSize (ID eIndex, Size& s){size[eIndex] = s;}
+
 	void EntityList ::	setDrawFeatures (ID eIndex, Rendering& r, Animation &a){rendering[eIndex] = r; animation[eIndex] = a;}
 	
 	void EntityList ::	place (ID eIndex, float x, float z){location[eIndex].place(x, z);}
@@ -142,12 +148,13 @@ class EntityList {
 	void EntityList ::	setMotion (ID eIndex, Motion &m){motion[eIndex] = m;}
 	void EntityList::	scaleMotion (ID id, glm::vec3 targ);
 	void EntityList ::	setGridData (Identity& iden){gData[iden.index] = GridData(iden);}
-	void EntityList ::	setState (ID eIndex, State* s){state[eIndex] = s;}
 
 
 	void EntityList ::	setHealth (ID eIndex, Health &h){health[eIndex] = h;}
 
-
+	
+	float EntityList ::	getInnerRad (ID eIndex){return size[eIndex].innerRad;}
+	float EntityList ::	getOuterRad (ID eIndex){return size[eIndex].outerRad;}
 
 
 };

@@ -35,12 +35,18 @@ public:
 	
 	ShaderProfile Dictionary::getProfile(ID id){ return profile[id];}
 	Identity & Dictionary::getID(ID id){return identity[id];}
-	float Dictionary::getCol(ID id);
-	float Dictionary::getSep(ID id){return size[id].sepR;}
-	float Dictionary::getAvo(ID id){return size[id].avoR;}
-	Size Dictionary::getSize(ID id){return size[id];}
 
-	ID Dictionary::getIndex(string name);
+	Size Dictionary::getSize(ID id){return size[id];}
+	
+
+	ID Dictionary::getIndex(string name){
+		for (ID i = 0; i < identity.size(); i++){
+			if (name == identity[i].name)
+				return i;
+		}
+		return 0;
+	}
+
 	
 	ID Dictionary::profileCount(){return profile.size();}
 	
