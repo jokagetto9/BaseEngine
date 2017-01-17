@@ -58,29 +58,13 @@ class EntityList {
 //************************************************** UPDATE ***************************************************
 	
 	void EntityList ::	refresh (ID id);
-	virtual void EntityList ::	update();	
-	void EntityList ::	update (float physDelta);
-	void EntityList ::	update (ID id);
-	void EntityList::updateGrid(ID id);
+
 	
 	void EntityList ::clearGrid();
-	
-	void EntityList ::	aiUpdate (float aiDelta);
-	void EntityList ::	aiUpdate (ID id);
-	void EntityList ::	healthUpdate (ID id);
-	
-	void EntityList:: applyAIInteractions(ID id);
 
 	void EntityList::changeState(ID id, State * S){state[id] = S;}
 		 
 	
-
-//************************************************** COLLISION ***************************************************
-		
-	void EntityList:: checkCollisions();
-	void EntityList:: checkCollisions(ID g1, ID g2);
-	void EntityList:: applyCollisions();
-	void EntityList:: applyCollisions(ID id);
 
 //************************************************** GET ***************************************************
 	
@@ -111,7 +95,8 @@ class EntityList {
 	vector<Motion> motion;
 
 	vector<CollisionSet> collide; 
-
+	
+	vector<AIBrain> ai;
 	vector<Target> target;
 	vector<Swarming> swarm;
 

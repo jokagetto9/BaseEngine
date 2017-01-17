@@ -74,3 +74,44 @@ void DrawPool ::	draw (EntityList* ent){
 }
 
 
+
+/*/
+
+
+
+void EntityList ::	draw (ID id){
+	int index = rendering[id].texIndex; 
+	location[id].translate();	
+		if (index < 0){
+			index += 16;
+			M->gridBO.flip(-1, 1);
+		}
+		ID start = 0;
+		if (animation.size() > id)
+			start = animation[id].start;
+		M->gridBO.drawGrid(start + index);	
+	glPopMatrix(); //}	
+}
+
+
+
+
+void EntityList ::	refresh (ID id){
+	if (getEnt(id) != 1){
+		Rendering &r = rendering[id]; 
+		Animation &a = animation[id]; 
+		Location &t = location[id]; 
+	
+		int tweak = 0;
+		if (!state[id]->still() && notZero(motion[id].speed)) 
+			tweak = a.frameTick(delta);
+
+
+		float camTheta = C->getCameraTheta(t.pos(), false);	
+		camTheta -= t.theta;
+		tweak += a.getThetaIndex(camTheta);
+		rendering[id].texIndex = tweak;
+	}
+}
+
+//*/
