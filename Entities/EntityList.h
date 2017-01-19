@@ -109,7 +109,6 @@ class EntityList {
 	XZI gridSize;
 	ID count;		
 
-	Subject death;
 
 
 	static State off;
