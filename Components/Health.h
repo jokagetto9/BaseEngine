@@ -12,8 +12,9 @@
 class Health: public Component  {
 public:
 	
-	Health::Health()		{	health = 1; maxHealth = 1;	rate = 0;}
-	Health::Health(int h)		{	health = h; maxHealth = h;	rate = 0;}
+	Health::Health()		{	health = 1; maxHealth = 1;	rate = 0; damageable=true; consumable=false;}
+	Health::Health(int h)		{	health = h; maxHealth = h;	rate = 0; damageable=true; consumable=false;}
+	Health::Health(int h, bool dmg)		{	health = h; maxHealth = h;	rate = 0; damageable=dmg; consumable=true;}
 
 	int Health::update(float delta){ 		
 		if (rate){
@@ -35,6 +36,8 @@ public:
 	int health;
 	int maxHealth;
 	int rate;
+	bool damageable;
+	bool consumable;
 };
 
 #endif

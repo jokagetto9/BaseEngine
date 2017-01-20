@@ -11,7 +11,12 @@
 
 class Damage{
 public:
-	Damage::Damage(ID eType){}
+	Damage::Damage(){damage = 0;}
+
+	Damage::Damage(int dmg){damage = dmg;}
+
+	int damage;
+	
 
 };
 

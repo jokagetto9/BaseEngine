@@ -6,7 +6,7 @@
 
 class Observer{
 public:
-	virtual void Observer::onNotify(GridData& data){}
+	virtual void Observer::onNotify(GridData& data, string msg){}
 	virtual void Observer::update() {	}
 };
 
@@ -20,11 +20,12 @@ public:
 		ID s = observers.size();
 		for (ID i = 0; i < s; i++)    {
 			Observer* ob = observers[i];
-			ob->onNotify(data);
+			ob->onNotify(data, message);
 		}
 	}
 
-  vector <Observer *> observers;
+	vector <Observer *> observers;
+	string message;
 };
 
 
