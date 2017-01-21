@@ -100,7 +100,14 @@ Returns: true if physLag > aiLag
 /*/
 
 
-	void BaseEngine ::flush(){ glFlush(); SDL_GL_SwapWindow(sdlWindow); }
+	void BaseEngine ::flush(){ 
+		if (!initW)	{		
+			SDL_ShowWindow(sdlWindow);
+			initW = true;
+		}
+		glFlush(); 
+		SDL_GL_SwapWindow(sdlWindow); 
+	}
 	
 	void BaseEngine::	clearDisplay();
 
