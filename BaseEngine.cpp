@@ -59,7 +59,7 @@ bool BaseEngine::initSDL(){
 	initGLAttrib(); // init attributes
 
 	//init window  
-	sdlWindow = SDL_CreateWindow( "Laser Mage", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, RES.x, RES.z, SDL_WINDOW_HIDDEN|SDL_WINDOW_OPENGL );
+	sdlWindow = SDL_CreateWindow( "Laser Mage", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, RES.x, RES.z, SDL_WINDOW_SHOWN|SDL_WINDOW_OPENGL );
 	if( sdlWindow == NULL ) {	printf( "Window could not be created! SDL Error: %s\n", SDL_GetError() ); 	return false;	}
 	initW = true;
 
