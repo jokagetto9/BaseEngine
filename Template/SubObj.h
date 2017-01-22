@@ -13,7 +13,7 @@ public:
 
 class Subject{
 public:	
-	Subject::Subject(){observers.reserve(3);}
+	Subject::Subject(){observers.reserve(3); message=""; state = 0;}
 	void addObserver(Observer* ob) {   observers.push_back(ob);}
 
 	void notify(GridData& data)  {
@@ -26,6 +26,7 @@ public:
 
 	vector <Observer *> observers;
 	string message;
+	ID state;
 };
 
 

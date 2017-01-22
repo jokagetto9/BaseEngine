@@ -34,10 +34,11 @@ public:
 	
 	int Animation::getThetaIndex(float theta);
 
-	int type;
+	int type, tpf;
 	ID start, end;
 	float tick; 
-	int tpf;
+	int state;
+	
 
 
 	void Animation::setTPF(int s);
