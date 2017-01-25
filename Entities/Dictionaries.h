@@ -51,6 +51,7 @@ public:
 	ID Dictionary::profileCount(){return profile.size();}
 	
 	
+	vector <Animation> anim;	
 	vector <Identity> identity; 	
 	vector <ShaderProfile> profile; 
 	vector <Size> size; 
@@ -66,7 +67,6 @@ class PropList	: public Dictionary {
 	void addRendering(Rendering r){rendering.push_back(r);}
 	vector <ID> profileIndex; 
 	//	vector <ID> animIndex; 
-	//vector <Animation> anim;	
 	vector <Rendering> rendering; 
 };
 
@@ -78,7 +78,8 @@ class ParticleList : public Dictionary {
 	void addMotion(MotionMax mm){max.push_back(mm);}
 		vector <ID> auxTex;
 		vector <float> scale;
-		vector <Animation> anim;
+		vector <vector <Animation>> animations;
+		vector <vector <Animation>> auxAnim;
 		vector <MotionMax> max; 		
 		
 };

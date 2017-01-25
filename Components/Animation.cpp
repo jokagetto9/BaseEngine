@@ -7,6 +7,7 @@ Animation::Animation(){
 	start = 0; end = 0;
 	tpf = 4 * 60 * 8 ;//+ rand() % 16;
 	state = 0;
+	shaderProfile = 0;
 	randomTick();
 }
 

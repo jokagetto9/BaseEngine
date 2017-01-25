@@ -34,11 +34,11 @@ public:
 	
 	int Animation::getThetaIndex(float theta);
 
-	int type, tpf;
-	ID start, end;
-	float tick; 
+	int type, tpf; 
 	int state;
-	
+	ID start, end;
+	float tick;
+	ID shaderProfile;
 
 
 	void Animation::setTPF(int s);
