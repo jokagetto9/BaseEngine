@@ -6,8 +6,9 @@ Animation::Animation(){
 	type = WALK12;
 	start = 0; end = 0;
 	tpf = 4 * 60 * 8 ;//+ rand() % 16;
-	state = 0;
-	shaderProfile = 0;
+	state = 0;	
+	tex = 0; 
+	texIndex = 0;
 	randomTick();
 }
 

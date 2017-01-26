@@ -78,7 +78,6 @@ class ParticleList : public Dictionary {
 	void addMotion(MotionMax mm){max.push_back(mm);}
 		vector <ID> auxTex;
 		vector <float> scale;
-		vector <vector <Animation>> animations;
 		vector <vector <Animation>> auxAnim;
 		vector <MotionMax> max; 		
 		

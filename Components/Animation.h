@@ -38,8 +38,9 @@ public:
 	int state;
 	ID start, end;
 	float tick;
-	ID shaderProfile;
-
+	
+	ID tex; 
+	int texIndex;
 
 	void Animation::setTPF(int s);
 

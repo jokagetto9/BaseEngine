@@ -13,7 +13,7 @@ struct AIV{
 class AIBehaviour {
 public:
 	//virtual glm::vec3 calc(ID eIndex, glm::vec3 v) {return glm::vec3(0);};
-	//virtual void apply(ID eIndex, float r, glm::vec3 v) {};
+	virtual void apply(ID eIndex) {};
 };
 
 class AIVBehaviour {
